@@ -5,7 +5,7 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-4 py-24 text-center">
         <h1 className="text-5xl font-bold mb-4">AspiraFlows</h1>
         <p className="max-w-2xl mx-auto text-lg text-gray-600">
-          Stand out and connect directly with decision-makers. AI-driven personalization
+          Stand out and connect directly with decision-makers. AI-driven personalisation
           and workflow automation to reduce time-to-interview.
         </p>
         <div className="mt-8 flex items-center justify-center gap-3">
