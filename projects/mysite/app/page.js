@@ -53,17 +53,17 @@ export default function Home() {
               {
                 name: "Starter",
                 price: "€49/mo",
-                desc: "10 job matches/week, 20 automated messages/month, progress dashboard",
+                desc: "20 job matches/week, 80 automated messages/month, progress dashboard",
               },
               {
                 name: "Professional",
                 price: "€99/mo",
-                desc: "30 matches/week, 100 messages/month, analytics + reply tracking",
+                desc: "50 matches/week, 200 messages/month, analytics + reply tracking",
               },
               {
                 name: "Executive",
                 price: "€199/mo",
-                desc: "Unlimited matching, custom templates, decision-maker targeting, weekly reports",
+                desc: "Unlimited matching and messages, custom templates, decision-maker targeting, weekly reports",
               },
             ].map((p) => (
               <div key={p.name} className="rounded-xl border bg-gray-50 p-6 shadow-sm text-center">
