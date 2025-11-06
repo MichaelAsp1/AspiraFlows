@@ -26,7 +26,7 @@ export default function ContactPage() {
         <p>
           <strong>LinkedIn:</strong>{" "}
           <a
-            href="https://linkedin.com/in/michaelaspegren"
+            href="www.linkedin.com/in/michael-aspegren"
             target="_blank"
             rel="noreferrer"
             className="underline"
@@ -35,7 +35,7 @@ export default function ContactPage() {
           </a>
         </p>
         <p>
-          <strong>Location:</strong> Loughborough, UK (remote worldwide)
+          <strong>Location:</strong> Cannes, France (remote worldwide)
         </p>
       </div>
 
