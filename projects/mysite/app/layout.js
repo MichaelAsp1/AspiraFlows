@@ -4,11 +4,6 @@ import "./globals.css";
 import React from "react";
 import { SessionProvider, useSession, signIn, signOut } from "next-auth/react";
 
-export const metadata = {
-  title: "AspiraFlows",
-  description:
-    "AI job-matching and outreach automation to reduce time-to-interview.",
-};
 
 function Header() {
   const { data: session } = useSession();
