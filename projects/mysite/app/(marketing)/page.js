@@ -1,30 +1,71 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function Home() {
   return (
     <main className="bg-gray-50 text-gray-900">
-      {/* HERO */}
-      <section className="mx-auto max-w-6xl px-4 py-24 text-center">
-        <h1 className="text-5xl font-bold mb-4">AspiraFlows</h1>
-        <p className="max-w-2xl mx-auto text-lg text-gray-600">
-          Stand out and connect directly with decision-makers. AI-driven personalisation
-          and workflow automation to reduce time-to-interview.
-        </p>
-        <div className="mt-8 flex items-center justify-center gap-3">
-          <a
-            href="/contact"
-            className="inline-block bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
+      {/* HERO (modern gradient + blur glow + motion) */}
+      <section className="relative overflow-hidden">
+        {/* Soft background gradient */}
+        <div className="absolute inset-0 -z-20 bg-gradient-to-br from-indigo-50 via-white to-blue-50" />
+
+        {/* Blurred color glow */}
+        <div className="pointer-events-none absolute -z-10 top-1/2 left-1/2 h-[60rem] w-[60rem] -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-indigo-500/30 via-purple-400/30 to-blue-400/30 blur-[120px]" />
+
+        {/* Subtle radial accent */}
+        <div className="pointer-events-none absolute inset-0 -z-10 opacity-40 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.15),transparent_45%)]" />
+
+        <div className="mx-auto max-w-6xl px-4 py-24 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-5xl font-bold mb-4 tracking-tight text-gray-900 sm:text-6xl"
           >
-            Get Started
-          </a>
-          <a
-            href="/pricing"
-            className="inline-block px-6 py-3 rounded-lg border hover:bg-white transition"
+            AspiraFlows{" "}
+            <span className="bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-500 bg-clip-text text-transparent animated-gradient">
+              • Automate Outreach. Grow Faster.
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+            className="max-w-2xl mx-auto text-lg text-gray-600"
           >
-            See Pricing
-          </a>
+            Stand out and connect directly with decision-makers. AI-driven personalisation
+            and workflow automation to reduce time-to-interview.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+            className="mt-8 flex items-center justify-center gap-3"
+          >
+            <a
+              href="/contact"
+              className="inline-block bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition will-change-transform hover:translate-y-[1px]"
+            >
+              Get Started
+            </a>
+            <a
+              href="/pricing"
+              className="inline-block px-6 py-3 rounded-lg border hover:bg-white transition will-change-transform hover:translate-y-[1px]"
+            >
+              See Pricing
+            </a>
+          </motion.div>
+
+          <div className="mt-4 text-xs text-gray-500">
+            No credit card required • Cancel anytime
+          </div>
         </div>
       </section>
 
-      {/* OVERVIEW / FEATURES */}
+      {/* OVERVIEW / FEATURES (unchanged) */}
       <section className="mx-auto max-w-6xl px-4 pb-16">
         <h2 className="text-3xl font-semibold mb-6 text-center">What AspiraFlows Automates</h2>
         <div className="grid md:grid-cols-3 gap-6">
@@ -44,7 +85,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PRICING */}
+      {/* PRICING (unchanged) */}
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-4 py-16">
           <h2 className="text-3xl font-semibold text-center mb-10">Pricing</h2>
@@ -84,7 +125,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTACT CTA */}
+      {/* CONTACT CTA (unchanged) */}
       <section className="text-center py-16">
         <h2 className="text-2xl font-semibold mb-4">Ready to reach decision-makers faster?</h2>
         <a href="/contact" className="inline-block bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">
