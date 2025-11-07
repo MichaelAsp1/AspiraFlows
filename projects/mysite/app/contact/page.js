@@ -3,30 +3,36 @@ export const metadata = {
   description: "Get in touch with the AspiraFlows team.",
 };
 
-export default function ContactPage() {
+// App Router pages can receive searchParams
+export default function ContactPage({ searchParams }) {
+  const sent = searchParams?.sent === "1";
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-24">
       <h1 className="text-4xl font-bold mb-6 text-center">Contact Us</h1>
       <p className="text-center text-gray-600 mb-10">
-        Have a question about our plans, want to collaborate, or just want to say hello?  
+        Have a question about our plans, want to collaborate, or just want to say hello?{" "}
         We’d love to hear from you.
       </p>
+
+      {sent && (
+        <div className="mb-8 rounded-lg border border-green-200 bg-green-50 p-4 text-green-800 text-center">
+          Thanks! Your message is in. I’ll get back to you shortly.
+        </div>
+      )}
 
       {/* CONTACT INFO */}
       <div className="bg-white p-8 rounded-xl shadow-md space-y-4 text-center">
         <p>
           <strong>Email:</strong>{" "}
-          <a
-            href="mailto:michael.aspegren@aspiraflows.com"
-            className="underline"
-          >
+          <a href="mailto:michael.aspegren@aspiraflows.com" className="underline">
             michael.aspegren@aspiraflows.com
           </a>
         </p>
         <p>
           <strong>LinkedIn:</strong>{" "}
           <a
-            href="www.linkedin.com/in/michael-aspegren"
+            href="https://www.linkedin.com/in/michael-aspegren"
             target="_blank"
             rel="noreferrer"
             className="underline"
@@ -39,34 +45,23 @@ export default function ContactPage() {
         </p>
       </div>
 
-      {/* OPTIONAL FORM */}
-      <form action="/api/contact" method="POST" className="mt-10 space-y-4 bg-white p-8 rounded-xl shadow-md">
+      {/* FORM */}
+      <form
+        action="/api/contact"
+        method="POST"
+        className="mt-10 space-y-4 bg-white p-8 rounded-xl shadow-md"
+      >
         <div>
           <label className="block text-left mb-1 font-medium">Name</label>
-          <input
-            type="text"
-            name="name"
-            required
-            className="w-full border rounded-lg p-2"
-          />
+          <input type="text" name="name" required className="w-full border rounded-lg p-2" />
         </div>
         <div>
           <label className="block text-left mb-1 font-medium">Email</label>
-          <input
-            type="email"
-            name="email"
-            required
-            className="w-full border rounded-lg p-2"
-          />
+          <input type="email" name="email" required className="w-full border rounded-lg p-2" />
         </div>
         <div>
           <label className="block text-left mb-1 font-medium">Message</label>
-          <textarea
-            name="message"
-            rows="4"
-            required
-            className="w-full border rounded-lg p-2"
-          ></textarea>
+          <textarea name="message" rows="4" required className="w-full border rounded-lg p-2" />
         </div>
         <button
           type="submit"
