@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function Home() {
   return (
     <main className="bg-gray-50 text-gray-900">
-      {/* HERO (modern gradient + blur glow + motion) */}
+      {/* HERO (modern gradient + glow + motion, stacked layout) */}
       <section className="relative overflow-hidden">
         {/* Soft background gradient */}
         <div className="absolute inset-0 -z-20 bg-gradient-to-br from-indigo-50 via-white to-blue-50" />
@@ -17,23 +17,31 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-0 -z-10 opacity-40 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.15),transparent_45%)]" />
 
         <div className="mx-auto max-w-6xl px-4 py-24 text-center">
+          {/* Line 1: brand */}
           <motion.h1
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-5xl font-bold mb-4 tracking-tight text-gray-900 sm:text-6xl"
+            className="text-6xl font-bold tracking-tight text-gray-900 sm:text-7xl"
           >
-            AspiraFlows{" "}
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-500 bg-clip-text text-transparent animated-gradient">
-              • Automate Outreach. Grow Faster.
-            </span>
+            AspiraFlows
           </motion.h1>
+
+          {/* Line 2: animated gradient tagline */}
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+            className="mt-3 text-4xl sm:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-500 bg-clip-text text-transparent animated-gradient"
+          >
+            Automate Outreach. Grow Faster.
+          </motion.h2>
 
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="max-w-2xl mx-auto text-lg text-gray-600"
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+            className="max-w-2xl mx-auto mt-6 text-lg text-gray-600"
           >
             Stand out and connect directly with decision-makers. AI-driven personalisation
             and workflow automation to reduce time-to-interview.
@@ -42,8 +50,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-            className="mt-8 flex items-center justify-center gap-3"
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+            className="mt-10 flex items-center justify-center gap-3"
           >
             <a
               href="/contact"
@@ -64,6 +72,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       {/* OVERVIEW / FEATURES (unchanged) */}
       <section className="mx-auto max-w-6xl px-4 pb-16">
