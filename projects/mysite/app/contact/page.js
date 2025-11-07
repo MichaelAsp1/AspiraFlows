@@ -31,7 +31,7 @@ export default function ContactPage() {
             rel="noreferrer"
             className="underline"
           >
-            linkedin.com/in/michaelaspegren
+            linkedin.com/in/michael-aspegren
           </a>
         </p>
         <p>
@@ -40,11 +40,7 @@ export default function ContactPage() {
       </div>
 
       {/* OPTIONAL FORM */}
-      <form
-        action="https://formspree.io/f/yourformid"
-        method="POST"
-        className="mt-10 space-y-4 bg-white p-8 rounded-xl shadow-md"
-      >
+      <form action="/api/contact" method="POST" className="mt-10 space-y-4 bg-white p-8 rounded-xl shadow-md">
         <div>
           <label className="block text-left mb-1 font-medium">Name</label>
           <input
