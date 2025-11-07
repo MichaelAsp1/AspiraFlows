@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Marquee from "@/components/Marquee";
 
 export default function Home() {
   return (
@@ -93,6 +94,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* 🔥 Scrolling feature strip */}
+      <Marquee />
 
       {/* PRICING (unchanged) */}
       <section className="bg-white">
