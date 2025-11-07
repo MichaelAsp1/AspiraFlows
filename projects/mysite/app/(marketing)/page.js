@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Marquee from "@/components/Marquee";
+import Marquee from "../../components/Marquee";
 
 export default function Home() {
   return (
