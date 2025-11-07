@@ -8,6 +8,16 @@ export default function Home() {
     <main className="bg-gray-50 text-gray-900">
       {/* HERO (modern gradient + glow + motion, stacked layout) */}
       <section className="relative overflow-hidden">
+         
+        {/* Ambient gradient backdrop */}
+        <div className="absolute inset-0 -z-20 bg-gradient-to-br from-indigo-50 via-white to-blue-50" />
+
+        {/* Diffused glow from top-right */}
+        <div className="pointer-events-none absolute -z-10 top-[-10rem] right-[-10rem] h-[40rem] w-[40rem] bg-gradient-to-tr from-indigo-300/30 via-purple-300/20 to-transparent blur-[120px]" />
+
+        {/* Secondary glow from bottom-left */}
+        <div className="pointer-events-none absolute -z-10 bottom-[-10rem] left-[-10rem] h-[30rem] w-[30rem] bg-gradient-to-br from-blue-300/20 via-indigo-200/10 to-transparent blur-[120px]" />
+        
         {/* Soft background gradient */}
         <div className="absolute inset-0 -z-20 bg-gradient-to-br from-indigo-50 via-white to-blue-50" />
 
@@ -75,9 +85,15 @@ export default function Home() {
       </section>
 
 
-      {/* OVERVIEW / FEATURES (unchanged) */}
-      <section className="mx-auto max-w-6xl px-4 pb-16">
-        <h2 className="text-3xl font-semibold mb-6 text-center">What AspiraFlows Automates</h2>
+      {/* OVERVIEW / FEATURES (with subtle background gradient) */}
+      <section className="relative mx-auto max-w-6xl px-4 pb-16">
+        {/* Soft gradient highlight behind this section */}
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-indigo-50/30 to-transparent" />
+
+        <h2 className="text-3xl font-semibold mb-6 text-center">
+          What AspiraFlows Automates
+        </h2>
+
         <div className="grid md:grid-cols-3 gap-6">
           {[
             { t: "AI Job Matching", d: "Scan job boards & LinkedIn, filter by skills/location, score relevance (0–100), send daily/weekly digests." },
@@ -87,7 +103,7 @@ export default function Home() {
             { t: "Analytics & Insights", d: "See outreach volume, response rates, and conversion (reply → interview → offer); refine targeting & tone." },
             { t: "Privacy & Flexibility", d: "GDPR-compliant pipelines, anonymization where needed, custom workflows for job seekers or agencies." },
           ].map(({ t, d }) => (
-            <div key={t} className="rounded-xl border bg-white p-6 shadow-sm">
+            <div key={t} className="rounded-xl border bg-white p-6 shadow-sm hover:shadow-md transition">
               <h3 className="font-semibold mb-2">{t}</h3>
               <p className="text-gray-600">{d}</p>
             </div>
@@ -95,13 +111,18 @@ export default function Home() {
         </div>
       </section>
 
+
       {/* 🔥 Scrolling feature strip */}
       <Marquee />
 
-      {/* PRICING (unchanged) */}
-      <section className="bg-white">
+      {/* PRICING (with soft gradient and hover polish) */}
+      <section className="relative bg-white">
+        {/* Gentle gradient background to add depth */}
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-blue-50/40 via-transparent to-transparent" />
+
         <div className="mx-auto max-w-6xl px-4 py-16">
           <h2 className="text-3xl font-semibold text-center mb-10">Pricing</h2>
+
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
@@ -120,11 +141,19 @@ export default function Home() {
                 desc: "Unlimited matching and messages, custom templates, decision-maker targeting, weekly reports",
               },
             ].map((p) => (
-              <div key={p.name} className="rounded-xl border bg-gray-50 p-6 shadow-sm text-center">
+              <div
+                key={p.name}
+                className="rounded-xl border bg-gray-50 p-6 shadow-sm text-center hover:shadow-lg hover:border-indigo-200 transition-all duration-300"
+              >
                 <h3 className="text-xl font-semibold">{p.name}</h3>
-                <p className="text-3xl font-bold my-2">{p.price}</p>
+                <p className="text-3xl font-bold my-2 bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+                  {p.price}
+                </p>
                 <p className="text-gray-600 mb-6">{p.desc}</p>
-                <a href="/contact" className="inline-block bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                <a
+                  href="/contact"
+                  className="inline-block bg-black text-white px-5 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-indigo-600 hover:to-blue-500 transition-all duration-300"
+                >
                   Choose Plan
                 </a>
               </div>
@@ -133,7 +162,7 @@ export default function Home() {
 
           <p className="text-center text-gray-600 mt-8">
             <strong>Bespoke (Agency/University):</strong> Bulk accounts, branded dashboards, analytics API access.{" "}
-            <a href="/contact" className="underline">Contact us</a> for a quote.
+            <a href="/contact" className="underline hover:text-indigo-600 transition">Contact us</a> for a quote.
           </p>
         </div>
       </section>
