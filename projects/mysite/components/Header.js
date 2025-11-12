@@ -8,11 +8,20 @@ export default function Header() {
 
   return (
     <header className="flex justify-between items-center p-4 border-b bg-white">
-      <Link href="/" className="text-xl font-semibold">AspiraFlows</Link>
+      <Link href="/" className="text-xl font-semibold">
+        AspiraFlows
+      </Link>
 
-      <nav className="flex gap-4 items-center">
-        <Link href="/pricing" className="hover:underline">Pricing</Link>
-        <Link href="/contact" className="hover:underline">Contact</Link>
+      <nav className="flex gap-4 items-center text-sm font-medium">
+        <Link href="/pricing" className="hover:underline">
+          Pricing
+        </Link>
+        <Link href="/consulting" className="hover:underline">
+          Consulting
+        </Link>
+        <Link href="/contact" className="hover:underline">
+          Contact
+        </Link>
 
         {!session ? (
           <button
