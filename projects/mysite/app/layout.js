@@ -14,7 +14,8 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,   // lock zoom
+  minimumScale: 1,      // ← add this
+  maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
 };
