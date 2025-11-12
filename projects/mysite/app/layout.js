@@ -11,11 +11,18 @@ export const metadata = {
   description: "Automated outreach, inbox integration, and performance analytics.",
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',     // fill notches / safe areas
+  // maximumScale: 1,        // (optional) disables zoom – not recommended for accessibility
+};
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="h-full">
-      <body className="relative flex flex-col min-h-screen text-gray-900 bg-gray-50 overflow-x-hidden">
-        {/* 🌤️ Ambient background layers (subtle, professional) */}
+    <html lang="en" className="min-h-full bg-gray-50">
+      <body className="relative flex min-h-[100svh] flex-col text-gray-900 overflow-x-hidden">
+        {/* ambient backgrounds */}
         <div className="pointer-events-none absolute inset-0 -z-20 bg-gradient-to-br from-indigo-50 via-white to-blue-50" />
         <div className="pointer-events-none absolute -z-30 top-[35%] left-[25%] h-[80rem] w-[80rem] bg-gradient-to-tr from-indigo-300/20 via-purple-200/10 to-blue-300/20 blur-[160px]" />
 

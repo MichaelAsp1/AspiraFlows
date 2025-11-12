@@ -59,3 +59,8 @@ body {
   .animate-marquee { animation: none; }
 }
 
+html, body {
+  background: #f8fafc; /* matches your page bg */
+  min-height: 100%;
+}
+
