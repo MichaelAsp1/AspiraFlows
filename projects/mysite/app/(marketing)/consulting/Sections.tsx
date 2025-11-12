@@ -20,12 +20,15 @@ export function Hero() {
           <BadgeSpark />
           {SITE.brand} Consulting & Automation
         </div>
+
         <h1 className="mx-auto max-w-3xl text-3xl font-semibold tracking-tight text-gray-900 md:text-5xl">
           AI automation for real-world businesses
         </h1>
+
         <p className="mx-auto mt-4 max-w-2xl text-gray-600">
           We design intelligent workflows that replace manual prospecting and follow-ups — from lead capture to personalized outreach and analytics.
         </p>
+
         <div className="mt-6 flex items-center justify-center gap-3">
           <a
             href="/contact"
@@ -40,21 +43,65 @@ export function Hero() {
             See example workflows
           </a>
         </div>
-        {/* hero visual */}
+
+        {/* circular flow visual */}
         <motion.div
           variants={fade}
-          className="mx-auto mt-10 grid max-w-3xl grid-cols-3 gap-3"
+          className="relative mx-auto mt-12 flex h-[320px] w-[320px] items-center justify-center sm:h-[360px] sm:w-[360px]"
+          aria-label="Automation flow: Lead Capture → AI Personalization → Outreach & CRM"
         >
-          <Node label="Lead Capture" icon={<IconTarget />} />
-          <Connector />
-          <Node label="AI Personalization" icon={<IconSpark />} />
-          <Connector />
-          <Node label="Outreach & CRM" icon={<IconMail />} />
+          {/* animated circular path */}
+          <svg
+            className="absolute inset-0 h-full w-full text-gray-200"
+            viewBox="0 0 200 200"
+            fill="none"
+            role="img"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="flow-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#6366f1" />
+                <stop offset="100%" stopColor="#22c55e" />
+              </linearGradient>
+              <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L6,3 z" fill="currentColor" />
+              </marker>
+            </defs>
+
+            {/* base circle */}
+            <circle cx="100" cy="100" r="88" stroke="currentColor" strokeWidth="1" opacity=".25" />
+
+            {/* animated stroke around circle */}
+            <motion.path
+              d="M100 12 a88 88 0 1 1 0 176 a88 88 0 1 1 0-176"
+              stroke="url(#flow-grad)"
+              strokeWidth="2.5"
+              fill="none"
+              markerEnd="url(#arrow)"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            />
+          </svg>
+
+          {/* nodes placed around the circle */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2">
+            <Node label="Lead Capture" icon={<IconTarget />} />
+          </div>
+
+          <div className="absolute right-2 top-1/2 -translate-y-1/2">
+            <Node label="AI Personalization" icon={<IconSpark />} />
+          </div>
+
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
+            <Node label="Outreach & CRM" icon={<IconMail />} />
+          </div>
         </motion.div>
       </motion.div>
     </section>
   );
 }
+
 
 export function HowItWorks() {
   return (
