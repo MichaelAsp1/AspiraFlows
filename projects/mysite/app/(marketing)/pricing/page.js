@@ -23,7 +23,8 @@ const plans = [
     price: "€99",
     cadence: "/mo",
     highlighted: true,
-    cta: { label: "Start free trial", href: "/login" },
+    badge: "Most Popular",
+    cta: { label: "Get Started", href: "/login" },
     features: [
       "Up to 200 outreach messages/mo",
       "Multi-contact outreach (3+ per company)",

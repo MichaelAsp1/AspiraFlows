@@ -128,17 +128,18 @@ export default function Home() {
               {
                 name: "Starter",
                 price: "€49/mo",
-                desc: "20 job matches/week, 80 automated messages/month, progress dashboard",
+                desc: "Up to 20 job matches/week, 80 personalized outreach messages/month, AI job scoring & progress dashboard",
               },
               {
                 name: "Professional",
                 price: "€99/mo",
-                desc: "50 matches/week, 200 messages/month, analytics + reply tracking",
+                desc: "Up to 50 job matches/week, 200 outreach messages/month, multi-contact targeting, analytics & reply tracking",
+                badge: "Most Popular",
               },
               {
                 name: "Executive",
                 price: "€199/mo",
-                desc: "Unlimited matching and messages, custom templates, decision-maker targeting, weekly reports",
+                desc: "Up to 100 job matches/week, 500 outreach messages/month, multi-channel campaigns (email + LinkedIn), custom templates & weekly reports",
               },
             ].map((p) => (
               <div
