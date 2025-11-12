@@ -15,7 +15,7 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',     // fill notches / safe areas
-  // maximumScale: 1,        // (optional) disables zoom – not recommended for accessibility
+  maximumScale: 1,        // (optional) disables zoom – not recommended for accessibility
 };
 
 export default function RootLayout({ children }) {
