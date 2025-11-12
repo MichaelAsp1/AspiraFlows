@@ -6,46 +6,49 @@ export const metadata = {
 const plans = [
   {
     name: "Starter",
-    price: "€0",
+    price: "€49",
     cadence: "/mo",
     cta: { label: "Get started", href: "/login" },
     features: [
-      "Basic outreach (100 emails/mo)",
-      "Manual imports (CSV)",
-      "Simple templates",
+      "Up to 80 personalized outreach messages/mo",
+      "AI job matching & scoring",
+      "Verified contacts (1 per company)",
+      "Email outreach automation",
+      "Progress dashboard",
       "Email support",
     ],
   },
   {
-    name: "Growth",
-    price: "€49",
+    name: "Professional",
+    price: "€99",
     cadence: "/mo",
     highlighted: true,
     cta: { label: "Start free trial", href: "/login" },
     features: [
-      "Up to 5,000 emails/mo",
-      "Sequences & throttling",
-      "Gmail SMTP integration",
-      "AI icebreakers",
-      "Basic analytics",
+      "Up to 200 outreach messages/mo",
+      "Multi-contact outreach (3+ per company)",
+      "AI-generated emails & follow-ups",
+      "Reply tracking & analytics",
+      "LinkedIn contact enrichment",
       "Priority support",
     ],
   },
   {
-    name: "Scale",
-    price: "€149",
+    name: "Executive",
+    price: "€199",
     cadence: "/mo",
     cta: { label: "Contact sales", href: "/contact" },
     features: [
-      "High-volume sending",
-      "Team workspaces",
-      "Custom domains",
-      "Webhooks & API",
-      "Metabase dashboards",
-      "SLA & onboarding",
+      "Up to 500 outreach messages/mo",
+      "Email + LinkedIn multi-channel campaigns",
+      "Custom templates & targeting filters",
+      "Weekly performance reports",
+      "Dedicated onboarding & optimization",
+      "Advanced analytics dashboard (Metabase)",
     ],
   },
 ];
+
 
 export default function PricingPage() {
   return (
