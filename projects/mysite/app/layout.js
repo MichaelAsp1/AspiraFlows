@@ -14,8 +14,9 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
-  viewportFit: 'cover',     // fill notches / safe areas
-  maximumScale: 1,        // (optional) disables zoom – not recommended for accessibility
+  maximumScale: 1,   // lock zoom
+  userScalable: false,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }) {
