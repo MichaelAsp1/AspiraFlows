@@ -1,4 +1,4 @@
-export function BadgeSpark(className = "h-5 w-5 text-gray-800") {
+export function BadgeSpark({className = "h-5 w-5 text-gray-800"}) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" />
@@ -16,7 +16,7 @@ export function IconTarget({ className = "h-5 w-5" }) {
 }
 
 
-export function IconSpark(className = "h-5 w-5 text-gray-800") {
+export function IconSpark({className = "h-5 w-5 text-gray-800"}) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M12 2l2.5 6L21 11l-6 1.5L12 21l-3-8.5L3 11l6.5-3z" />
@@ -24,7 +24,7 @@ export function IconSpark(className = "h-5 w-5 text-gray-800") {
   );
 }
 
-export function IconMail(className = "h-5 w-5 text-gray-800") {
+export function IconMail({className = "h-5 w-5 text-gray-800"}) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M4 6h16v12H4z" />
@@ -47,7 +47,7 @@ export function IconFlow(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export function IconChart(className = "h-5 w-5 text-gray-800") {
+export function IconChart({className = "h-5 w-5 text-gray-800"}) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M3 3v18h18" />
@@ -56,7 +56,7 @@ export function IconChart(className = "h-5 w-5 text-gray-800") {
   );
 }
 
-export function IconShield(className = "h-5 w-5 text-gray-800") {
+export function IconShield({className = "h-5 w-5 text-gray-800"}) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M12 3l7 4v5c0 5-3 7-7 9-4-2-7-4-7-9V7z" />
@@ -65,7 +65,7 @@ export function IconShield(className = "h-5 w-5 text-gray-800") {
   );
 }
 
-export function IconCalendar(className = "h-5 w-5 text-gray-800") {
+export function IconCalendar({className = "h-5 w-5 text-gray-800"}) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="3" y="4" width="18" height="18" rx="2" />
@@ -74,7 +74,7 @@ export function IconCalendar(className = "h-5 w-5 text-gray-800") {
   );
 }
 
-export function IconDb(className = "h-5 w-5 text-gray-800") {
+export function IconDb({className = "h-5 w-5 text-gray-800"}) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
       <ellipse cx="12" cy="5" rx="8" ry="3" />
@@ -83,7 +83,7 @@ export function IconDb(className = "h-5 w-5 text-gray-800") {
   );
 }
 
-export function IconZap(className = "h-5 w-5 text-gray-800") {
+export function IconZap({className = "h-5 w-5 text-gray-800"}) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M13 2L3 14h7l-1 8 10-12h-7z" />
