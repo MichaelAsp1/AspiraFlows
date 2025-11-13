@@ -53,10 +53,12 @@ const plans = [
 
 export default function PricingPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-16">
+    <main className="mx-auto max-w-7xl px-4 py-16 text-gray-900">
       <section className="text-center mb-10">
-        <h1 className="text-4xl font-bold mb-4">Pricing</h1>
-        <p className="text-gray-600">
+        <h1 className="text-4xl font-bold mb-4 text-gray-900">
+          Pricing
+        </h1>
+        <p className="text-gray-700">
           Start free. Upgrade when you’re ready to scale.
         </p>
       </section>
@@ -69,13 +71,21 @@ export default function PricingPage() {
               p.highlighted ? "ring-2 ring-black" : ""
             }`}
           >
-            <h3 className="text-lg font-semibold">{p.name}</h3>
+            {/* plan name */}
+            <h3 className="text-lg font-semibold text-gray-900">
+              {p.name}
+            </h3>
+
+            {/* price */}
             <div className="mt-2 flex items-end gap-1">
-              <span className="text-4xl font-bold">{p.price}</span>
-              <span className="text-gray-500">{p.cadence}</span>
+              <span className="text-4xl font-bold text-gray-900">
+                {p.price}
+              </span>
+              <span className="text-gray-600">{p.cadence}</span>
             </div>
 
-            <ul className="mt-6 space-y-2 text-sm text-gray-700">
+            {/* features */}
+            <ul className="mt-6 space-y-2 text-sm text-gray-800">
               {p.features.map((f) => (
                 <li key={f} className="flex items-start gap-2">
                   <span className="mt-1 h-2 w-2 rounded-full bg-gray-900" />
@@ -84,12 +94,13 @@ export default function PricingPage() {
               ))}
             </ul>
 
+            {/* CTA */}
             <a
               href={p.cta.href}
-              className={`mt-8 inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-medium ${
+              className={`mt-8 inline-flex w-full items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold ${
                 p.highlighted
                   ? "bg-black text-white hover:bg-gray-800"
-                  : "border hover:bg-gray-50"
+                  : "border text-gray-900 hover:bg-gray-50"
               }`}
             >
               {p.cta.label}
@@ -98,7 +109,7 @@ export default function PricingPage() {
         ))}
       </section>
 
-      <p className="mt-10 text-center text-xs text-gray-500">
+      <p className="mt-10 text-center text-xs text-gray-600">
         Prices exclude VAT. You can cancel anytime.
       </p>
     </main>
