@@ -84,6 +84,7 @@ export default function Header() {
       <div
         id="mobile-menu"
         ref={menuRef}
+        onClick={(e) => e.stopPropagation()}
         className={`sm:hidden overflow-hidden border-t bg-white transition-[max-height,opacity] duration-200 ${
           open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
