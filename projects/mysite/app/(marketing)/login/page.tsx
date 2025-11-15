@@ -1,11 +1,35 @@
 // app/login/page.tsx
 "use client";
 
-import { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+// Optional but recommended for auth pages:
+export const dynamic = "force-dynamic";
+
 export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-slate-50">
+          <div className="w-full max-w-md rounded-xl bg-white p-8 shadow">
+            <h1 className="mb-2 text-xl font-semibold text-slate-900">
+              Loading login…
+            </h1>
+            <p className="text-sm text-slate-500">
+              Please wait while we prepare the sign-in page.
+            </p>
+          </div>
+        </div>
+      }
+    >
+      <LoginInner />
+    </Suspense>
+  );
+}
+
+function LoginInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
