@@ -7,13 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Client {
   id        String   @id @default(uuid())
-  email     String   @unique
+  name      String
+  slug      String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users           User[]
+  jobApplications JobApplication[]
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
   password  String
   name      String?
-  clientId  String   // Needed for Superset RLS
-  createdAt DateTime @default(now())
+  clientId  String
+  client    Client    @relation(fields: [clientId], references: [id])
+  createdAt DateTime  @default(now())
 
   sessions  Session[]
 }
@@ -24,4 +36,18 @@ model Session {
   userId       String
   user         User     @relation(fields: [userId], references: [id])
   expires      DateTime
+}
+
+model JobApplication {
+  id           String   @id @default(uuid())
+
+  // Maps to existing columns in job_applications
+  clientId     String   @map("client_id")
+  contactEmail String?  @map("contact_email")
+  insertedAt   DateTime @default(now()) @map("inserted_at")
+
+  client       Client   @relation(fields: [clientId], references: [id])
+
+  @@index([clientId])
+  @@map("job_applications")
 }
