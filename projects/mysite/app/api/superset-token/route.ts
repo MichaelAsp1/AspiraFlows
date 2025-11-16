@@ -1,12 +1,11 @@
 // app/api/superset-token/route.ts
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../lib/auth";
+import { authOptions } from "../../../lib/auth"; 
+import jwt from "jsonwebtoken";
 
-const DASHBOARD_ID = process.env.NEXT_PUBLIC_SUPERSET_DASHBOARD_ID!;
-const SUPERSET_DOMAIN = process.env.SUPERSET_DOMAIN!;
-const SUPERSET_ADMIN_USERNAME = process.env.SUPERSET_ADMIN_USERNAME!;
-const SUPERSET_ADMIN_PASSWORD = process.env.SUPERSET_ADMIN_PASSWORD!;
+const DASHBOARD_ID = process.env.NEXT_PUBLIC_SUPERSET_DASHBOARD_ID;
+const GUEST_SECRET = process.env.SUPERSET_GUEST_TOKEN_JWT_SECRET;
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -24,89 +23,37 @@ export async function GET() {
     );
   }
 
-  try {
-    // 1) Log in to Superset to get an access token
-    const loginRes = await fetch(`${SUPERSET_DOMAIN}/api/v1/security/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: SUPERSET_ADMIN_USERNAME,
-        password: SUPERSET_ADMIN_PASSWORD,
-        provider: "db",
-        refresh: true,
-      }),
-    });
-
-    if (!loginRes.ok) {
-      const text = await loginRes.text();
-      console.error("Superset login error:", loginRes.status, text);
-      return NextResponse.json(
-        { error: "Failed to log in to Superset" },
-        { status: 500 }
-      );
-    }
-
-    const loginData = await loginRes.json();
-    const accessToken = loginData?.access_token;
-
-    if (!accessToken) {
-      console.error("No access_token in Superset login response:", loginData);
-      return NextResponse.json(
-        { error: "Missing access token from Superset" },
-        { status: 500 }
-      );
-    }
-
-    // 2) Ask Superset to generate a guest token for this dashboard + RLS
-    const payload = {
-      user: {
-        username: session.user.email ?? clientId,
-        first_name: (session.user.name ?? "").split(" ")[0] ?? "",
-        last_name: (session.user.name ?? "").split(" ").slice(1).join(" ") ?? "",
-      },
-      resources: [
-        {
-          type: "dashboard",
-          id: DASHBOARD_ID,
-        },
-      ],
-      rls: [
-        {
-          clause: `client_id = '${clientId}'`,
-        },
-      ],
-    };
-
-    const guestRes = await fetch(
-      `${SUPERSET_DOMAIN}/api/v1/security/guest_token/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(payload),
-      }
-    );
-
-    if (!guestRes.ok) {
-      const text = await guestRes.text();
-      console.error("Superset guest_token error:", guestRes.status, text);
-      return NextResponse.json(
-        { error: "Failed to get guest token from Superset" },
-        { status: 500 }
-      );
-    }
-
-    const data = await guestRes.json();
-    return NextResponse.json({ token: data.token });
-  } catch (err) {
-    console.error("Error calling Superset guest_token API:", err);
+  if (!DASHBOARD_ID || !GUEST_SECRET) {
     return NextResponse.json(
-      { error: "Internal error requesting guest token" },
+      { error: "Superset embedding not configured" },
       { status: 500 }
     );
   }
+
+  const now = Math.floor(Date.now() / 1000);
+
+  const payload = {
+    user: {
+      username: session.user.email ?? clientId,
+      first_name: (session.user.name ?? "").split(" ")[0] ?? "",
+      last_name: (session.user.name ?? "").split(" ").slice(1).join(" ") ?? "",
+    },
+    resources: [
+      {
+        type: "dashboard",
+        id: DASHBOARD_ID,
+      },
+    ],
+    rls: [
+      {
+        clause: `job_applications.client_id = '${clientId}'`,
+      },
+    ],
+    iat: now,
+    exp: now + 15 * 60, // 15 minutes
+  };
+
+  const token = jwt.sign(payload, GUEST_SECRET, { algorithm: "HS256" });
+
+  return NextResponse.json({ token });
 }
