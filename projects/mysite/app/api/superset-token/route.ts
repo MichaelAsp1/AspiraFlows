@@ -25,7 +25,7 @@ export async function GET() {
   }
 
   try {
-    // 1) Log in to Superset as admin
+    // 1) Log in to Superset to get an access token
     const loginRes = await fetch(`${SUPERSET_DOMAIN}/api/v1/security/login`, {
       method: "POST",
       headers: {
@@ -60,7 +60,44 @@ export async function GET() {
       );
     }
 
-    // 2) Ask Superset for a guest token
+    // 2) Get CSRF token (and session cookie) tied to this access token
+    const csrfRes = await fetch(
+      `${SUPERSET_DOMAIN}/api/v1/security/csrf_token/`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!csrfRes.ok) {
+      const text = await csrfRes.text();
+      console.error("Superset csrf_token error:", csrfRes.status, text);
+      return NextResponse.json(
+        { error: `Failed to get CSRF token from Superset: ${text}` },
+        { status: 500 }
+      );
+    }
+
+    const csrfData = await csrfRes.json();
+    const csrfToken = csrfData?.result;
+
+    if (!csrfToken) {
+      console.error("No CSRF token in csrf_token response:", csrfData);
+      return NextResponse.json(
+        { error: "Missing CSRF token from Superset" },
+        { status: 500 }
+      );
+    }
+
+    // Grab the Set-Cookie header (session cookie) from the CSRF response
+    // In Node (server-side), this header *is* accessible.
+    const cookieHeader = csrfRes.headers.get("set-cookie") ?? "";
+
+    // 3) Ask Superset for a guest token, sending Authorization + CSRF + Cookie
     const payload = {
       user: {
         username: session.user.email ?? clientId,
@@ -88,6 +125,9 @@ export async function GET() {
           "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: `Bearer ${accessToken}`,
+          "X-CSRFToken": csrfToken,
+          // Pass through the session cookie tied to the CSRF token
+          Cookie: cookieHeader,
         },
         body: JSON.stringify(payload),
       }
