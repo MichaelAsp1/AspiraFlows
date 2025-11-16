@@ -2,10 +2,11 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../lib/auth";
-import jwt from "jsonwebtoken";
 
-const DASHBOARD_ID = process.env.NEXT_PUBLIC_SUPERSET_DASHBOARD_ID;
-const GUEST_SECRET = process.env.SUPERSET_GUEST_TOKEN_JWT_SECRET;
+const DASHBOARD_ID = process.env.NEXT_PUBLIC_SUPERSET_DASHBOARD_ID!;
+const SUPERSET_DOMAIN = process.env.SUPERSET_DOMAIN!;
+const SUPERSET_ADMIN_USERNAME = process.env.SUPERSET_ADMIN_USERNAME!;
+const SUPERSET_ADMIN_PASSWORD = process.env.SUPERSET_ADMIN_PASSWORD!;
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -23,40 +24,92 @@ export async function GET() {
     );
   }
 
-  if (!DASHBOARD_ID || !GUEST_SECRET) {
+  try {
+    // 1) Log in to Superset as admin to get an access token
+    const loginRes = await fetch(`${SUPERSET_DOMAIN}/api/v1/security/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        username: SUPERSET_ADMIN_USERNAME,
+        password: SUPERSET_ADMIN_PASSWORD,
+        provider: "db",
+        refresh: true,
+      }),
+    });
+
+    if (!loginRes.ok) {
+      const text = await loginRes.text();
+      console.error("Superset login error:", loginRes.status, text);
+      return NextResponse.json(
+        { error: "Failed to log in to Superset" },
+        { status: 500 }
+      );
+    }
+
+    const loginData = await loginRes.json();
+    const accessToken = loginData?.access_token;
+
+    if (!accessToken) {
+      console.error("No access_token in Superset login response:", loginData);
+      return NextResponse.json(
+        { error: "Missing access token from Superset" },
+        { status: 500 }
+      );
+    }
+
+    // 2) Ask Superset to generate a guest token
+    const payload = {
+      user: {
+        username: session.user.email ?? clientId,
+        first_name: (session.user.name ?? "").split(" ")[0] ?? "",
+        last_name: (session.user.name ?? "").split(" ").slice(1).join(" ") ?? "",
+      },
+      resources: [
+        {
+          type: "dashboard",
+          id: DASHBOARD_ID,
+        },
+      ],
+      rls: [
+        {
+          clause: `client_id = '${clientId}'`,
+        },
+      ],
+    };
+
+    const guestRes = await fetch(
+      `${SUPERSET_DOMAIN}/api/v1/security/guest_token/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    if (!guestRes.ok) {
+      const text = await guestRes.text();
+      console.error("Superset guest_token error:", guestRes.status, text);
+      return NextResponse.json(
+        { error: "Failed to get guest token from Superset" },
+        { status: 500 }
+      );
+    }
+
+    const data = await guestRes.json();
+    // Superset responds with { token: "..." }
+    return NextResponse.json({ token: data.token });
+  } catch (err) {
+    console.error("Error calling Superset guest_token API:", err);
     return NextResponse.json(
-      { error: "Superset embedding not configured" },
+      { error: "Internal error requesting guest token" },
       { status: 500 }
     );
   }
-
-  const now = Math.floor(Date.now() / 1000);
-
-  const payload = {
-    // 👈 tell Superset this is a guest token
-    type: "guest",
-    user: {
-      username: session.user.email ?? clientId,
-      first_name: (session.user.name ?? "").split(" ")[0] ?? "",
-      last_name: (session.user.name ?? "").split(" ").slice(1).join(" ") ?? "",
-    },
-    resources: [
-      {
-        type: "dashboard",
-        id: DASHBOARD_ID,
-      },
-    ],
-    // 👈 RLS clause: keep it column-only, Superset will attach this to the dataset
-    rls: [
-      {
-        clause: `client_id = '${clientId}'`,
-      },
-    ],
-    iat: now,
-    exp: now + 15 * 60, // 15 minutes
-  };
-
-  const token = jwt.sign(payload, GUEST_SECRET, { algorithm: "HS256" });
-
-  return NextResponse.json({ token });
 }
