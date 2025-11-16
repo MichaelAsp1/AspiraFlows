@@ -36,7 +36,7 @@ export default function DashboardPage() {
                 const body = await res.json();
                 if (body?.error) message = body.error;
               } catch {
-                // ignore JSON parse error
+                // ignore JSON parse errors
               }
               throw new Error(message);
             }
@@ -54,9 +54,7 @@ export default function DashboardPage() {
           ],
         });
 
-        if (!cancelled) {
-          setLoading(false);
-        }
+        if (!cancelled) setLoading(false);
       } catch (err: any) {
         console.error("Error embedding Superset dashboard", err);
         if (!cancelled) {
@@ -74,38 +72,48 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col px-4 py-6">
-      {/* Header */}
-      <header className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Analytics dashboard</h1>
-        {loading && !error && (
-          <span className="text-sm text-slate-500">Loading…</span>
-        )}
-      </header>
+    <>
+      {/* Force the Superset iframe to fill the container */}
+      <style jsx global>{`
+        #superset-container iframe {
+          width: 100% !important;
+          height: 100% !important;
+          border: none;
+        }
+      `}</style>
 
-      {/* Error state */}
-      {error && (
-        <div className="mb-4 rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-700">
-          Couldn&apos;t load your dashboard:
-          <span className="ml-1 font-medium">{error}</span>
-        </div>
-      )}
+      <div className="flex min-h-screen flex-col px-4 py-6">
+        {/* Header */}
+        <header className="mb-4 flex items-center justify-between">
+          <h1 className="text-2xl font-semibold">Analytics dashboard</h1>
+          {loading && !error && (
+            <span className="text-sm text-slate-500">Loading…</span>
+          )}
+        </header>
 
-      {/* Main dashboard area */}
-      <main className="flex-1">
-        {/* Optional: a subtle loading box above the iframe */}
-        {loading && !error && (
-          <div className="mb-4 rounded-lg border p-4 text-sm text-slate-600">
-            Loading dashboard…
+        {/* Error box */}
+        {error && (
+          <div className="mb-4 rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-700">
+            Couldn&apos;t load your dashboard:
+            <span className="ml-1 font-medium">{error}</span>
           </div>
         )}
 
-        {/* This is where Superset mounts the iframe */}
-        <div
-          id="superset-container"
-          className="h-[85vh] w-full overflow-hidden rounded-lg border"
-        />
-      </main>
-    </div>
+        {/* Main area */}
+        <main className="flex-1">
+          {loading && !error && (
+            <div className="mb-4 rounded-lg border p-4 text-sm text-slate-600">
+              Loading dashboard…
+            </div>
+          )}
+
+          {/* Superset mounts iframe here */}
+          <div
+            id="superset-container"
+            className="h-[85vh] w-full overflow-hidden rounded-lg border"
+          />
+        </main>
+      </div>
+    </>
   );
 }
