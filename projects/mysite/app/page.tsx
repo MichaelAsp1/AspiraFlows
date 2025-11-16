@@ -12,3 +12,4 @@ export default async function RootPage() {
 
   return <HomePage />;
 }
+//for build
