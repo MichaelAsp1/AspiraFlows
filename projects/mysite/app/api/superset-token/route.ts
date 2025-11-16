@@ -8,37 +8,32 @@ const SUPERSET_DOMAIN = process.env.SUPERSET_DOMAIN!;
 const SUPERSET_ADMIN_USERNAME = process.env.SUPERSET_ADMIN_USERNAME!;
 const SUPERSET_ADMIN_PASSWORD = process.env.SUPERSET_ADMIN_PASSWORD!;
 
-// Helper: turn one or more Set-Cookie headers into a single Cookie header string
+// merge cookies safely
 function mergeCookies(...cookieHeaders: Array<string | null>): string {
   return cookieHeaders
     .filter(Boolean)
-    .flatMap((header) =>
-      // Node may collapse multiple Set-Cookie into a single comma-separated string
-      header!.split(/,(?=[^;]+=[^;]+)/),
-    )
-    .map((c) => c.split(";")[0].trim()) // keep only "name=value"
+    .flatMap((header) => header!.split(/,(?=[^;]+=[^;]+)/))
+    .map((c) => c.split(";")[0].trim())
     .filter(Boolean)
-    .join("; "); // "a=b; c=d"
+    .join("; ");
 }
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const clientId = (session.user as any).clientId as string | undefined;
-
-  if (!clientId) {
-    return NextResponse.json(
-      { error: "Missing clientId on user session" },
-      { status: 400 },
-    );
-  }
-
   try {
-    // 1) Log in to Superset to get an access token
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const clientId = (session.user as any).clientId;
+    if (!clientId) {
+      return NextResponse.json({ error: "Missing clientId" }, { status: 400 });
+    }
+
+    // -----------------------------------------
+    // 1) LOGIN (Superset 3.1 uses "provider": "db")
+    // -----------------------------------------
     const loginRes = await fetch(`${SUPERSET_DOMAIN}/api/v1/security/login`, {
       method: "POST",
       headers: {
@@ -49,7 +44,6 @@ export async function GET() {
         username: SUPERSET_ADMIN_USERNAME,
         password: SUPERSET_ADMIN_PASSWORD,
         provider: "db",
-        refresh: true,
       }),
     });
 
@@ -57,8 +51,8 @@ export async function GET() {
       const text = await loginRes.text();
       console.error("Superset login error:", loginRes.status, text);
       return NextResponse.json(
-        { error: `Failed to log in to Superset: ${text}` },
-        { status: 500 },
+        { error: `Failed to log in: ${text}` },
+        { status: 500 }
       );
     }
 
@@ -66,62 +60,54 @@ export async function GET() {
     const accessToken = loginData?.access_token;
 
     if (!accessToken) {
-      console.error("No access_token in Superset login response:", loginData);
+      console.error("Missing access token", loginData);
       return NextResponse.json(
-        { error: "Missing access token from Superset" },
-        { status: 500 },
+        { error: "Missing access token" },
+        { status: 500 }
       );
     }
 
-    const loginSetCookie = loginRes.headers.get("set-cookie");
+    const loginCookie = loginRes.headers.get("set-cookie");
 
-    // 2) Get CSRF token (and session cookie) tied to this access token
+    // -----------------------------------------
+    // 2) GET CSRF TOKEN
+    // -----------------------------------------
     const csrfRes = await fetch(
       `${SUPERSET_DOMAIN}/api/v1/security/csrf_token/`,
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: `Bearer ${accessToken}`,
-          ...(loginSetCookie
-            ? { Cookie: mergeCookies(loginSetCookie) }
-            : {}),
+          ...(loginCookie ? { Cookie: mergeCookies(loginCookie) } : {}),
         },
-      },
+      }
     );
 
     if (!csrfRes.ok) {
       const text = await csrfRes.text();
-      console.error("Superset csrf_token error:", csrfRes.status, text);
+      console.error("CSRF error:", text);
       return NextResponse.json(
-        { error: `Failed to get CSRF token from Superset: ${text}` },
-        { status: 500 },
+        { error: `Failed to get CSRF token: ${text}` },
+        { status: 500 }
       );
     }
 
     const csrfData = await csrfRes.json();
     const csrfToken = csrfData?.result;
 
-    if (!csrfToken) {
-      console.error("No CSRF token in csrf_token response:", csrfData);
-      return NextResponse.json(
-        { error: "Missing CSRF token from Superset" },
-        { status: 500 },
-      );
-    }
+    const csrfCookie = csrfRes.headers.get("set-cookie");
 
-    // Grab Set-Cookie from CSRF response (this is where session=... is set)
-    const csrfSetCookie = csrfRes.headers.get("set-cookie");
-    const sessionCookie = mergeCookies(loginSetCookie, csrfSetCookie);
+    const finalCookie = mergeCookies(loginCookie, csrfCookie);
 
-    // 3) Ask Superset for a guest token, sending Authorization + CSRF + Cookie
+    // -----------------------------------------
+    // 3) REQUEST GUEST TOKEN WITH RLS
+    // -----------------------------------------
     const payload = {
       user: {
-        username: (session.user.email as string) ?? clientId,
-        first_name: (session.user.name ?? "").split(" ")[0] ?? "",
-        last_name:
-          (session.user.name ?? "").split(" ").slice(1).join(" ") ?? "",
+        username: session.user.email ?? (session.user as any).id,
+        first_name: session.user.name ?? "User",
+        last_name: "",
       },
       resources: [
         {
@@ -145,31 +131,29 @@ export async function GET() {
           Accept: "application/json",
           Authorization: `Bearer ${accessToken}`,
           "X-CSRFToken": csrfToken,
-          Cookie: sessionCookie, // <-- this is now a proper Cookie header ("session=...")
-          Referer: `${SUPERSET_DOMAIN}/api/v1/security/csrf_token/`,
+          Cookie: finalCookie,
+          Referer: SUPERSET_DOMAIN, 
         },
         body: JSON.stringify(payload),
-      },
+      }
     );
 
     if (!guestRes.ok) {
       const text = await guestRes.text();
-      console.error("Superset guest_token error:", guestRes.status, text);
+      console.error("guest_token error:", text);
       return NextResponse.json(
-        {
-          error: `Superset guest_token error ${guestRes.status}: ${text}`,
-        },
-        { status: 500 },
+        { error: `guest_token error: ${text}` },
+        { status: 500 }
       );
     }
 
     const data = await guestRes.json();
     return NextResponse.json({ token: data.token });
   } catch (err) {
-    console.error("Error calling Superset guest_token API:", err);
+    console.error("Superset error:", err);
     return NextResponse.json(
-      { error: "Internal error requesting guest token" },
-      { status: 500 },
+      { error: "Internal server error" },
+      { status: 500 }
     );
   }
 }

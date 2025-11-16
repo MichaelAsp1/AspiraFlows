@@ -11,7 +11,10 @@ export async function POST(req: Request) {
     }
 
     if (password.length < 8) {
-      return NextResponse.json({ error: "Password must be at least 8 characters" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Password must be at least 8 characters" },
+        { status: 400 }
+      );
     }
 
     const existing = await prisma.user.findUnique({ where: { email } });
@@ -22,31 +25,28 @@ export async function POST(req: Request) {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // Transaction: create Client + User
-    const result = await prisma.$transaction(async (tx) => {
-      const client = await tx.client.create({
-        data: {
-          name: companyName,
-        },
-      });
+    // 1) create client
+    const client = await prisma.client.create({
+      data: {
+        name: companyName,
+      },
+    });
 
-      const user = await tx.user.create({
-        data: {
-          name,
-          email,
-          password: passwordHash,
-          clientId: client.id,
-        },
-      });
-
-      return { client, user };
+    // 2) create user linked to client
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: passwordHash,
+        clientId: client.id,
+      },
     });
 
     return NextResponse.json(
       {
         message: "ok",
-        clientId: result.client.id,
-        userId: result.user.id,
+        clientId: client.id,
+        userId: user.id,
       },
       { status: 201 }
     );
