@@ -5,11 +5,9 @@ import HomePage from "./(marketing)/HomePage";
 export default async function RootPage() {
   const session = await auth();
 
-  // If logged in → redirect to dashboard
   if (session?.user) {
     redirect("/dashboard");
   }
 
   return <HomePage />;
 }
-//for build
