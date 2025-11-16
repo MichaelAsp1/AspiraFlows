@@ -1,7 +1,7 @@
 // app/api/superset-token/route.ts
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../../lib/auth"; 
+import { authOptions } from "../../../lib/auth";
 import jwt from "jsonwebtoken";
 
 const DASHBOARD_ID = process.env.NEXT_PUBLIC_SUPERSET_DASHBOARD_ID;
@@ -33,6 +33,8 @@ export async function GET() {
   const now = Math.floor(Date.now() / 1000);
 
   const payload = {
+    // 👈 tell Superset this is a guest token
+    type: "guest",
     user: {
       username: session.user.email ?? clientId,
       first_name: (session.user.name ?? "").split(" ")[0] ?? "",
@@ -44,9 +46,10 @@ export async function GET() {
         id: DASHBOARD_ID,
       },
     ],
+    // 👈 RLS clause: keep it column-only, Superset will attach this to the dataset
     rls: [
       {
-        clause: `job_applications.client_id = '${clientId}'`,
+        clause: `client_id = '${clientId}'`,
       },
     ],
     iat: now,
