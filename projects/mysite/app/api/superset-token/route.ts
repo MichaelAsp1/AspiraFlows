@@ -25,6 +25,41 @@ export async function GET() {
   }
 
   try {
+    // 1) Log in to Superset to get an access token
+    const loginRes = await fetch(`${SUPERSET_DOMAIN}/api/v1/security/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: SUPERSET_ADMIN_USERNAME,
+        password: SUPERSET_ADMIN_PASSWORD,
+        provider: "db",
+        refresh: true,
+      }),
+    });
+
+    if (!loginRes.ok) {
+      const text = await loginRes.text();
+      console.error("Superset login error:", loginRes.status, text);
+      return NextResponse.json(
+        { error: "Failed to log in to Superset" },
+        { status: 500 }
+      );
+    }
+
+    const loginData = await loginRes.json();
+    const accessToken = loginData?.access_token;
+
+    if (!accessToken) {
+      console.error("No access_token in Superset login response:", loginData);
+      return NextResponse.json(
+        { error: "Missing access token from Superset" },
+        { status: 500 }
+      );
+    }
+
+    // 2) Ask Superset to generate a guest token for this dashboard + RLS
     const payload = {
       user: {
         username: session.user.email ?? clientId,
@@ -44,34 +79,28 @@ export async function GET() {
       ],
     };
 
-    const res = await fetch(
+    const guestRes = await fetch(
       `${SUPERSET_DOMAIN}/api/v1/security/guest_token/`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Superset 3.x default: basic auth with admin user
-          Authorization:
-            "Basic " +
-            Buffer.from(
-              `${SUPERSET_ADMIN_USERNAME}:${SUPERSET_ADMIN_PASSWORD}`
-            ).toString("base64"),
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify(payload),
       }
     );
 
-    if (!res.ok) {
-      const text = await res.text();
-      console.error("Superset guest_token error:", res.status, text);
+    if (!guestRes.ok) {
+      const text = await guestRes.text();
+      console.error("Superset guest_token error:", guestRes.status, text);
       return NextResponse.json(
         { error: "Failed to get guest token from Superset" },
         { status: 500 }
       );
     }
 
-    const data = await res.json();
-    // Superset responds with { token: "..." }
+    const data = await guestRes.json();
     return NextResponse.json({ token: data.token });
   } catch (err) {
     console.error("Error calling Superset guest_token API:", err);
