@@ -30,7 +30,7 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "app/(marketing)/page.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Marquee from "../../components/Marquee";
 
+
 export default function Home() {
   return (
     <main className="bg-gray-50 text-gray-900">
