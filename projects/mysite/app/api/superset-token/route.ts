@@ -25,7 +25,7 @@ export async function GET() {
   }
 
   try {
-    // 1) Log in to Superset as admin to get an access token
+    // 1) Log in to Superset as admin
     const loginRes = await fetch(`${SUPERSET_DOMAIN}/api/v1/security/login`, {
       method: "POST",
       headers: {
@@ -44,7 +44,7 @@ export async function GET() {
       const text = await loginRes.text();
       console.error("Superset login error:", loginRes.status, text);
       return NextResponse.json(
-        { error: "Failed to log in to Superset" },
+        { error: `Failed to log in to Superset: ${text}` },
         { status: 500 }
       );
     }
@@ -60,7 +60,7 @@ export async function GET() {
       );
     }
 
-    // 2) Ask Superset to generate a guest token
+    // 2) Ask Superset for a guest token
     const payload = {
       user: {
         username: session.user.email ?? clientId,
@@ -97,13 +97,14 @@ export async function GET() {
       const text = await guestRes.text();
       console.error("Superset guest_token error:", guestRes.status, text);
       return NextResponse.json(
-        { error: "Failed to get guest token from Superset" },
+        {
+          error: `Superset guest_token error ${guestRes.status}: ${text}`,
+        },
         { status: 500 }
       );
     }
 
     const data = await guestRes.json();
-    // Superset responds with { token: "..." }
     return NextResponse.json({ token: data.token });
   } catch (err) {
     console.error("Error calling Superset guest_token API:", err);
