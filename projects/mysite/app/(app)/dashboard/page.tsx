@@ -75,7 +75,8 @@ export default function DashboardPage() {
         </div>
       )}
 
-      <div id="superset-container" className="mt-4 w-full" />
+      <div id="superset-container" className="mt-4 w-full h-[85vh]" />
+
     </div>
   );
 }
