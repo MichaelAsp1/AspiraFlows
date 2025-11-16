@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 
 export default function Header() {
@@ -9,7 +9,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
 
-  // close on click outside
+  // Close mobile menu when clicking outside
   useEffect(() => {
     function onClick(e) {
       if (!menuRef.current) return;
@@ -21,9 +21,9 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white md:bg-white/80 md:backdrop-blur">
-      {/* full-width row */}
+      {/* Main row */}
       <div className="w-full flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
-        {/* Left: brand */}
+        {/* Left: Logo */}
         <Link
           href="/"
           className="text-base sm:text-lg font-semibold text-gray-900 tracking-tight"
@@ -31,7 +31,7 @@ export default function Header() {
           AspiraFlows
         </Link>
 
-        {/* Right: desktop nav */}
+        {/* Desktop Navigation */}
         <nav className="hidden sm:flex items-center gap-5 text-sm font-semibold">
           <Link href="/pricing" className="text-gray-900 hover:text-indigo-600">
             Pricing
@@ -44,43 +44,60 @@ export default function Header() {
           </Link>
 
           {!session ? (
-            <button
-              type="button"
-              onClick={() => signIn("google")}
-              className="rounded-md bg-black text-white px-3 py-2 hover:bg-gray-800"
-            >
-              Sign in
-            </button>
+            <>
+              <Link
+                href="/login"
+                className="text-gray-900 hover:text-indigo-600"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/signup"
+                className="rounded-md bg-black text-white px-3 py-2 hover:bg-gray-800"
+              >
+                Sign up
+              </Link>
+            </>
           ) : (
-            <button
-              type="button"
-              onClick={() => signOut()}
-              className="rounded-md border px-3 py-2 hover:bg-gray-50"
-            >
-              Logout
-            </button>
+            <>
+              <Link
+                href="/dashboard"
+                className="text-gray-900 hover:text-indigo-600"
+              >
+                Dashboard
+              </Link>
+              <button
+                type="button"
+                onClick={() => signOut()}
+                className="rounded-md border px-3 py-2 hover:bg-gray-50"
+              >
+                Logout
+              </button>
+            </>
           )}
         </nav>
 
-        {/* Right: mobile trigger */}
+        {/* Mobile Menu Trigger */}
         <button
           type="button"
           className="sm:hidden inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium text-gray-900"
           aria-expanded={open}
           aria-controls="mobile-menu"
-          aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
         >
-          <span className="sr-only">Open menu</span>
-          {/* hamburger icon */}
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-gray-900">
-            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M4 6h16M4 12h16M4 18h16"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </svg>
           Menu
         </button>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Mobile Dropdown */}
       <div
         id="mobile-menu"
         ref={menuRef}
@@ -113,21 +130,39 @@ export default function Header() {
           </Link>
 
           {!session ? (
-            <button
-              type="button"
-              onClick={() => { setOpen(false); signIn("google"); }}
-              className="mt-2 w-full rounded-md bg-black text-white px-3 py-2 text-sm font-semibold hover:bg-gray-800"
-            >
-              Sign in
-            </button>
+            <>
+              <Link
+                href="/login"
+                onClick={() => setOpen(false)}
+                className="block mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold text-center hover:bg-gray-50"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/signup"
+                onClick={() => setOpen(false)}
+                className="block mt-2 w-full rounded-md bg-black text-white px-3 py-2 text-sm font-semibold text-center hover:bg-gray-800"
+              >
+                Sign up
+              </Link>
+            </>
           ) : (
-            <button
-              type="button"
-              onClick={() => { setOpen(false); signOut(); }}
-              className="mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold hover:bg-gray-50"
-            >
-              Logout
-            </button>
+            <>
+              <Link
+                href="/dashboard"
+                onClick={() => setOpen(false)}
+                className="block mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold text-center hover:bg-gray-50"
+              >
+                Dashboard
+              </Link>
+              <button
+                type="button"
+                onClick={() => { setOpen(false); signOut(); }}
+                className="mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold hover:bg-gray-50"
+              >
+                Logout
+              </button>
+            </>
           )}
         </nav>
       </div>
