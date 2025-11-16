@@ -31,31 +31,32 @@ export default function LoginPage() {
 
 function LoginInner() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  // We always send users to /dashboard after login
+  const callbackUrl = "/dashboard";
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-      callbackUrl,
-    });
+  const res = await signIn("credentials", {
+    redirect: false,
+    email,
+    password,
+  });
 
-    if (res?.error) {
-      setError("Invalid email or password");
-      return;
-    }
-
-    router.push(callbackUrl);
+  if (!res || res.error) {
+    setError("Invalid email or password");
+    return;
   }
+
+  router.push("/dashboard");
+}
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50">
