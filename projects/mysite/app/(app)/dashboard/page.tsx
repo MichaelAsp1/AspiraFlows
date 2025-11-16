@@ -14,20 +14,31 @@ export default function DashboardPage() {
   useEffect(() => {
     let cancelled = false;
 
-    async function load() {
+    async function loadDashboard() {
       try {
         setError(null);
         setLoading(true);
 
+        const mountPoint = document.getElementById("superset-container");
+        if (!mountPoint) {
+          throw new Error("Superset container element not found");
+        }
+
         await embedDashboard({
           id: dashboardId,
           supersetDomain,
-          mountPoint: document.getElementById("superset-container")!,
+          mountPoint,
           fetchGuestToken: async () => {
             const res = await fetch("/api/superset-token");
             if (!res.ok) {
-              const body = await res.json().catch(() => ({}));
-              throw new Error(body.error || "Failed to get Superset token");
+              let message = "Failed to get Superset token";
+              try {
+                const body = await res.json();
+                if (body?.error) message = body.error;
+              } catch {
+                // ignore JSON parse error
+              }
+              throw new Error(message);
             }
             const { token } = await res.json();
             return token;
@@ -43,7 +54,9 @@ export default function DashboardPage() {
           ],
         });
 
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       } catch (err: any) {
         console.error("Error embedding Superset dashboard", err);
         if (!cancelled) {
@@ -53,30 +66,46 @@ export default function DashboardPage() {
       }
     }
 
-    load();
+    loadDashboard();
+
     return () => {
       cancelled = true;
     };
   }, []);
 
   return (
-    <div className="min-h-screen px-4 py-6">
-      <h1 className="mb-4 text-2xl font-semibold">Analytics dashboard</h1>
+    <div className="flex min-h-screen flex-col px-4 py-6">
+      {/* Header */}
+      <header className="mb-4 flex items-center justify-between">
+        <h1 className="text-2xl font-semibold">Analytics dashboard</h1>
+        {loading && !error && (
+          <span className="text-sm text-slate-500">Loading…</span>
+        )}
+      </header>
 
-      {loading && !error && (
-        <div className="rounded-lg border p-4 text-sm text-slate-600">
-          Loading dashboard…
-        </div>
-      )}
-
+      {/* Error state */}
       {error && (
         <div className="mb-4 rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-700">
-          Couldn&apos;t load your dashboard: {error}
+          Couldn&apos;t load your dashboard:
+          <span className="ml-1 font-medium">{error}</span>
         </div>
       )}
 
-      <div id="superset-container" className="mt-4 w-full h-[85vh]" />
+      {/* Main dashboard area */}
+      <main className="flex-1">
+        {/* Optional: a subtle loading box above the iframe */}
+        {loading && !error && (
+          <div className="mb-4 rounded-lg border p-4 text-sm text-slate-600">
+            Loading dashboard…
+          </div>
+        )}
 
+        {/* This is where Superset mounts the iframe */}
+        <div
+          id="superset-container"
+          className="h-[85vh] w-full overflow-hidden rounded-lg border"
+        />
+      </main>
     </div>
   );
 }
