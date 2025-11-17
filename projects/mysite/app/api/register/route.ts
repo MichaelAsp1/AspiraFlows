@@ -28,16 +28,14 @@ export async function POST(req: NextRequest) {
 
     const hashed = await bcrypt.hash(password, 10);
 
-    // Prisma types on Vercel still think `client` is required.
-    // Runtime is fine because clientId/client are optional in the schema.
-    // ts-expect-error temp user is created without client; webhook will attach one later
     const user = await prisma.user.create({
       data: {
         name,
         email,
         password: hashed,
+        // temp user has no client/clientId yet; webhook will attach one later
       },
-    });
+    } as any);
 
     const res = NextResponse.json(
       { redirect: `/choose-plan?plan=${encodeURIComponent(plan)}` },
