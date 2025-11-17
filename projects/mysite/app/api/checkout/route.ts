@@ -3,7 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) {
+    console.error("Missing STRIPE_SECRET_KEY in environment");
+    throw new Error("Stripe is not configured on the server");
+  }
+  return new Stripe(key);
+}
 
 const PRICE_MAP: Record<string, string | undefined> = {
   starter: process.env.STRIPE_PRICE_STARTER,
@@ -35,13 +42,14 @@ export async function POST(req: NextRequest) {
     if (!priceId) {
       return NextResponse.json(
         {
-          error: `Plan "${plan}" is not configured. Missing STRIPE_PRICE_${plan.toUpperCase()} in .env.local`,
+          error: `Plan "${plan}" is not configured. Missing STRIPE_PRICE_${plan.toUpperCase()} in env.`,
         },
         { status: 500 }
       );
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL!;
+    const stripe = getStripe(); // 🔥 instantiated only when the route is called
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",

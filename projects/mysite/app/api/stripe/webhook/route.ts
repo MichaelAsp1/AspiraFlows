@@ -1,22 +1,37 @@
 // app/api/stripe/webhook/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { prisma } from "../../../../lib/prisma"; // adjust path
+import { prisma } from "../../../../lib/prisma"; // adjust path if needed
 
 export const runtime = "nodejs"; // IMPORTANT for Stripe webhooks (raw body)
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+// Lazy initializer – avoids failing at import/build time
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) {
+    console.error("Missing STRIPE_SECRET_KEY in environment");
+    throw new Error("Stripe is not configured on the server");
+  }
+  return new Stripe(key);
+}
 
 export async function POST(req: NextRequest) {
   // Use req.headers, NOT headers()
   const sig = req.headers.get("stripe-signature");
-  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!sig) {
     return new NextResponse("Missing stripe-signature", { status: 400 });
   }
 
+  if (!webhookSecret) {
+    console.error("Missing STRIPE_WEBHOOK_SECRET in environment");
+    return new NextResponse("Webhook not configured", { status: 500 });
+  }
+
   const body = await req.text(); // raw body required
+
+  const stripe = getStripe(); // 🔥 create Stripe client only now
 
   let event: Stripe.Event;
 
@@ -49,10 +64,10 @@ export async function POST(req: NextRequest) {
       }
 
       if (user.clientId) {
+        // already has a workspace
         return NextResponse.json({ received: true });
       }
 
-      // Create Client
       const workspaceName = user.name || user.email.split("@")[0] || "Workspace";
 
       const client = await prisma.client.create({
@@ -67,7 +82,7 @@ export async function POST(req: NextRequest) {
         data: { clientId: client.id },
       });
 
-      console.log("✅ Workspace created for", user.email);
+      console.log("✅ Workspace created for", user.email, "on plan", plan);
     }
 
     return NextResponse.json({ received: true });
