@@ -1,62 +1,70 @@
-// app/login/page.tsx
 "use client";
 
 import React, { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-// Optional but recommended for auth pages:
 export const dynamic = "force-dynamic";
 
 export default function LoginPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center bg-slate-50">
-          <div className="w-full max-w-md rounded-xl bg-white p-8 shadow">
-            <h1 className="mb-2 text-xl font-semibold text-slate-900">
-              Loading login…
-            </h1>
-            <p className="text-sm text-slate-500">
-              Please wait while we prepare the sign-in page.
-            </p>
-          </div>
-        </div>
-      }
-    >
+    <Suspense fallback={<Loading />}>
       <LoginInner />
     </Suspense>
   );
 }
 
+function Loading() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow">
+        <h1 className="mb-2 text-xl font-semibold text-slate-900">
+          Loading login…
+        </h1>
+        <p className="text-sm text-slate-500">
+          Please wait while we prepare the sign-in page.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function LoginInner() {
   const router = useRouter();
-  // We always send users to /dashboard after login
-  const callbackUrl = "/dashboard";
-
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
 
-  const res = await signIn("credentials", {
-    redirect: false,
-    email,
-    password,
-  });
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
 
-  if (!res || res.error) {
-    setError("Invalid email or password");
-    return;
+    if (!res || res.error) {
+      setError("Invalid email or password");
+      return;
+    }
+
+    // Auth successful — but workspace may not exist!
+    // We need to verify the user has a clientId.
+
+    // 🔥 NEW — fetch user info to verify workspace
+    const profile = await fetch("/api/auth/me").then(r => r.json());
+
+    if (!profile.clientId) {
+      // User has no workspace — signed up but never paid
+      router.push("/choose-plan");
+      return;
+    }
+
+    router.push("/dashboard");
   }
-
-  router.push("/dashboard");
-}
-
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50">

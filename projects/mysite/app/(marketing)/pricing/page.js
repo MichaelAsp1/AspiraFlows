@@ -8,7 +8,7 @@ const plans = [
     name: "Starter",
     price: "€49",
     cadence: "/mo",
-    cta: { label: "Get started", href: "/login" },
+    cta: { label: "Get started", href: "/register?plan=starter" },
     features: [
       "Up to 80 personalized outreach messages/mo",
       "AI job matching & scoring",
@@ -24,7 +24,7 @@ const plans = [
     cadence: "/mo",
     highlighted: true,
     badge: "Most Popular",
-    cta: { label: "Get Started", href: "/login" },
+    cta: { label: "Get Started", href: "/register?plan=professional" },
     features: [
       "Up to 200 outreach messages/mo",
       "Multi-contact outreach (3+ per company)",
@@ -38,7 +38,7 @@ const plans = [
     name: "Executive",
     price: "€199",
     cadence: "/mo",
-    cta: { label: "Contact sales", href: "/contact" },
+    cta: { label: "Contact sales", href: "/register?plan=executive" },
     features: [
       "Up to 500 outreach messages/mo",
       "Email + LinkedIn multi-channel campaigns",

@@ -1,12 +1,13 @@
-import { NextResponse } from "next/server";
+// app/register/route.ts
+import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "../../../lib/prisma";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const { name, companyName, email, password } = await req.json();
+    const { name, email, password, plan } = await req.json();
 
-    if (!companyName || !email || !password) {
+    if (!email || !password || !plan) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
@@ -18,40 +19,43 @@ export async function POST(req: Request) {
     }
 
     const existing = await prisma.user.findUnique({ where: { email } });
-
     if (existing) {
-      return NextResponse.json({ error: "Email already exists" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email already exists" },
+        { status: 400 }
+      );
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const hashed = await bcrypt.hash(password, 10);
 
-    // 1) create client
-    const client = await prisma.client.create({
-      data: {
-        name: companyName,
-      },
-    });
-
-    // 2) create user linked to client
     const user = await prisma.user.create({
       data: {
         name,
         email,
-        password: passwordHash,
-        clientId: client.id,
+        password: hashed,
       },
     });
 
-    return NextResponse.json(
-      {
-        message: "ok",
-        clientId: client.id,
-        userId: user.id,
-      },
+    const res = NextResponse.json(
+      { redirect: `/choose-plan?plan=${encodeURIComponent(plan)}` },
       { status: 201 }
     );
+
+    res.cookies.set("temp_user_id", user.id, {
+      httpOnly: true,
+      path: "/",
+      maxAge: 60 * 60,
+    });
+
+    res.cookies.set("selected_plan", plan, {
+      httpOnly: true,
+      path: "/",
+      maxAge: 60 * 60,
+    });
+
+    return res;
   } catch (err) {
-    console.error(err);
+    console.error("REGISTER ERROR:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

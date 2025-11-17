@@ -1,3 +1,4 @@
+// components/Header.tsx
 "use client";
 
 import Link from "next/link";
@@ -7,13 +8,12 @@ import { useEffect, useRef, useState } from "react";
 export default function Header() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
-  const menuRef = useRef(null);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
-    function onClick(e) {
+    function onClick(e: MouseEvent) {
       if (!menuRef.current) return;
-      if (!menuRef.current.contains(e.target)) setOpen(false);
+      if (!menuRef.current.contains(e.target as Node)) setOpen(false);
     }
     if (open) document.addEventListener("mousedown", onClick);
     return () => document.removeEventListener("mousedown", onClick);
@@ -21,9 +21,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b bg-white md:bg-white/80 md:backdrop-blur">
-      {/* Main row */}
       <div className="w-full flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
-        {/* Left: Logo */}
         <Link
           href="/"
           className="text-base sm:text-lg font-semibold text-gray-900 tracking-tight"
@@ -31,7 +29,7 @@ export default function Header() {
           AspiraFlows
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Nav */}
         <nav className="hidden sm:flex items-center gap-5 text-sm font-semibold">
           <Link href="/pricing" className="text-gray-900 hover:text-indigo-600">
             Pricing
@@ -52,7 +50,7 @@ export default function Header() {
                 Log in
               </Link>
               <Link
-                href="/signup"
+                href="/pricing"
                 className="rounded-md bg-black text-white px-3 py-2 hover:bg-gray-800"
               >
                 Sign up
@@ -77,7 +75,7 @@ export default function Header() {
           )}
         </nav>
 
-        {/* Mobile Menu Trigger */}
+        {/* Mobile toggle */}
         <button
           type="button"
           className="sm:hidden inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium text-gray-900"
@@ -97,7 +95,7 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile menu */}
       <div
         id="mobile-menu"
         ref={menuRef}
@@ -134,12 +132,12 @@ export default function Header() {
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="block mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold text-center hover:bg-gray-50"
+                className="block mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold text-center text-gray-900 hover:bg-gray-50"
               >
                 Log in
               </Link>
               <Link
-                href="/signup"
+                href="/pricing"
                 onClick={() => setOpen(false)}
                 className="block mt-2 w-full rounded-md bg-black text-white px-3 py-2 text-sm font-semibold text-center hover:bg-gray-800"
               >
@@ -151,13 +149,16 @@ export default function Header() {
               <Link
                 href="/dashboard"
                 onClick={() => setOpen(false)}
-                className="block mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold text-center hover:bg-gray-50"
+                className="block mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold text-center text-gray-900 hover:bg-gray-50"
               >
                 Dashboard
               </Link>
               <button
                 type="button"
-                onClick={() => { setOpen(false); signOut(); }}
+                onClick={() => {
+                  setOpen(false);
+                  signOut();
+                }}
                 className="mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold hover:bg-gray-50"
               >
                 Logout

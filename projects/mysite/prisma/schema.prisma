@@ -8,11 +8,13 @@ datasource db {
 }
 
 model Client {
-  id        String   @id @default(uuid())
-  name      String
-  slug      String?  @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(uuid())
+  name            String
+  slug            String?  @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  stripeCustomerId   String?
+  stripeSubscriptionId String?
 
   users           User[]
   jobApplications JobApplication[]
@@ -23,12 +25,13 @@ model User {
   email     String    @unique
   password  String
   name      String?
-  clientId  String
-  client    Client    @relation(fields: [clientId], references: [id])
+  clientId  String?
+  client    Client?    @relation(fields: [clientId], references: [id])
   createdAt DateTime  @default(now())
 
   sessions  Session[]
 }
+
 
 model Session {
   id           String   @id @default(uuid())
