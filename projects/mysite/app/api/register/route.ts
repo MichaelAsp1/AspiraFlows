@@ -1,4 +1,4 @@
-// app/register/route.ts
+// app/api/register/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "../../../lib/prisma";
@@ -28,6 +28,9 @@ export async function POST(req: NextRequest) {
 
     const hashed = await bcrypt.hash(password, 10);
 
+    // Prisma types on Vercel still think `client` is required.
+    // Runtime is fine because clientId/client are optional in the schema.
+    // ts-expect-error temp user is created without client; webhook will attach one later
     const user = await prisma.user.create({
       data: {
         name,
