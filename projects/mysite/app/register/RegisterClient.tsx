@@ -8,7 +8,6 @@ export default function RegisterClient() {
   const params = useSearchParams();
   const router = useRouter();
 
-  // from /pricing → /register?plan=starter|professional|executive
   const selectedPlan = params.get("plan") || "starter";
 
   const [name, setName] = useState("");
@@ -59,22 +58,26 @@ export default function RegisterClient() {
   }
 
   return (
-    <main className="mx-auto max-w-md py-16 px-4">
+    <main className="mx-auto max-w-md px-4 py-10 text-gray-900 bg-white">
       <h1 className="text-2xl font-bold mb-2">Create your account</h1>
 
-      <p className="text-gray-600 mb-6">
+      <p className="text-sm text-gray-800 mb-6">
         You selected the{" "}
         <strong className="capitalize">{selectedPlan}</strong> plan.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {error && (
+          <p className="text-sm text-red-600 font-medium">{error}</p>
+        )}
 
         <div>
-          <label className="block mb-1 text-sm font-medium">Name</label>
+          <label className="block mb-1 text-sm font-semibold text-gray-900">
+            Name
+          </label>
           <input
             required
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Your name"
@@ -82,11 +85,13 @@ export default function RegisterClient() {
         </div>
 
         <div>
-          <label className="block mb-1 text-sm font-medium">Email</label>
+          <label className="block mb-1 text-sm font-semibold text-gray-900">
+            Email
+          </label>
           <input
             required
             type="email"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
@@ -94,13 +99,15 @@ export default function RegisterClient() {
         </div>
 
         <div>
-          <label className="block mb-1 text-sm font-medium">Password</label>
+          <label className="block mb-1 text-sm font-semibold text-gray-900">
+            Password
+          </label>
 
           <div className="relative">
             <input
               required
               type={showPass ? "text" : "password"}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 pr-10 text-sm text-gray-900 placeholder-gray-400"
+              className="w-full rounded-md border border-gray-300 px-3 py-2 pr-10 text-sm text-gray-900 placeholder:text-gray-400"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Strong password"
@@ -108,25 +115,25 @@ export default function RegisterClient() {
             <button
               type="button"
               onClick={() => setShowPass(!showPass)}
-              className="absolute right-2 top-2 text-xs text-gray-600"
+              className="absolute right-2 top-2 text-xs font-semibold text-gray-800"
             >
               {showPass ? "Hide" : "Show"}
             </button>
           </div>
 
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-gray-700 mt-1">
             Use at least 8 characters, including a number &amp; a symbol.
           </p>
         </div>
 
         <div>
-          <label className="block mb-1 text-sm font-medium">
+          <label className="block mb-1 text-sm font-semibold text-gray-900">
             Confirm password
           </label>
           <input
             required
             type="password"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400"
+            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
             placeholder="Repeat password"
