@@ -26,8 +26,8 @@ export default function DashboardClient() {
 
         await embedDashboard({
           id: dashboardId,
-          // 👇 Add standalone=3 directly on the Superset URL
-          supersetDomain: `${supersetDomain}?standalone=3`,
+          // ✅ back to clean base URL – NO query string here
+          supersetDomain,
           mountPoint,
           fetchGuestToken: async () => {
             const res = await fetch("/api/superset-token");
@@ -44,8 +44,8 @@ export default function DashboardClient() {
             const { token } = await res.json();
             return token;
           },
+          // 👇 UI tweaks – hide Superset chrome
           dashboardUiConfig: {
-            // Hide Superset chrome
             hideTitle: true,
             hideTab: true,
             hideChartControls: true,
@@ -54,12 +54,15 @@ export default function DashboardClient() {
               expanded: false,
             },
           },
+          // 👇 ask Superset to render in embedded/standalone mode
+          // (TS types may not know this yet, but it's supported at runtime)
+          standalone: true as any,
           iframeSandboxExtras: [
             "allow-same-origin",
             "allow-scripts",
             "allow-forms",
           ],
-        });
+        } as any); // cast whole config to any to avoid TS whining about extra props
 
         if (!cancelled) setLoading(false);
       } catch (err: any) {
