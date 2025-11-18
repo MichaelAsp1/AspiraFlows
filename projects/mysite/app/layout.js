@@ -2,7 +2,7 @@ import "./globals.css";
 import Providers from "./providers";
 import { Analytics } from "@vercel/analytics/react";
 import DisableZoom from "./DisableZoom";
-import Script from "next/script"; // 👈 add this
+import Script from "next/script";
 
 export const metadata = {
   metadataBase: new URL("https://aspiraflows.com"),
@@ -10,7 +10,26 @@ export const metadata = {
     default: "AspiraFlows – Outreach & Analytics Engine",
     template: "%s | AspiraFlows",
   },
-  description: "Automated outreach, inbox integration, and performance analytics.",
+  description:
+    "Automated outreach, inbox integration, and performance analytics.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", type: "image/x-icon" },
+      {
+        url: "/favicon-96x96.png",
+        sizes: "96x96",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: "/apple-touch-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export const viewport = {
@@ -37,7 +56,7 @@ export default function RootLayout({ children }) {
               "@type": "Organization",
               name: "AspiraFlows",
               url: "https://aspiraflows.com",
-              logo: "https://aspiraflows.com/logo.png", // 👈 your infinity logo
+              logo: "https://aspiraflows.com/logo.png",
             }),
           }}
         />
