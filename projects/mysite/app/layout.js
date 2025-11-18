@@ -3,8 +3,9 @@ import Providers from "./providers";
 import { Analytics } from "@vercel/analytics/react";
 import DisableZoom from "./DisableZoom";
 import Script from "next/script";
+import type { Metadata, Viewport } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL("https://aspiraflows.com"),
   title: {
     default: "AspiraFlows – Outreach & Analytics Engine",
@@ -12,27 +13,10 @@ export const metadata = {
   },
   description:
     "Automated outreach, inbox integration, and performance analytics.",
-  icons: {
-    icon: [
-      { url: "/favicon.ico", type: "image/x-icon" },
-      {
-        url: "/favicon-96x96.png",
-        sizes: "96x96",
-        type: "image/png",
-      },
-    ],
-    apple: [
-      {
-        url: "/apple-touch-icon.png",
-        sizes: "180x180",
-        type: "image/png",
-      },
-    ],
-  },
-  manifest: "/site.webmanifest",
+  // No icons or manifest here – Next.js will use the files in /app automatically
 };
 
-export const viewport = {
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   minimumScale: 1,
@@ -41,9 +25,13 @@ export const viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="min-h-full bg-gray-50">
+      <head>
+        {/* (Optional) Name when saved to iOS home screen */}
+        <meta name="apple-mobile-web-app-title" content="AspiraFlows" />
+      </head>
       <body className="relative flex min-h-[100svh] flex-col text-gray-900 overflow-x-hidden">
         {/* ---- Structured data for Google (logo) ---- */}
         <Script
