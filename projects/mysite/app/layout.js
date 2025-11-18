@@ -3,9 +3,8 @@ import Providers from "./providers";
 import { Analytics } from "@vercel/analytics/react";
 import DisableZoom from "./DisableZoom";
 import Script from "next/script";
-import type { Metadata, Viewport } from "next";
 
-export const metadata: Metadata = {
+export const metadata = {
   metadataBase: new URL("https://aspiraflows.com"),
   title: {
     default: "AspiraFlows – Outreach & Analytics Engine",
@@ -13,10 +12,10 @@ export const metadata: Metadata = {
   },
   description:
     "Automated outreach, inbox integration, and performance analytics.",
-  // No icons or manifest here – Next.js will use the files in /app automatically
+  // No icons or manifest here – Next.js will use favicon/icon/apple-icon/manifest files in /app
 };
 
-export const viewport: Viewport = {
+export const viewport = {
   width: "device-width",
   initialScale: 1,
   minimumScale: 1,
@@ -25,13 +24,9 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en" className="min-h-full bg-gray-50">
-      <head>
-        {/* (Optional) Name when saved to iOS home screen */}
-        <meta name="apple-mobile-web-app-title" content="AspiraFlows" />
-      </head>
       <body className="relative flex min-h-[100svh] flex-col text-gray-900 overflow-x-hidden">
         {/* ---- Structured data for Google (logo) ---- */}
         <Script
