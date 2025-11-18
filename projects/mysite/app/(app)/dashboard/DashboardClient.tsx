@@ -1,3 +1,4 @@
+// app/dashboard/DashboardClient.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -25,7 +26,8 @@ export default function DashboardClient() {
 
         await embedDashboard({
           id: dashboardId,
-          supersetDomain,
+          // 👇 Add standalone=3 directly on the Superset URL
+          supersetDomain: `${supersetDomain}?standalone=3`,
           mountPoint,
           fetchGuestToken: async () => {
             const res = await fetch("/api/superset-token");
@@ -43,8 +45,14 @@ export default function DashboardClient() {
             return token;
           },
           dashboardUiConfig: {
-            hideTitle: false,
-            filters: { expanded: true },
+            // Hide Superset chrome
+            hideTitle: true,
+            hideTab: true,
+            hideChartControls: true,
+            filters: {
+              visible: false,
+              expanded: false,
+            },
           },
           iframeSandboxExtras: [
             "allow-same-origin",
@@ -72,40 +80,39 @@ export default function DashboardClient() {
 
   return (
     <>
+      {/* Make iframe fill the container */}
       <style jsx global>{`
         #superset-container iframe {
           width: 100% !important;
           height: 100% !important;
           border: none;
         }
+
+        @media (max-width: 768px) {
+          #superset-container iframe {
+            border-radius: 0 !important;
+          }
+        }
       `}</style>
 
-      <div className="flex min-h-screen flex-col px-4 py-6">
-        <header className="mb-4 flex items-center justify-between">
-          <h1 className="text-2xl font-semibold">Analytics dashboard</h1>
-          {loading && !error && (
-            <span className="text-sm text-slate-500">Loading…</span>
-          )}
-        </header>
-
+      <div className="flex h-[calc(100vh-2.5rem)] flex-col px-2 py-2 md:h-[calc(100vh-3.5rem)] md:px-6 md:py-4">
         {error && (
-          <div className="mb-4 rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-700">
+          <div className="mb-2 rounded-md border border-red-300 bg-red-50 p-2 text-xs text-red-700 md:mb-4 md:p-3 md:text-sm">
             Couldn&apos;t load your dashboard:
             <span className="ml-1 font-medium">{error}</span>
           </div>
         )}
 
-        <main className="flex-1">
-          {loading && !error && (
-            <div className="mb-4 rounded-lg border p-4 text-sm text-slate-600">
-              Loading dashboard…
-            </div>
-          )}
-          <div
-            id="superset-container"
-            className="h-[85vh] w-full overflow-hidden rounded-lg border"
-          />
-        </main>
+        {loading && !error && (
+          <div className="mb-2 text-xs text-slate-500 md:mb-3 md:text-sm">
+            Loading dashboard…
+          </div>
+        )}
+
+        <div
+          id="superset-container"
+          className="flex-1 overflow-hidden rounded-none border-0 bg-white md:rounded-lg md:border"
+        />
       </div>
     </>
   );
