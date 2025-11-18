@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 
@@ -22,19 +23,48 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 border-b bg-white md:bg-white/80 md:backdrop-blur">
       <div className="w-full flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
+        {/* Brand: logo + AspiraFlows */}
         <Link
           href="/"
-          className="text-base sm:text-lg font-semibold text-gray-900 tracking-tight"
+          className="flex items-center gap-2 text-base sm:text-lg font-semibold text-gray-900 tracking-tight"
         >
-          AspiraFlows
+          <span className="inline-flex items-center justify-center">
+            {/* Light mode / default */}
+            <span className="inline dark:hidden">
+              <Image
+                src="/logo-infinity-dark.svg"
+                alt="AspiraFlows logo"
+                width={24}
+                height={24}
+                className="h-6 w-6"
+                priority
+              />
+            </span>
+            {/* Dark mode */}
+            <span className="hidden dark:inline">
+              <Image
+                src="/logo-infinity-light.svg"
+                alt="AspiraFlows logo"
+                width={24}
+                height={24}
+                className="h-6 w-6"
+                priority
+              />
+            </span>
+          </span>
+
+          <span>AspiraFlows</span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden sm:flex items-center gap-5 text-sm font-semibold">
+        <nav className="hidden sm:flex items-center gap-5 text-[15px] sm:text-base font-medium">
           <Link href="/pricing" className="text-gray-900 hover:text-indigo-600">
             Pricing
           </Link>
-          <Link href="/consulting" className="text-gray-900 hover:text-indigo-600">
+          <Link
+            href="/consulting"
+            className="text-gray-900 hover:text-indigo-600"
+          >
             Consulting
           </Link>
           <Link href="/contact" className="text-gray-900 hover:text-indigo-600">
