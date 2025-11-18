@@ -1,31 +1,28 @@
+// app/(marketing)/login/page.tsx
 "use client";
 
 import React, { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-slate-50">
+          <div className="w-full max-w-md rounded-xl bg-white p-8 shadow text-gray-900">
+            <h1 className="mb-2 text-xl font-semibold">Loading login…</h1>
+            <p className="text-sm text-gray-600">
+              Please wait while we prepare the sign-in page.
+            </p>
+          </div>
+        </div>
+      }
+    >
       <LoginInner />
     </Suspense>
-  );
-}
-
-function Loading() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow">
-        <h1 className="mb-2 text-xl font-semibold text-slate-900">
-          Loading login…
-        </h1>
-        <p className="text-sm text-slate-500">
-          Please wait while we prepare the sign-in page.
-        </p>
-      </div>
-    </div>
   );
 }
 
@@ -51,66 +48,72 @@ function LoginInner() {
       return;
     }
 
-    // Auth successful — but workspace may not exist!
-    // We need to verify the user has a clientId.
+    try {
+      const profileRes = await fetch("/api/auth/me");
+      if (!profileRes.ok) {
+        setError("Signed in, but failed to load your workspace.");
+        return;
+      }
 
-    // 🔥 NEW — fetch user info to verify workspace
-    const profile = await fetch("/api/auth/me").then(r => r.json());
+      const profile = await profileRes.json();
 
-    if (!profile.clientId) {
-      // User has no workspace — signed up but never paid
-      router.push("/choose-plan");
-      return;
+      if (!profile.clientId) {
+        router.push("/choose-plan");
+        return;
+      }
+
+      router.push("/dashboard");
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Please try again.");
     }
-
-    router.push("/dashboard");
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow">
-        <h1 className="mb-6 text-2xl font-semibold text-slate-900">
-          Sign in to AspiraFlows
-        </h1>
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow text-gray-900">
+        <h1 className="mb-6 text-2xl font-bold">Sign in to AspiraFlows</h1>
 
         {error && (
-          <div className="mb-4 rounded border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700">
+          <div className="mb-4 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-slate-700">
+            <label className="block mb-1 text-sm font-semibold text-gray-900">
               Email
             </label>
             <input
               type="email"
-              className="mt-1 w-full rounded border px-3 py-2 text-sm"
+              required
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
               autoComplete="email"
+              placeholder="you@example.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700">
+            <label className="block mb-1 text-sm font-semibold text-gray-900">
               Password
             </label>
             <input
               type="password"
-              className="mt-1 w-full rounded border px-3 py-2 text-sm"
+              required
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
               autoComplete="current-password"
+              placeholder="••••••••"
             />
           </div>
 
           <button
             type="submit"
-            className="mt-2 w-full rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+            className="mt-2 w-full rounded-md bg-black py-2 text-sm font-semibold text-white hover:bg-black/90 active:bg-black disabled:opacity-60"
           >
             Sign in
           </button>
