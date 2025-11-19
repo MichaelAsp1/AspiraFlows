@@ -1,4 +1,3 @@
-// app/api/checkout/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import Stripe from "stripe";
@@ -12,10 +11,11 @@ function getStripe() {
   return new Stripe(key);
 }
 
+// 🔥 updated: use "intensive" instead of "executive"
 const PRICE_MAP: Record<string, string | undefined> = {
   starter: process.env.STRIPE_PRICE_STARTER,
   professional: process.env.STRIPE_PRICE_PROFESSIONAL,
-  executive: process.env.STRIPE_PRICE_EXECUTIVE,
+  intensive: process.env.STRIPE_PRICE_INTENSIVE,
 };
 
 export async function POST(req: NextRequest) {
@@ -33,7 +33,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json().catch(() => ({}));
     const plan = (body.plan as string | undefined)?.toLowerCase() || "starter";
 
-    if (!["starter", "professional", "executive"].includes(plan)) {
+    // 🔥 updated: validate against "intensive" instead of "executive"
+    if (!["starter", "professional", "intensive"].includes(plan)) {
       return NextResponse.json({ error: "Unknown plan" }, { status: 400 });
     }
 
@@ -49,7 +50,7 @@ export async function POST(req: NextRequest) {
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL!;
-    const stripe = getStripe(); // 🔥 instantiated only when the route is called
+    const stripe = getStripe();
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
