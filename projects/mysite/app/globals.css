@@ -59,8 +59,13 @@ body {
   .animate-marquee { animation: none; }
 }
 
-html, body {
+html,
+body {
   background: #f8fafc; /* matches your page bg */
   min-height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* 🔒 stop left/right scrolling */
 }
 
