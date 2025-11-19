@@ -4,26 +4,27 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
-type PlanId = "starter" | "professional" | "executive";
+type PlanId = "starter" | "professional" | "intensive";
 
 const PLANS: { id: PlanId; label: string; price: string; description: string }[] = [
   {
     id: "starter",
     label: "Starter",
-    price: "€49/mo",
-    description: "Best for early-stage job search automation.",
+    price: "€19/mo",
+    description: "For light outreach and early-stage job search automation.",
   },
   {
     id: "professional",
     label: "Professional",
-    price: "€99/mo",
-    description: "For serious, multi-contact outreach and scaling.",
+    price: "€39/mo",
+    description: "For serious job hunters sending 200 targeted messages.",
+    // most popular badge handled on pricing page only
   },
   {
-    id: "executive",
-    label: "Executive",
-    price: "€199/mo",
-    description: "For high-volume, multi-channel campaigns with support.",
+    id: "intensive",
+    label: "Intensive",
+    price: "€79/mo",
+    description: "For high-volume, multi-channel outreach with analytics.",
   },
 ];
 

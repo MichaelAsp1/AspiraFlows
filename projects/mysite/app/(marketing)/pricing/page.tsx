@@ -6,21 +6,21 @@ export const metadata = {
 const plans = [
   {
     name: "Starter",
-    price: "€49",
+    price: "€19",
     cadence: "/mo",
-    cta: { label: "Get started", href: "/register?plan=starter" },
+    cta: { label: "Get Started", href: "/register?plan=starter" },
     features: [
       "Up to 80 personalized outreach messages/mo",
       "AI job matching & scoring",
       "Verified contacts (1 per company)",
-      "Email outreach automation",
+      "Basic email outreach automation",
       "Progress dashboard",
       "Email support",
     ],
   },
   {
     name: "Professional",
-    price: "€99",
+    price: "€39",
     cadence: "/mo",
     highlighted: true,
     badge: "Most Popular",
@@ -35,21 +35,20 @@ const plans = [
     ],
   },
   {
-    name: "Executive",
-    price: "€199",
+    name: "Intensive",
+    price: "€79",
     cadence: "/mo",
-    cta: { label: "Contact sales", href: "/register?plan=executive" },
+    cta: { label: "Get Started", href: "/register?plan=intensive" },
     features: [
       "Up to 500 outreach messages/mo",
-      "Email + LinkedIn multi-channel campaigns",
+      "Email + LinkedIn(coming soon) multi-channel outreach",
       "Custom templates & targeting filters",
       "Weekly performance reports",
-      "Dedicated onboarding & optimization",
-      "Advanced analytics dashboard (Metabase)",
+      "Advanced analytics dashboard",
+      "Faster sending queue",
     ],
   },
 ];
-
 
 export default function PricingPage() {
   return (
@@ -59,7 +58,7 @@ export default function PricingPage() {
           Pricing
         </h1>
         <p className="text-gray-700">
-          Start free. Upgrade when you’re ready to scale.
+          Choose the plan that matches your job search speed.
         </p>
       </section>
 
@@ -71,6 +70,13 @@ export default function PricingPage() {
               p.highlighted ? "ring-2 ring-black" : ""
             }`}
           >
+            {/* badge */}
+            {p.badge && (
+              <div className="mb-3 inline-flex items-center rounded-full bg-black px-3 py-1 text-xs font-medium text-white">
+                {p.badge}
+              </div>
+            )}
+
             {/* plan name */}
             <h3 className="text-lg font-semibold text-gray-900">
               {p.name}

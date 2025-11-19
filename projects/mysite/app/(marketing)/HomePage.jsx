@@ -312,58 +312,99 @@ export default function Home() {
   </div>
 </section>
 
-      {/* PRICING (with soft gradient and hover polish) */}
-      <section className="relative bg-white">
-        {/* Gentle gradient background to add depth */}
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-blue-50/40 via-transparent to-transparent" />
+     {/* PRICING (with soft gradient and hover polish) */}
+<section className="relative bg-white">
+  {/* Gentle gradient background to add depth */}
+  <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-blue-50/40 via-transparent to-transparent" />
 
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          <h2 className="text-3xl font-semibold text-center mb-10">Pricing</h2>
+  <div className="mx-auto max-w-6xl px-4 py-16">
+    <h2 className="text-3xl font-semibold text-center mb-10">Pricing</h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              {
-                name: "Starter",
-                price: "€49/mo",
-                desc: "Up to 20 job matches/week, 80 personalized outreach messages/month, AI job scoring & progress dashboard",
-              },
-              {
-                name: "Professional",
-                price: "€99/mo",
-                desc: "Up to 50 job matches/week, 200 outreach messages/month, multi-contact targeting, analytics & reply tracking",
-                badge: "Most Popular",
-              },
-              {
-                name: "Executive",
-                price: "€199/mo",
-                desc: "Up to 100 job matches/week, 500 outreach messages/month, multi-channel campaigns (email + LinkedIn), custom templates & weekly reports",
-              },
-            ].map((p) => (
-              <div
-                key={p.name}
-                className="rounded-xl border bg-gray-50 p-6 shadow-sm text-center hover:shadow-lg hover:border-indigo-200 transition-all duration-300"
-              >
-                <h3 className="text-xl font-semibold">{p.name}</h3>
-                <p className="text-3xl font-bold my-2 bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-500 bg-clip-text text-transparent">
-                  {p.price}
-                </p>
-                <p className="text-gray-600 mb-6">{p.desc}</p>
-                <a
-                  href="/contact"
-                  className="inline-block bg-black text-white px-5 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-indigo-600 hover:to-blue-500 transition-all duration-300"
-                >
-                  Choose Plan
-                </a>
-              </div>
-            ))}
-          </div>
+    <div className="grid md:grid-cols-3 gap-6">
+      {[
+        {
+          name: "Starter",
+          price: "€19/mo",
+          tagline: "For testing the waters",
+          badge: "",
+          features: [
+            "Up to 20 job matches/week",
+            "80 personalized outreach emails/month",
+            "Basic AI job scoring",
+            "Progress dashboard"
+          ],
+        },
+        {
+          name: "Professional",
+          price: "€39/mo",
+          tagline: "For serious job hunters",
+          badge: "Most Popular",
+          features: [
+            "Up to 50 job matches/week",
+            "200 outreach emails/month",
+            "Multi-contact targeting (recruiter + hiring manager)",
+            "Reply tracking & analytics dashboard",
+          ],
+        },
+        {
+          name: "Intensive",
+          price: "€79/mo",
+          tagline: "For maximum momentum",
+          badge: "",
+          features: [
+            "Up to 100 job matches/week",
+            "500 outreach emails/month",
+            "Multi-channel campaigns (email + LinkedIn)",
+            "Custom templates & weekly summary reports",
+          ],
+        },
+      ].map((p) => (
+        <div
+          key={p.name}
+          className="relative rounded-xl border bg-gray-50 p-6 shadow-sm text-center hover:shadow-lg hover:border-indigo-200 transition-all duration-300"
+        >
+          {p.badge && (
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-600 px-3 py-1 text-xs font-medium text-white shadow-sm">
+              {p.badge}
+            </div>
+          )}
 
-          <p className="text-center text-gray-600 mt-8">
-            <strong>Bespoke (Agency/University):</strong> Bulk accounts, branded dashboards, analytics API access.{" "}
-            <a href="/contact" className="underline hover:text-indigo-600 transition">Contact us</a> for a quote.
+          <h3 className="text-xl font-semibold">{p.name}</h3>
+          <p className="text-sm text-gray-500 mt-1 mb-3">{p.tagline}</p>
+
+          <p className="text-3xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+            {p.price}
           </p>
+
+          <ul className="text-sm text-gray-700 space-y-2 mb-6 text-left">
+            {p.features.map((f) => (
+              <li key={f} className="flex items-start gap-2">
+                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-500" />
+                <span>{f}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href="/contact"
+            className="inline-block bg-black text-white px-5 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-indigo-600 hover:to-blue-500 transition-all duration-300"
+          >
+            Choose Plan
+          </a>
         </div>
-      </section>
+      ))}
+    </div>
+
+    <p className="text-center text-gray-600 mt-8">
+      <strong>Bespoke (Agency/University):</strong> Bulk accounts, branded dashboards, analytics API access.{" "}
+      <a href="/contact" className="underline hover:text-indigo-600 transition">
+        Contact us
+      </a>{" "}
+      for a quote.
+    </p>
+  </div>
+</section>
+
 
       <section className="relative py-20">
   {/* soft glow */}
