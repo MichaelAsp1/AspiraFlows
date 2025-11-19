@@ -6,7 +6,11 @@ import Marquee from "../../components/Marquee";
 
 export default function Home() {
   return (
-    <main className="bg-gray-50 text-gray-900">
+    <main className="relative bg-gradient-to-br from-purple-50/40 via-white to-indigo-50/40 text-gray-900">
+  {/* subtle corner glows */}
+  <div className="pointer-events-none absolute top-[-20rem] right-[-10rem] h-[35rem] w-[35rem] rounded-full bg-purple-300/20 blur-[160px]"></div>
+
+  <div className="pointer-events-none absolute bottom-[-20rem] left-[-10rem] h-[35rem] w-[35rem] rounded-full bg-indigo-300/20 blur-[160px]"></div>
       {/* HERO (modern gradient + glow + motion, stacked layout) */}
       <section className="relative overflow-hidden">
          
@@ -79,42 +83,217 @@ export default function Home() {
             </a>
           </motion.div>
 
-          <div className="mt-4 text-xs text-gray-500">
-            No credit card required • Cancel anytime
-          </div>
+          
         </div>
       </section>
 
 
-      {/* OVERVIEW / FEATURES (with subtle background gradient) */}
       <section className="relative mx-auto max-w-6xl px-4 pb-16">
-        {/* Soft gradient highlight behind this section */}
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-indigo-50/30 to-transparent" />
+  <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-indigo-50/30 to-transparent" />
 
-        <h2 className="text-3xl font-semibold mb-6 text-center">
-          What AspiraFlows Automates
-        </h2>
+  <h2 className="text-3xl font-semibold text-center mb-2">
+    What AspiraFlows Does For You
+  </h2>
+  <p className="text-center text-gray-600 max-w-xl mx-auto text-sm mb-10">
+    No spam. No “Easy Apply”. Just real people, real replies, real chances.
+  </p>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {[
-            { t: "AI Job Matching", d: "Scan job boards & LinkedIn, filter by skills/location, score relevance (0–100), send daily/weekly digests." },
-            { t: "Decision-Maker Discovery", d: "Identify recruiters, hiring managers, team leads via enrichment (Apollo, Clay, Apify), verify email/LinkedIn." },
-            { t: "Personalized Outreach", d: "GPT-based intros, icebreakers & follow-ups across email/LinkedIn; each message tailored to contact & company." },
-            { t: "Automated Campaigns", d: "n8n-powered workflows track sends, opens, replies; update dashboards (Metabase / internal portal)." },
-            { t: "Analytics & Insights", d: "See outreach volume, response rates, and conversion (reply → interview → offer); refine targeting & tone." },
-            { t: "Privacy & Flexibility", d: "GDPR-compliant pipelines, anonymization where needed, custom workflows for job seekers or agencies." },
-          ].map(({ t, d }) => (
-            <div key={t} className="rounded-xl border bg-white p-6 shadow-sm hover:shadow-md transition">
-              <h3 className="font-semibold mb-2">{t}</h3>
-              <p className="text-gray-600">{d}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+  <div className="grid md:grid-cols-3 gap-6">
+    {/* Card 1 */}
+    <div className="rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
+      <div className="text-2xl mb-2">🎯</div>
+      <h3 className="font-semibold text-gray-900">Find Better Jobs</h3>
+      <p className="mt-2 text-sm text-gray-600">
+        We search the web and pick out roles that actually fit you. 
+        No endless scrolling. No junk.
+      </p>
+      <p className="mt-3 text-xs text-gray-500">
+        Example: “Here are 12 roles this week that match your skills.”
+      </p>
+    </div>
+
+    {/* Card 2 */}
+    <div className="rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
+      <div className="text-2xl mb-2">🧑‍💼</div>
+      <h3 className="font-semibold text-gray-900">Reach Real People</h3>
+      <p className="mt-2 text-sm text-gray-600">
+        Skip the job portals. We find hiring managers, founders and recruiters.
+      </p>
+      <p className="mt-3 text-xs text-gray-500">
+        Example: “Here’s the engineering manager for this role.”
+      </p>
+    </div>
+
+    {/* Card 3 */}
+    <div className="rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
+      <div className="text-2xl mb-2">✉️</div>
+      <h3 className="font-semibold text-gray-900">Send Messages That Work</h3>
+      <p className="mt-2 text-sm text-gray-600">
+        Friendly, short messages written for you.  
+        They sound human—because they are.
+      </p>
+      <p className="mt-3 text-xs text-gray-500">
+        Example: “Hey Sarah, loved your team’s recent launch…”
+      </p>
+    </div>
+
+    {/* Card 4 */}
+    <div className="rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
+      <div className="text-2xl mb-2">🚀</div>
+      <h3 className="font-semibold text-gray-900">Stay On Track</h3>
+      <p className="mt-2 text-sm text-gray-600">
+        See who replied, who reviewed your profile, 
+        and where you’re getting interviews.
+      </p>
+      <p className="mt-3 text-xs text-gray-500">
+        Simple. Clear. No spreadsheets.
+      </p>
+    </div>
+
+    {/* Card 5 */}
+    <div className="rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
+      <div className="text-2xl mb-2">📅</div>
+      <h3 className="font-semibold text-gray-900">Weekly Progress</h3>
+      <p className="mt-2 text-sm text-gray-600">
+        A short weekly update: new roles found, people contacted, replies received.
+      </p>
+      <p className="mt-3 text-xs text-gray-500">
+        “This week: 9 new roles, 4 replies, 1 interview booked.”
+      </p>
+    </div>
+
+    {/* Card 6 */}
+    <div className="rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
+      <div className="text-2xl mb-2">🔒</div>
+      <h3 className="font-semibold text-gray-900">Private & Simple</h3>
+      <p className="mt-2 text-sm text-gray-600">
+        Your profile stays yours. You control what gets sent and when.
+      </p>
+      <p className="mt-3 text-xs text-gray-500">
+        No spam. No mass-blasting. Ever.
+      </p>
+    </div>
+  </div>
+</section>
 
 
       {/* 🔥 Scrolling feature strip */}
       <Marquee />
+
+      <section className="bg-white border-y border-gray-100">
+  <div className="mx-auto max-w-6xl px-4 py-16">
+
+    <h2 className="text-2xl font-semibold text-center mb-3">
+      A real example of how AspiraFlows helps you get replies
+    </h2>
+    <p className="text-center text-gray-600 text-sm max-w-xl mx-auto mb-10">
+      Here’s a simple, friendly message that led to a call with a fintech founder —
+      plus how the system found the opportunity.
+    </p>
+
+    <div className="grid gap-6 md:grid-cols-3">
+
+      {/* SYSTEM CARD */}
+      <div className="rounded-2xl border bg-indigo-50 p-6 shadow-sm flex flex-col">
+        <h3 className="font-semibold text-gray-900 mb-3 text-sm">
+          🔍 How AspiraFlows found this opportunity
+        </h3>
+
+        <div className="space-y-4 text-sm text-gray-700">
+          <div className="rounded-lg bg-white p-3 border text-xs">
+            <span className="font-semibold text-indigo-600">Step 1 — Job spotted</span><br />
+            “Growth Systems Engineer — Fintech Startup (Berlin)”
+          </div>
+
+          <div className="rounded-lg bg-white p-3 border text-xs">
+            <span className="font-semibold text-indigo-600">Step 2 — Contact found</span><br />
+            <strong>Oliver Braun</strong> — Co-Founder & CEO  
+          </div>
+
+          <div className="rounded-lg bg-white p-3 border text-xs">
+            <span className="font-semibold text-indigo-600">Step 3 — Message drafted</span><br />
+            Friendly intro written based on your skills + their product.
+          </div>
+        </div>
+
+        <p className="mt-5 text-[11px] text-gray-500">
+          Names & details anonymised, but flow is real.
+        </p>
+      </div>
+
+      {/* YOUR EMAIL */}
+      <div className="rounded-2xl border bg-gray-50 p-6 shadow-sm">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-500 text-white text-sm font-semibold">
+            S
+          </div>
+          <div>
+            <div className="text-sm font-semibold text-gray-900">
+              You — “Sarah”
+            </div>
+            <div className="text-xs text-gray-500">
+              Message sent to a fintech founder
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-lg bg-white p-3 text-xs border border-gray-200">
+          <p className="text-gray-700 leading-relaxed">
+            Hi Oliver, I’ve been building a small agent that finds roles where my 
+            background (embedded systems + ML + automation) is actually useful —
+            your company popped to the top. I think I can add value by automating 
+            growth workflows and strengthening your data pipelines.
+            <br /><br />
+            If this sounds interesting, I’d love a quick chat. 
+            Happy to work around your schedule.  
+            <br /><br />
+            Best,  
+            Sarah
+          </p>
+        </div>
+      </div>
+
+      {/* THEIR REPLY */}
+      <div className="rounded-2xl border bg-gray-50 p-6 shadow-sm">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500 text-white text-sm font-semibold">
+            O
+          </div>
+          <div>
+            <div className="text-sm font-semibold text-gray-900">
+              Oliver B. — Co-Founder
+            </div>
+            <div className="text-xs text-gray-500">
+              Reply from the founder
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-lg bg-white p-3 text-xs border border-gray-200">
+          <p className="text-gray-700 leading-relaxed">
+            Hi Sarah,
+            <br /><br />
+            You’ve got my attention.
+            <br /><br />
+            Are you free Monday at 10am for a quick call?
+            Also — are you thinking full-time or freelance?
+            <br /><br />
+            Best,  
+            Oliver
+          </p>
+        </div>
+
+        <p className="mt-3 text-[11px] text-gray-500">
+          Short, friendly message → direct reply → call booked.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+      
 
       {/* PRICING (with soft gradient and hover polish) */}
       <section className="relative bg-white">
@@ -168,6 +347,78 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      <section className="relative py-20">
+  {/* soft glow */}
+  <div className="pointer-events-none absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-purple-300/20 blur-[130px]" />
+
+  <div className="relative mx-auto max-w-6xl px-4">
+    <h2 className="text-2xl font-semibold mb-10">
+      What people say about AspiraFlows
+    </h2>
+
+    <div className="grid md:grid-cols-3 gap-10">
+
+      {/* Sarah — LEFT (down) */}
+      <div className="rounded-2xl border bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition translate-y-3">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="h-10 w-10 rounded-full bg-pink-400 text-white flex items-center justify-center text-sm font-semibold">
+            S
+          </div>
+          <div>
+            <div className="text-sm font-semibold text-gray-900">Sarah</div>
+            <div className="text-xs text-gray-500">Marketing Graduate</div>
+          </div>
+        </div>
+
+        <p className="text-sm text-gray-700 leading-relaxed">
+          “I felt invisible sending applications. With AspiraFlows I finally got
+          real replies. The messages sound friendly and real — that’s why they work.”
+        </p>
+      </div>
+
+      {/* James — MIDDLE (up) */}
+      <div className="rounded-2xl border bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition -translate-y-3">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="h-10 w-10 rounded-full bg-indigo-500 text-white flex items-center justify-center text-sm font-semibold">
+            J
+          </div>
+          <div>
+            <div className="text-sm font-semibold text-gray-900">James</div>
+            <div className="text-xs text-gray-500">Junior Software Developer</div>
+          </div>
+        </div>
+
+        <p className="text-sm text-gray-700 leading-relaxed">
+          “I stopped dropping my CV into portals and actually reached managers directly.
+           Two interviews in a week from messages I’d never have thought to send.”
+        </p>
+      </div>
+
+      {/* Aisha — RIGHT (down, matching Sarah) */}
+      <div className="rounded-2xl border bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition translate-y-3">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="h-10 w-10 rounded-full bg-purple-500 text-white flex items-center justify-center text-sm font-semibold">
+            A
+          </div>
+          <div>
+            <div className="text-sm font-semibold text-gray-900">Aisha</div>
+            <div className="text-xs text-gray-500">Data Analyst</div>
+          </div>
+        </div>
+
+        <p className="text-sm text-gray-700 leading-relaxed">
+          “I didn’t expect much, but my first reply came from a Head of Data.
+           The intro message was short, kind, and actually sounded like me.
+           This feels way better than mass applying.”
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 
       {/* CONTACT CTA (unchanged) */}
       <section className="text-center py-16">
