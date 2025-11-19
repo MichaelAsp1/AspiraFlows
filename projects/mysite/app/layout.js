@@ -12,7 +12,6 @@ export const metadata = {
   },
   description:
     "Automated outreach, inbox integration, and performance analytics.",
-  // No icons or manifest here – Next.js will use favicon/icon/apple-icon/manifest files in /app
 };
 
 export const viewport = {
@@ -27,7 +26,7 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="min-h-full bg-gray-50">
-      <body className="relative flex min-h-[100svh] flex-col text-gray-900 overflow-x-hidden">
+      <body className="relative flex min-h-[100svh] flex-col text-gray-900">
         {/* ---- Structured data for Google (logo) ---- */}
         <Script
           id="aspiraflows-org-schema"
@@ -47,7 +46,6 @@ export default function RootLayout({ children }) {
         {/* full-bleed backgrounds to avoid white gutters */}
         <div className="pointer-events-none fixed inset-0 -z-30 bg-gray-50" />
         <div className="pointer-events-none fixed inset-0 -z-30 bg-gradient-to-br from-indigo-50 via-white to-blue-50" />
-
         {/* lighter, cheaper glow */}
         <div className="pointer-events-none fixed inset-0 -z-40 bg-[radial-gradient(circle_at_top_left,rgba(129,140,248,0.25),transparent_60%)]" />
 
