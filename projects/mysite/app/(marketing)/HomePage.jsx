@@ -291,7 +291,26 @@ export default function Home() {
 </section>
 
 
-      
+      <section className="relative py-20 bg-gradient-to-b from-white to-indigo-50/40 overflow-hidden">
+  <div className="relative mx-auto max-w-6xl px-4">
+    <h2 className="text-3xl font-bold text-center mb-4">
+      Your Simple, Personal Dashboard
+    </h2>
+    <p className="text-center text-gray-600 max-w-xl mx-auto mb-10 text-sm">
+      See applications sent and people contacted – with a clear view of what’s
+      happening in your search.–
+      all in one clear view.
+    </p>
+
+    <div className="rounded-2xl border bg-white shadow-md overflow-hidden">
+      <img
+        src="/dashboard1_Sens.png"   // 👈 matches the filename in /public
+        alt="AspiraFlows dashboard"
+        className="w-full h-auto"
+      />
+    </div>
+  </div>
+</section>
 
       {/* PRICING (with soft gradient and hover polish) */}
       <section className="relative bg-white">
