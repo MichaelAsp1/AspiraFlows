@@ -304,7 +304,7 @@ export default function Home() {
 
     <div className="rounded-2xl border bg-white shadow-md overflow-hidden">
       <img
-        src="/Dashboard1_Sens.png"   // 👈 matches the filename in /public
+        src="/Dashboard1_Sens.PNG"   // 👈 matches the filename in /public
         alt="AspiraFlows dashboard"
         className="w-full h-auto"
       />
