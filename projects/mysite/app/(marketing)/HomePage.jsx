@@ -13,24 +13,17 @@ export default function Home() {
   <div className="pointer-events-none absolute bottom-[-20rem] left-[-10rem] h-[35rem] w-[35rem] rounded-full bg-indigo-300/20 blur-[160px]"></div>
       {/* HERO (modern gradient + glow + motion, stacked layout) */}
       <section className="relative overflow-hidden">
-         
-        {/* Ambient gradient backdrop */}
+        {/* Single soft base gradient */}
         <div className="absolute inset-0 -z-20 bg-gradient-to-br from-indigo-50 via-white to-blue-50" />
 
-        {/* Diffused glow from top-right */}
-        <div className="pointer-events-none absolute -z-10 top-[-10rem] right-[-10rem] h-[40rem] w-[40rem] bg-gradient-to-tr from-indigo-300/30 via-purple-300/20 to-transparent blur-[120px]" />
+        {/* One top-right glow (smaller + less blur) */}
+        <div className="pointer-events-none absolute -z-10 -top-24 -right-16 h-80 w-80 rounded-full bg-indigo-300/25 blur-[80px]" />
 
-        {/* Secondary glow from bottom-left */}
-        <div className="pointer-events-none absolute -z-10 bottom-[-10rem] left-[-10rem] h-[30rem] w-[30rem] bg-gradient-to-br from-blue-300/20 via-indigo-200/10 to-transparent blur-[120px]" />
-        
-        {/* Soft background gradient */}
-        <div className="absolute inset-0 -z-20 bg-gradient-to-br from-indigo-50 via-white to-blue-50" />
+        {/* One bottom-left glow (smaller + less blur) */}
+        <div className="pointer-events-none absolute -z-10 -bottom-24 -left-16 h-72 w-72 rounded-full bg-purple-300/25 blur-[80px]" />
 
-        {/* Blurred color glow */}
-        <div className="pointer-events-none absolute -z-10 top-1/2 left-1/2 h-[60rem] w-[60rem] -translate-x-1/2 -translate-y-1/2 bg-gradient-to-br from-indigo-500/30 via-purple-400/30 to-blue-400/30 blur-[120px]" />
-
-        {/* Subtle radial accent */}
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-40 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.15),transparent_45%)]" />
+        {/* Optional subtle radial tint */}
+        <div className="pointer-events-none absolute inset-0 -z-10 opacity-40 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.12),transparent_50%)]" />
 
         <div className="mx-auto max-w-6xl px-4 py-24 text-center">
           {/* Line 1: brand */}
@@ -180,9 +173,14 @@ export default function Home() {
       {/* 🔥 Scrolling feature strip */}
       <Marquee />
 
-      <section className="bg-white border-y border-gray-100">
-  <div className="mx-auto max-w-6xl px-4 py-16">
+      <section className="relative border-y border-gray-100 py-16 overflow-hidden">
+  {/* light, cheap background tint */}
+  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-purple-50/40 via-white to-white" />
+  {/* small corner glow, not huge */}
+  <div className="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-purple-300/25 blur-[60px]" />
+  <div className="pointer-events-none absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-indigo-300/25 blur-[60px]" />
 
+  <div className="relative mx-auto max-w-6xl px-4">
     <h2 className="text-2xl font-semibold text-center mb-3">
       A real example of how AspiraFlows helps you get replies
     </h2>
@@ -192,7 +190,6 @@ export default function Home() {
     </p>
 
     <div className="grid gap-6 md:grid-cols-3">
-
       {/* SYSTEM CARD */}
       <div className="rounded-2xl border bg-indigo-50 p-6 shadow-sm flex flex-col">
         <h3 className="font-semibold text-gray-900 mb-3 text-sm">
@@ -207,7 +204,7 @@ export default function Home() {
 
           <div className="rounded-lg bg-white p-3 border text-xs">
             <span className="font-semibold text-indigo-600">Step 2 — Contact found</span><br />
-            <strong>Oliver Braun</strong> — Co-Founder & CEO  
+            <strong>Oliver Braun</strong> — Co-Founder & CEO
           </div>
 
           <div className="rounded-lg bg-white p-3 border text-xs">
@@ -217,7 +214,7 @@ export default function Home() {
         </div>
 
         <p className="mt-5 text-[11px] text-gray-500">
-          Names & details anonymised, but flow is real.
+          Names &amp; details anonymised, but flow is real.
         </p>
       </div>
 
@@ -239,15 +236,16 @@ export default function Home() {
 
         <div className="rounded-lg bg-white p-3 text-xs border border-gray-200">
           <p className="text-gray-700 leading-relaxed">
-            Hi Oliver, I’ve been building a small agent that finds roles where my 
+            Hi Oliver, I’ve been building a small agent that finds roles where my
             background (embedded systems + ML + automation) is actually useful —
-            your company popped to the top. I think I can add value by automating 
+            your company popped to the top. I think I can add value by automating
             growth workflows and strengthening your data pipelines.
             <br /><br />
-            If this sounds interesting, I’d love a quick chat. 
-            Happy to work around your schedule.  
+            If this sounds interesting, I’d love a quick chat.
+            Happy to work around your schedule.
             <br /><br />
-            Best,  
+            Best,
+            <br />
             Sarah
           </p>
         </div>
@@ -278,7 +276,8 @@ export default function Home() {
             Are you free Monday at 10am for a quick call?
             Also — are you thinking full-time or freelance?
             <br /><br />
-            Best,  
+            Best,
+            <br />
             Oliver
           </p>
         </div>
@@ -287,11 +286,10 @@ export default function Home() {
           Short, friendly message → direct reply → call booked.
         </p>
       </div>
-
     </div>
-
   </div>
 </section>
+
 
       
 
