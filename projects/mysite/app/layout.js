@@ -47,7 +47,9 @@ export default function RootLayout({ children }) {
         {/* full-bleed backgrounds to avoid white gutters */}
         <div className="pointer-events-none fixed inset-0 -z-30 bg-gray-50" />
         <div className="pointer-events-none fixed inset-0 -z-30 bg-gradient-to-br from-indigo-50 via-white to-blue-50" />
-        <div className="pointer-events-none fixed -z-40 top-1/3 left-1/4 h-[200svh] w-[200svw] -translate-x-1/2 -translate-y-1/2 bg-gradient-to-tr from-indigo-300/20 via-purple-200/10 to-blue-300/20 blur-[200px]" />
+
+        {/* lighter, cheaper glow */}
+        <div className="pointer-events-none fixed inset-0 -z-40 bg-[radial-gradient(circle_at_top_left,rgba(129,140,248,0.25),transparent_60%)]" />
 
         <DisableZoom />
 
