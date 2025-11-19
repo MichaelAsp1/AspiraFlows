@@ -6,7 +6,7 @@ import Marquee from "../../components/Marquee";
 
 export default function Home() {
   return (
-    <main className="relative bg-gradient-to-br from-purple-50/40 via-white to-indigo-50/40 text-gray-900">
+    <main className="relative bg-gradient-to-br from-purple-50/40 via-white to-indigo-50/40 text-gray-900 overflow-x-hidden">
   {/* subtle corner glows */}
   <div className="pointer-events-none absolute top-[-20rem] right-[-10rem] h-[35rem] w-[35rem] rounded-full bg-purple-300/20 blur-[160px]"></div>
 
