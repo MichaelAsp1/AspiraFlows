@@ -2,19 +2,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { prisma } from "../../../../lib/prisma";
+import { BillingSource, SubscriptionStatus, Plan } from "@prisma/client";
 
-export const runtime = "nodejs"; // IMPORTANT for raw body
+export const runtime = "nodejs";
 
 function getStripe() {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) {
-    console.error("Missing STRIPE_SECRET_KEY in environment");
-    throw new Error("Stripe is not configured on the server");
+    console.error("Missing STRIPE_SECRET_KEY");
+    throw new Error("Stripe misconfigured");
   }
-  return new Stripe(key);
+  return new Stripe(key, { apiVersion: null });
 }
 
-const PLAN_MAP: Record<string, "STARTER" | "PROFESSIONAL" | "INTENSIVE"> = {
+// Map from metadata → DB ENUM
+const PLAN_MAP: Record<string, Plan> = {
   starter: "STARTER",
   professional: "PROFESSIONAL",
   intensive: "INTENSIVE",
@@ -29,18 +31,17 @@ export async function POST(req: NextRequest) {
   }
 
   if (!webhookSecret) {
-    console.error("Missing STRIPE_WEBHOOK_SECRET in environment");
+    console.error("Missing STRIPE_WEBHOOK_SECRET");
     return new NextResponse("Webhook not configured", { status: 500 });
   }
 
-  const body = await req.text(); // raw body for Stripe
-
+  const rawBody = await req.text();
   const stripe = getStripe();
 
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
+    event = stripe.webhooks.constructEvent(rawBody, sig, webhookSecret);
   } catch (err: any) {
     console.error("❌ Invalid signature:", err.message);
     return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
@@ -51,9 +52,8 @@ export async function POST(req: NextRequest) {
       const session = event.data.object as Stripe.Checkout.Session;
 
       const tempUserId = session.metadata?.tempUserId;
-      const rawPlan = (session.metadata?.plan || "starter").toLowerCase();
+      const planRaw = (session.metadata?.plan || "starter").toLowerCase();
 
-      // Stripe gives customer/subscription as string or object; normalise to string
       const customerId =
         typeof session.customer === "string"
           ? session.customer
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
           : (session.subscription as any)?.id;
 
       if (!tempUserId) {
-        console.warn("Missing tempUserId in session metadata");
+        console.warn("Missing tempUserId");
         return NextResponse.json({ received: true });
       }
 
@@ -74,14 +74,16 @@ export async function POST(req: NextRequest) {
       });
 
       if (!user) {
-        console.warn("User not found for tempUserId:", tempUserId);
+        console.warn("Temp user not found:", tempUserId);
         return NextResponse.json({ received: true });
       }
 
-      if (!user.clientId) {
-        // Fallback: extremely old signups before we created Client on /api/register
-        console.warn("User has no clientId; creating fallback Client");
+      const planEnum = PLAN_MAP[planRaw] || "STARTER";
 
+      //
+      // --- CASE 1: user had no client (old flow fallback) ---
+      //
+      if (!user.clientId) {
         const workspaceName =
           user.name || user.email.split("@")[0] || "Workspace";
 
@@ -89,14 +91,13 @@ export async function POST(req: NextRequest) {
           data: {
             name: workspaceName,
             slug: generateSlug(workspaceName, user.id),
-            // minimal billing fields
-            billingSource: "STRIPE",
-            subscriptionStatus: "ACTIVE",
-            plan: PLAN_MAP[rawPlan] ?? "STARTER",
-            stripeCustomerId: customerId ?? undefined,
-            stripeSubscriptionId: subscriptionId ?? undefined,
+            billingSource: "STRIPE" satisfies BillingSource,
+            subscriptionStatus: "ACTIVE" satisfies SubscriptionStatus,
+            plan: planEnum,
+            stripeCustomerId: customerId ?? null,
+            stripeSubscriptionId: subscriptionId ?? null,
           },
-        } as any);
+        });
 
         await prisma.user.update({
           where: { id: user.id },
@@ -104,33 +105,28 @@ export async function POST(req: NextRequest) {
         });
 
         console.log(
-          "✅ Fallback workspace created & activated for",
-          user.email,
-          "on plan",
-          rawPlan
+          "✅ Created fallback client & activated subscription for",
+          user.email
         );
 
         return NextResponse.json({ received: true });
       }
 
-      // 🔥 Normal path: update existing Client created at /api/register
+      //
+      // --- CASE 2: Normal flow: update existing Client ---
+      //
       await prisma.client.update({
         where: { id: user.clientId },
         data: {
-          stripeCustomerId: customerId ?? undefined,
-          stripeSubscriptionId: subscriptionId ?? undefined,
-          subscriptionStatus: "ACTIVE",
           billingSource: "STRIPE",
-          plan: PLAN_MAP[rawPlan] ?? "STARTER",
+          subscriptionStatus: "ACTIVE",
+          plan: planEnum,
+          stripeCustomerId: customerId ?? null,
+          stripeSubscriptionId: subscriptionId ?? null,
         },
-      } as any);
+      });
 
-      console.log(
-        "🎉 Subscription activated for",
-        user.email,
-        "on plan",
-        rawPlan
-      );
+      console.log("🎉 Subscription ACTIVE for:", user.email);
     }
 
     return NextResponse.json({ received: true });

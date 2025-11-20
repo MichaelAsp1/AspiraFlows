@@ -1,8 +1,8 @@
+// app/api/debug-client/route.ts
+import { NextResponse } from "next/server";
+import { prisma } from "../../../lib/prisma";
+
 export async function GET() {
-  return Response.json({
-    starter: process.env.STRIPE_PRICE_STARTER ?? null,
-    professional: process.env.STRIPE_PRICE_PROFESSIONAL ?? null,
-    intensive: process.env.STRIPE_PRICE_INTENSIVE ?? null,
-    secretKeyExists: !!process.env.STRIPE_SECRET_KEY,
-  });
+  const meta = prisma.client.fields; // this prints known fields
+  return NextResponse.json(meta);
 }
