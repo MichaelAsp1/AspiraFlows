@@ -1,11 +1,10 @@
 // app/api/stripe/webhook/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { prisma } from "../../../../lib/prisma"; // adjust path if needed
+import { prisma } from "../../../../lib/prisma";
 
-export const runtime = "nodejs"; // IMPORTANT for Stripe webhooks (raw body)
+export const runtime = "nodejs"; // IMPORTANT for raw body
 
-// Lazy initializer – avoids failing at import/build time
 function getStripe() {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) {
@@ -15,8 +14,13 @@ function getStripe() {
   return new Stripe(key);
 }
 
+const PLAN_MAP: Record<string, "STARTER" | "PROFESSIONAL" | "INTENSIVE"> = {
+  starter: "STARTER",
+  professional: "PROFESSIONAL",
+  intensive: "INTENSIVE",
+};
+
 export async function POST(req: NextRequest) {
-  // Use req.headers, NOT headers()
   const sig = req.headers.get("stripe-signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
@@ -29,9 +33,9 @@ export async function POST(req: NextRequest) {
     return new NextResponse("Webhook not configured", { status: 500 });
   }
 
-  const body = await req.text(); // raw body required
+  const body = await req.text(); // raw body for Stripe
 
-  const stripe = getStripe(); // 🔥 create Stripe client only now
+  const stripe = getStripe();
 
   let event: Stripe.Event;
 
@@ -47,10 +51,21 @@ export async function POST(req: NextRequest) {
       const session = event.data.object as Stripe.Checkout.Session;
 
       const tempUserId = session.metadata?.tempUserId;
-      const plan = session.metadata?.plan || "starter";
+      const rawPlan = (session.metadata?.plan || "starter").toLowerCase();
+
+      // Stripe gives customer/subscription as string or object; normalise to string
+      const customerId =
+        typeof session.customer === "string"
+          ? session.customer
+          : session.customer?.id;
+
+      const subscriptionId =
+        typeof session.subscription === "string"
+          ? session.subscription
+          : (session.subscription as any)?.id;
 
       if (!tempUserId) {
-        console.warn("Missing tempUserId");
+        console.warn("Missing tempUserId in session metadata");
         return NextResponse.json({ received: true });
       }
 
@@ -59,30 +74,63 @@ export async function POST(req: NextRequest) {
       });
 
       if (!user) {
-        console.warn("User not found:", tempUserId);
+        console.warn("User not found for tempUserId:", tempUserId);
         return NextResponse.json({ received: true });
       }
 
-      if (user.clientId) {
-        // already has a workspace
+      if (!user.clientId) {
+        // Fallback: extremely old signups before we created Client on /api/register
+        console.warn("User has no clientId; creating fallback Client");
+
+        const workspaceName =
+          user.name || user.email.split("@")[0] || "Workspace";
+
+        const client = await prisma.client.create({
+          data: {
+            name: workspaceName,
+            slug: generateSlug(workspaceName, user.id),
+            // minimal billing fields
+            billingSource: "STRIPE",
+            subscriptionStatus: "ACTIVE",
+            plan: PLAN_MAP[rawPlan] ?? "STARTER",
+            stripeCustomerId: customerId ?? undefined,
+            stripeSubscriptionId: subscriptionId ?? undefined,
+          },
+        } as any);
+
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { clientId: client.id },
+        });
+
+        console.log(
+          "✅ Fallback workspace created & activated for",
+          user.email,
+          "on plan",
+          rawPlan
+        );
+
         return NextResponse.json({ received: true });
       }
 
-      const workspaceName = user.name || user.email.split("@")[0] || "Workspace";
-
-      const client = await prisma.client.create({
+      // 🔥 Normal path: update existing Client created at /api/register
+      await prisma.client.update({
+        where: { id: user.clientId },
         data: {
-          name: workspaceName,
-          slug: generateSlug(workspaceName, user.id),
+          stripeCustomerId: customerId ?? undefined,
+          stripeSubscriptionId: subscriptionId ?? undefined,
+          subscriptionStatus: "ACTIVE",
+          billingSource: "STRIPE",
+          plan: PLAN_MAP[rawPlan] ?? "STARTER",
         },
-      });
+      } as any);
 
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { clientId: client.id },
-      });
-
-      console.log("✅ Workspace created for", user.email, "on plan", plan);
+      console.log(
+        "🎉 Subscription activated for",
+        user.email,
+        "on plan",
+        rawPlan
+      );
     }
 
     return NextResponse.json({ received: true });

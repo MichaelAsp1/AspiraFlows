@@ -7,14 +7,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 🔔 New enums
+enum SubscriptionStatus {
+  NONE
+  INCOMPLETE
+  ACTIVE
+  PAST_DUE
+  CANCELED
+}
+
+enum BillingSource {
+  STRIPE
+  COMPED
+}
+
+enum Plan {
+  STARTER
+  PROFESSIONAL
+  INTENSIVE
+}
+
 model Client {
-  id              String   @id @default(uuid())
-  name            String
-  slug            String?  @unique
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  stripeCustomerId   String?
-  stripeSubscriptionId String?
+  id                    String   @id @default(uuid())
+  name                  String
+  slug                  String?  @unique
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  stripeCustomerId      String?
+  stripeSubscriptionId  String?
+
+  // 🔔 New billing fields
+  plan                  Plan?
+  billingSource         BillingSource      @default(STRIPE)
+  subscriptionStatus    SubscriptionStatus @default(NONE)
 
   users           User[]
   jobApplications JobApplication[]
@@ -31,7 +57,6 @@ model User {
 
   sessions  Session[]
 }
-
 
 model Session {
   id           String   @id @default(uuid())
