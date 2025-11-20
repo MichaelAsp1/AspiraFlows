@@ -2,30 +2,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 import { auth } from "../../../../lib/auth";
+import { Plan } from "@prisma/client";
 
 export const runtime = "nodejs";
 
-// Simple comp endpoint: mark a client's subscription as ACTIVE/COMPED
+const VALID_PLANS = ["STARTER", "PROFESSIONAL", "INTENSIVE"] as const;
+
 export async function POST(req: NextRequest) {
-  // Optional: lock this down to your own email or an ADMIN role
   const session = await auth();
   const requesterEmail = session?.user?.email;
 
-  // ⚠️ For now: only allow your own account to comp users.
-  // Replace with a proper role check when you add roles.
+  if (!process.env.SUPERADMIN_EMAIL) {
+    console.error("❌ Missing SUPERADMIN_EMAIL env var");
+    return NextResponse.json({ error: "SERVER_MISCONFIGURED" }, { status: 500 });
+  }
+
+  // Only you can comp accounts
   if (!requesterEmail || requesterEmail !== process.env.SUPERADMIN_EMAIL) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const body = await req.json().catch(() => null) as
-    | { email?: string; plan?: string }
-    | null;
+  const body = await req.json().catch(() => null) as {
+    email?: string;
+    plan?: string;
+  } | null;
 
   if (!body?.email) {
     return NextResponse.json({ error: "email is required" }, { status: 400 });
   }
 
-  const plan = (body.plan || "professional").toUpperCase();
+  const planRaw = (body.plan || "professional").toUpperCase();
+  const plan = planRaw as Plan;
+
+  if (!VALID_PLANS.includes(plan)) {
+    return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
+  }
 
   const user = await prisma.user.findUnique({
     where: { email: body.email },
@@ -38,7 +49,7 @@ export async function POST(req: NextRequest) {
 
   if (!user.clientId) {
     return NextResponse.json(
-      { error: "User has no client/workspace yet" },
+      { error: "User has no workspace yet" },
       { status: 400 }
     );
   }
@@ -48,7 +59,7 @@ export async function POST(req: NextRequest) {
     data: {
       billingSource: "COMPED",
       subscriptionStatus: "ACTIVE",
-      plan: plan as any, // "STARTER" | "PROFESSIONAL" | "INTENSIVE"
+      plan,
     },
   });
 

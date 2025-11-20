@@ -39,22 +39,43 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = (user as any).id;
-        token.clientId = (user as any).clientId;
-      }
-      return token;
-    },
+  async jwt({ token, user }) {
+    // When user logs in for the first time
+    if (user) {
+      token.id = (user as any).id;
+      token.clientId = (user as any).clientId;
 
-    async session({ session, token }) {
-      if (session.user && token) {
-        (session.user as any).id = token.id;
-        (session.user as any).clientId = token.clientId;
+      // Fetch subscription info
+      if ((user as any).clientId) {
+        const client = await prisma.client.findUnique({
+          where: { id: (user as any).clientId },
+          select: {
+            billingSource: true,
+            subscriptionStatus: true,
+          },
+        });
+
+        if (client) {
+          (token as any).billingSource = client.billingSource;
+          (token as any).subscriptionStatus = client.subscriptionStatus;
+        }
       }
-      return session;
-    },
+    }
+
+    return token;
   },
+
+  async session({ session, token }) {
+    if (session.user && token) {
+      (session.user as any).id = token.id;
+      (session.user as any).clientId = token.clientId;
+      (session.user as any).billingSource = (token as any).billingSource;
+      (session.user as any).subscriptionStatus = (token as any).subscriptionStatus;
+    }
+    return session;
+  },
+},
+
 
   pages: {
     signIn: "/login",
