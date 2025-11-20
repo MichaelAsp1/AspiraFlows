@@ -6,27 +6,12 @@ import { prisma } from "../../../lib/prisma";
 const ALLOWED_PLANS = ["starter", "professional", "intensive"] as const;
 type PlanId = (typeof ALLOWED_PLANS)[number];
 
-type PlanEnum = "STARTER" | "PROFESSIONAL" | "INTENSIVE";
-type SubscriptionStatusEnum = "NONE" | "INCOMPLETE" | "ACTIVE" | "PAST_DUE" | "CANCELED";
-type BillingSourceEnum = "STRIPE" | "COMPED";
-
 function normalizePlan(raw: string | undefined): PlanId | null {
   if (!raw) return null;
   const lower = raw.toLowerCase();
   return (ALLOWED_PLANS as readonly string[]).includes(lower)
     ? (lower as PlanId)
     : null;
-}
-
-function toPlanEnum(plan: PlanId): PlanEnum {
-  switch (plan) {
-    case "starter":
-      return "STARTER";
-    case "professional":
-      return "PROFESSIONAL";
-    case "intensive":
-      return "INTENSIVE";
-  }
 }
 
 export async function POST(req: NextRequest) {
@@ -62,17 +47,16 @@ export async function POST(req: NextRequest) {
 
     const hashed = await bcrypt.hash(password, 10);
 
-    // 1️⃣ Create the Client – TS bypassed for now
+    // 1️⃣ Create the Client with only fields Prisma definitely knows
     const client = await prisma.client.create({
       data: {
         name: name || email,
-        billingSource: "STRIPE" as BillingSourceEnum,
-        subscriptionStatus: "NONE" as SubscriptionStatusEnum,
-        plan: toPlanEnum(normalizedPlan),
+        // DB defaults will handle billingSource + subscriptionStatus
+        // plan will be set later via Stripe webhook
       },
-    } as any);
+    });
 
-    // 2️⃣ Create the User
+    // 2️⃣ Create the User linked to that Client
     const user = await prisma.user.create({
       data: {
         name,
@@ -82,6 +66,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // 3️⃣ Response + cookies
     const res = NextResponse.json(
       { redirect: `/choose-plan?plan=${encodeURIComponent(normalizedPlan)}` },
       { status: 201 }
