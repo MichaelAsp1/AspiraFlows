@@ -11,13 +11,17 @@ export default async function ProfilePage() {
     redirect("/login");
   }
 
+  // Pull onboardingCompleted from the session (JWT)
+  const onboardingCompleted =
+    ((session?.user as any)?.onboardingCompleted as boolean | undefined) ?? false;
+
   const user = await prisma.user.findUnique({
     where: { id: userId! },
     select: {
       name: true,
       email: true,
       createdAt: true,
-      onboardingCompleted: true,
+      // ❌ remove onboardingCompleted: true,
       profile: {
         select: {
           targetRoles: true,
@@ -87,7 +91,7 @@ export default async function ProfilePage() {
           <div>
             <dt className="text-slate-500">Onboarding</dt>
             <dd className="text-slate-900">
-              {user.onboardingCompleted ? "Completed" : "Not completed"}
+              {onboardingCompleted ? "Completed" : "Not completed"}
             </dd>
           </div>
         </dl>
@@ -99,10 +103,6 @@ export default async function ProfilePage() {
           <h3 className="text-sm font-semibold text-slate-900">
             Job-search preferences
           </h3>
-          {/* Future: edit button */}
-          {/* <button className="text-xs text-violet-600 hover:underline">
-            Edit
-          </button> */}
         </div>
 
         <dl className="grid gap-4 text-sm sm:grid-cols-2">
@@ -168,7 +168,6 @@ export default async function ProfilePage() {
           <h3 className="text-sm font-semibold text-slate-900">
             CV
           </h3>
-          {/* Later: re-upload / remove actions */}
         </div>
 
         {profile?.cvFilename ? (
@@ -182,7 +181,6 @@ export default async function ProfilePage() {
                   : "recently"}
               </p>
             </div>
-            {/* Placeholder for download link once you store cvUrl */}
             <button className="text-xs font-medium text-violet-600 hover:underline">
               Re-upload soon
             </button>
