@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 🔔 New enums
+// 🔔 Enums
 enum SubscriptionStatus {
   NONE
   INCOMPLETE
@@ -27,6 +27,13 @@ enum Plan {
   INTENSIVE
 }
 
+// 🔔 New enum for onboarding
+enum WorkMode {
+  REMOTE
+  HYBRID
+  ONSITE
+}
+
 model Client {
   id                    String   @id @default(uuid())
   name                  String
@@ -37,7 +44,7 @@ model Client {
   stripeCustomerId      String?
   stripeSubscriptionId  String?
 
-  // 🔔 New billing fields
+  // Billing fields
   plan                  Plan?
   billingSource         BillingSource      @default(STRIPE)
   subscriptionStatus    SubscriptionStatus @default(NONE)
@@ -52,10 +59,40 @@ model User {
   password  String
   name      String?
   clientId  String?
-  client    Client?    @relation(fields: [clientId], references: [id])
+  client    Client?   @relation(fields: [clientId], references: [id])
   createdAt DateTime  @default(now())
 
+  // 🔔 Onboarding
+  onboardingCompleted Boolean     @default(false)
+  profile             UserProfile?
+
   sessions  Session[]
+}
+
+// 🔔 New model for onboarding data
+model UserProfile {
+  id        String   @id @default(uuid())
+
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+
+  // Step 1 – target roles
+  targetRoles String[]  // text[]
+
+  // Step 2 – location preferences
+  regions   String[]    // e.g. ["Entire world", "Europe"]
+  countries String[]    // e.g. ["France", "Germany"]
+  city      String?
+  workMode  WorkMode?
+
+  // Step 3 – CV metadata (optional)
+  cvUrl        String?
+  cvFilename   String?
+  cvUploadedAt DateTime?
+  cvParsedText String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Session {

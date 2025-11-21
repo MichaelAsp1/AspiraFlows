@@ -1,7 +1,7 @@
 // lib/auth.ts
 import { getServerSession, type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs"; // IMPORTANT: bcryptjs works on Vercel
+import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 
 export const authOptions: NextAuthOptions = {
@@ -24,11 +24,13 @@ export const authOptions: NextAuthOptions = {
         const valid = await bcrypt.compare(credentials.password, user.password);
         if (!valid) return null;
 
+        // 👇 include onboardingCompleted for JWT/session
         return {
           id: user.id,
           email: user.email,
           name: user.name ?? undefined,
-          clientId: user.clientId, // THIS is required for Superset RLS
+          clientId: user.clientId,
+          onboardingCompleted: user.onboardingCompleted,
         } as any;
       },
     }),
@@ -40,26 +42,39 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
   async jwt({ token, user }) {
-    // When user logs in for the first time
-    if (user) {
-      token.id = (user as any).id;
-      token.clientId = (user as any).clientId;
+    // figure out userId from either the freshly-logged-in user or existing token
+    const userId =
+      (user as any)?.id ??
+      (token as any)?.id;
 
-      // Fetch subscription info
-      if ((user as any).clientId) {
-        const client = await prisma.client.findUnique({
-          where: { id: (user as any).clientId },
+    if (!userId) return token;
+
+    const dbUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        clientId: true,
+        onboardingCompleted: true,
+        client: {
           select: {
             billingSource: true,
             subscriptionStatus: true,
           },
-        });
+        },
+      },
+    });
 
-        if (client) {
-          (token as any).billingSource = client.billingSource;
-          (token as any).subscriptionStatus = client.subscriptionStatus;
-        }
-      }
+    if (!dbUser) return token;
+
+    // base identity
+    token.id = dbUser.id;
+    (token as any).clientId = dbUser.clientId;
+    (token as any).onboardingCompleted = dbUser.onboardingCompleted;
+
+    // subscription info (same logic you had before, just centralized)
+    if (dbUser.client) {
+      (token as any).billingSource = dbUser.client.billingSource;
+      (token as any).subscriptionStatus = dbUser.client.subscriptionStatus;
     }
 
     return token;
@@ -68,14 +83,14 @@ export const authOptions: NextAuthOptions = {
   async session({ session, token }) {
     if (session.user && token) {
       (session.user as any).id = token.id;
-      (session.user as any).clientId = token.clientId;
+      (session.user as any).clientId = (token as any).clientId;
       (session.user as any).billingSource = (token as any).billingSource;
       (session.user as any).subscriptionStatus = (token as any).subscriptionStatus;
+      (session.user as any).onboardingCompleted = (token as any).onboardingCompleted;
     }
     return session;
   },
 },
-
 
   pages: {
     signIn: "/login",
