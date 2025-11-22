@@ -56,15 +56,15 @@ export default function FeatureTimelineStrip() {
 
         {/* main vertical timeline container */}
         <div className="relative mt-10 sm:mt-14 mx-auto max-w-5xl">
-          {/* glowing center spine */}
-          <div className="pointer-events-none absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[2px] sm:w-[3px] bg-gradient-to-b from-cyan-400/70 via-purple-400/70 to-pink-400/70 blur-[0.5px] sm:blur-[1px]" />
+          {/* DESKTOP: glowing center spine */}
+          <div className="pointer-events-none absolute left-1/2 top-0 bottom-0 hidden sm:block -translate-x-1/2 w-[3px] bg-gradient-to-b from-cyan-400 via-purple-400 to-pink-400" />
 
-          {/* star trail along the spine */}
-          <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 bottom-0">
+          {/* DESKTOP: star trail along the spine */}
+          <div className="pointer-events-none absolute left-1/2 top-0 bottom-0 hidden sm:block -translate-x-1/2">
             {STAR_POSITIONS.map((star, idx) => (
               <div
                 key={idx}
-                className="absolute h-[3px] w-[3px] sm:h-[4px] sm:w-[4px] rounded-full bg-white/45 animate-floatStar"
+                className="absolute h-[4px] w-[4px] rounded-full bg-white/70 animate-floatStar"
                 style={{
                   top: star.top,
                   left: "-2px",
@@ -102,9 +102,12 @@ export default function FeatureTimelineStrip() {
 
                   {/* CENTER DOT + ICON */}
                   <div className="relative flex flex-col items-center mx-4 sm:mx-8">
+                    {/* MOBILE: local vertical line that moves with the emoji */}
+                    <div className="absolute inset-y-[-32px] w-[2px] bg-gradient-to-b from-cyan-400 via-purple-400 to-pink-400 sm:hidden" />
+
                     {/* glowing dot with slow pulse */}
                     <div className="relative mb-3">
-                      <div className="absolute inset-0 rounded-full bg-cyan-300/60 blur-md sm:blur-lg opacity-70 animate-ping-slow" />
+                      <div className="absolute inset-0 rounded-full bg-cyan-300/60 blur-md opacity-70 animate-ping-slow" />
                       <div className="relative h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-gradient-to-br from-cyan-300 to-purple-300 shadow-[0_0_18px_rgba(56,189,248,0.85)] sm:shadow-[0_0_22px_rgba(56,189,248,0.85)]" />
                     </div>
 

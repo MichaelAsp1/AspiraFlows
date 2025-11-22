@@ -134,13 +134,7 @@ function QualityBar({
   gradient: string;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className="w-full"
-    >
+    <div className="w-full">
       {/* Label Row */}
       <div className="flex items-center justify-between mb-1">
         <span className="text-xs sm:text-sm text-gray-200">{label}</span>
@@ -149,17 +143,23 @@ function QualityBar({
         </span>
       </div>
 
-      {/* Background track */}
+      {/* Track */}
       <div className="h-2 rounded-full bg-slate-800 overflow-hidden sm:h-2.5">
-        {/* Animated Fill */}
+        {/* MOBILE → static width (always visible) */}
+        <div
+          className={`h-full rounded-full bg-gradient-to-r ${gradient} animate-barGlow sm:hidden`}
+          style={{ width: `${percent}%` }}
+        />
+
+        {/* DESKTOP → animated width using Framer Motion */}
         <motion.div
           initial={{ width: "0%" }}
           whileInView={{ width: `${percent}%` }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className={`h-full rounded-full bg-gradient-to-r ${gradient} animate-barGlow`}
+          className={`hidden sm:block h-full rounded-full bg-gradient-to-r ${gradient} animate-barGlow`}
         />
       </div>
-    </motion.div>
+    </div>
   );
 }
