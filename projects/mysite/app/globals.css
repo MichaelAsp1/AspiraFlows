@@ -151,8 +151,8 @@ body {
 /* Dark theme background patterns */
 .dark-grid-bg {
   background-image: 
-    linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+    linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 
@@ -161,6 +161,11 @@ body {
     radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.2) 2px, transparent 2px),
     radial-gradient(circle at 75% 75%, rgba(255, 0, 255, 0.2) 2px, transparent 2px);
   background-size: 100px 100px;
+}
+
+/* Radial gradient utility */
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-stops));
 }
 
 html,
