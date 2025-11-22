@@ -58,96 +58,126 @@ export default function RegisterClient() {
   }
 
   return (
-    <main className="mx-auto max-w-md px-4 py-10 text-gray-900 bg-white">
-      <h1 className="text-2xl font-bold mb-2">Create your account</h1>
+    <div className="relative min-h-[calc(100vh-56px-56px)]">
+      {/* Solid dark base + stars (override any layout background) */}
+      <div className="absolute inset-0 -z-20 bg-[#020617]" />
+      <div className="absolute inset-0 -z-10 starfield" />
 
-      <p className="text-sm text-gray-800 mb-6">
-        You selected the{" "}
-        <strong className="capitalize">{selectedPlan}</strong> plan.
-      </p>
+      {/* Soft glow behind header */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-5 h-80 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),transparent_60%)]" />
 
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {error && (
-          <p className="text-sm text-red-600 font-medium">{error}</p>
-        )}
+      <main className="relative mx-auto max-w-md px-4 py-16 text-gray-100">
+        <div className="rounded-3xl border border-slate-700/70 bg-slate-950/85 px-6 py-7 sm:px-8 sm:py-8 backdrop-blur-xl shadow-[0_24px_80px_rgba(15,23,42,0.9)]">
+          {/* Header */}
+          <h1 className="text-2xl font-semibold text-white mb-1">
+            Create your account
+          </h1>
+          <p className="text-sm text-gray-300 mb-4">
+            You selected the{" "}
+            <span className="inline-flex items-center rounded-full border border-cyan-400/60 bg-cyan-500/10 px-3 py-0.5 text-xs font-semibold capitalize text-cyan-200">
+              {selectedPlan}
+            </span>{" "}
+            plan.
+          </p>
 
-        <div>
-          <label className="block mb-1 text-sm font-semibold text-gray-900">
-            Name
-          </label>
-          <input
-            required
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
-          />
-        </div>
+          {/* Error */}
+          {error && (
+            <p className="mb-4 rounded-lg border border-red-400/70 bg-red-500/10 px-3 py-2 text-sm font-medium text-red-200">
+              {error}
+            </p>
+          )}
 
-        <div>
-          <label className="block mb-1 text-sm font-semibold text-gray-900">
-            Email
-          </label>
-          <input
-            required
-            type="email"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-          />
-        </div>
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block mb-1 text-xs font-semibold uppercase tracking-wide text-gray-300">
+                Name
+              </label>
+              <input
+                required
+                className="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2.5 text-sm text-gray-100 placeholder:text-gray-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
+              />
+            </div>
 
-        <div>
-          <label className="block mb-1 text-sm font-semibold text-gray-900">
-            Password
-          </label>
+            <div>
+              <label className="block mb-1 text-xs font-semibold uppercase tracking-wide text-gray-300">
+                Email
+              </label>
+              <input
+                required
+                type="email"
+                className="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2.5 text-sm text-gray-100 placeholder:text-gray-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+              />
+            </div>
 
-          <div className="relative">
-            <input
-              required
-              type={showPass ? "text" : "password"}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 pr-10 text-sm text-gray-900 placeholder:text-gray-400"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Strong password"
-            />
+            <div>
+              <label className="block mb-1 text-xs font-semibold uppercase tracking-wide text-gray-300">
+                Password
+              </label>
+
+              <div className="relative">
+                <input
+                  required
+                  type={showPass ? "text" : "password"}
+                  className="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2.5 pr-16 text-sm text-gray-100 placeholder:text-gray-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Strong password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-semibold text-cyan-300 hover:text-cyan-200"
+                >
+                  {showPass ? "Hide" : "Show"}
+                </button>
+              </div>
+
+              <p className="mt-1 text-xs text-gray-400">
+                Use at least 8 characters, including a number &amp; a symbol.
+              </p>
+            </div>
+
+            <div>
+              <label className="block mb-1 text-xs font-semibold uppercase tracking-wide text-gray-300">
+                Confirm password
+              </label>
+              <input
+                required
+                type="password"
+                className="w-full rounded-lg border border-slate-700 bg-slate-900/70 px-3 py-2.5 text-sm text-gray-100 placeholder:text-gray-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+                placeholder="Repeat password"
+              />
+            </div>
+
             <button
-              type="button"
-              onClick={() => setShowPass(!showPass)}
-              className="absolute right-2 top-2 text-xs font-semibold text-gray-800"
+              type="submit"
+              disabled={loading}
+              className="mt-2 w-full rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 py-2.5 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(8,47,73,0.9)] transition-all hover:from-cyan-400 hover:to-purple-400 hover:shadow-[0_20px_55px_rgba(8,47,73,1)] disabled:opacity-60"
             >
-              {showPass ? "Hide" : "Show"}
+              {loading ? "Creating account..." : "Continue"}
             </button>
-          </div>
+          </form>
 
-          <p className="text-xs text-gray-700 mt-1">
-            Use at least 8 characters, including a number &amp; a symbol.
+          <p className="mt-6 text-center text-xs text-gray-400">
+            Already have an account?{" "}
+            <a
+              href="/login"
+              className="font-medium text-cyan-300 hover:text-cyan-200 hover:underline"
+            >
+              Sign in
+            </a>
           </p>
         </div>
-
-        <div>
-          <label className="block mb-1 text-sm font-semibold text-gray-900">
-            Confirm password
-          </label>
-          <input
-            required
-            type="password"
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            placeholder="Repeat password"
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-md bg-black text-white py-2 text-sm font-semibold disabled:opacity-60"
-        >
-          {loading ? "Creating account..." : "Continue"}
-        </button>
-      </form>
-    </main>
+      </main>
+    </div>
   );
 }

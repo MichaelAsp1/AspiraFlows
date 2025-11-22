@@ -66,6 +66,8 @@ model User {
   onboardingCompleted Boolean     @default(false)
   profile             UserProfile?
 
+  passwordResetTokens PasswordResetToken[]
+
   sessions  Session[]
 }
 
@@ -115,4 +117,16 @@ model JobApplication {
 
   @@index([clientId])
   @@map("job_applications")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }
