@@ -10,43 +10,43 @@ type Company = {
 const companies: Company[] = [
   {
     name: "Nike",
-    logoSrc: "/logos/002_nike-logos-swoosh-white.png",
+    logoSrc: "/logos/nike.png",
   },
   {
     name: "Airbnb",
-    logoSrc: "/logos/Airbnb_Logo_Bélo.svg",
+    logoSrc: "/logos/Airbnb_Logo_Belo.svg",
   },
   {
     name: "Hilton",
-    logoSrc: "/logos/Hilton_For-The-Stay_Logo_RGB_Vertical_White.png",
+    logoSrc: "/logos/Hilton_logo_white.png",
   },
   {
     name: "Microsoft",
-    logoSrc: "/logos/Microsoft-logo_rgb_c-wht.png",
+    logoSrc: "/logos/Microsoft.png",
   },
   {
     name: "Netflix",
-    logoSrc: "/logos/Netflix_Logo_CMYK.png",
+    logoSrc: "/logos/Netflix.png",
   },
   {
     name: "Wise",
-    logoSrc: "/logos/New_Wise_(formerly_TransferWise)_logo.svg",
+    logoSrc: "/logos/New_Wise.svg",
   },
   {
     name: "Revolut",
-    logoSrc: "/logos/Revolut-White-Transparent.png",
+    logoSrc: "/logos/Revolut.png",
   },
   {
     name: "Stripe",
-    logoSrc: "/logos/Stripe wordmark - Blurple.svg",
+    logoSrc: "/logos/Stripe.svg",
   },
   {
     name: "Deloittee",
-    logoSrc: "/logos/Deloitte_idUZmqOXQ3_1.png",
+    logoSrc: "/logos/Deloitte.png",
   },
   {
     name: "Booking.com",
-    logoSrc: "/logos/Booking.com_Logo_1.png",
+    logoSrc: "/logos/Booking.png",
   },
 
     
