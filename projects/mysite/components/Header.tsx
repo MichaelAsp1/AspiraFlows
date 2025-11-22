@@ -58,16 +58,16 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden sm:flex items-center gap-5 text-[15px] sm:text-base font-medium">
-          <Link href="/pricing" className="text-gray-900 hover:text-indigo-600">
+          <Link href="/pricing" className="text-slate-700 hover:text-blue-600">
             Pricing
           </Link>
           <Link
             href="/consulting"
-            className="text-gray-900 hover:text-indigo-600"
+            className="text-slate-700 hover:text-blue-600"
           >
             Consulting
           </Link>
-          <Link href="/contact" className="text-gray-900 hover:text-indigo-600">
+          <Link href="/contact" className="text-slate-700 hover:text-blue-600">
             Contact
           </Link>
 
@@ -75,13 +75,13 @@ export default function Header() {
             <>
               <Link
                 href="/login"
-                className="text-gray-900 hover:text-indigo-600"
+                className="text-slate-700 hover:text-blue-600"
               >
                 Log in
               </Link>
               <Link
                 href="/pricing"
-                className="rounded-md bg-black text-white px-3 py-2 hover:bg-gray-800"
+                className="rounded-md bg-blue-600 text-white px-3 py-2 hover:bg-blue-700 transition-colors"
               >
                 Sign up
               </Link>
@@ -90,14 +90,14 @@ export default function Header() {
             <>
               <Link
                 href="/dashboard"
-                className="text-gray-900 hover:text-indigo-600"
+                className="text-slate-700 hover:text-blue-600"
               >
                 Dashboard
               </Link>
               <button
                 type="button"
                 onClick={() => signOut()}
-                className="rounded-md border px-3 py-2 hover:bg-gray-50"
+                className="rounded-md border border-slate-300 px-3 py-2 hover:bg-slate-50 transition-colors"
               >
                 Logout
               </button>
@@ -137,21 +137,21 @@ export default function Header() {
         <nav className="px-4 py-3 space-y-2">
           <Link
             href="/pricing"
-            className="block rounded px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50"
+            className="block rounded px-2 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
             onClick={() => setOpen(false)}
           >
             Pricing
           </Link>
           <Link
             href="/consulting"
-            className="block rounded px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50"
+            className="block rounded px-2 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
             onClick={() => setOpen(false)}
           >
             Consulting
           </Link>
           <Link
             href="/contact"
-            className="block rounded px-2 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50"
+            className="block rounded px-2 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
             onClick={() => setOpen(false)}
           >
             Contact
@@ -162,14 +162,14 @@ export default function Header() {
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="block mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold text-center text-gray-900 hover:bg-gray-50"
+                className="block mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-center text-slate-700 hover:bg-slate-50 transition-colors"
               >
                 Log in
               </Link>
               <Link
                 href="/pricing"
                 onClick={() => setOpen(false)}
-                className="block mt-2 w-full rounded-md bg-black text-white px-3 py-2 text-sm font-semibold text-center hover:bg-gray-800"
+                className="block mt-2 w-full rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-semibold text-center hover:bg-blue-700 transition-colors"
               >
                 Sign up
               </Link>
@@ -179,7 +179,7 @@ export default function Header() {
               <Link
                 href="/dashboard"
                 onClick={() => setOpen(false)}
-                className="block mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold text-center text-gray-900 hover:bg-gray-50"
+                className="block mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-center text-slate-700 hover:bg-slate-50 transition-colors"
               >
                 Dashboard
               </Link>
@@ -189,7 +189,7 @@ export default function Header() {
                   setOpen(false);
                   signOut();
                 }}
-                className="mt-2 w-full rounded-md border px-3 py-2 text-sm font-semibold hover:bg-gray-50"
+                className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50 transition-colors"
               >
                 Logout
               </button>

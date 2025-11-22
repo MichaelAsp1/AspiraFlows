@@ -3,6 +3,30 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* AspiraFlows Brand Colors */
+  --aspira-primary: #2563eb;      /* Blue 600 - main brand */
+  --aspira-primary-light: #3b82f6; /* Blue 500 - lighter variant */
+  --aspira-primary-dark: #1d4ed8;  /* Blue 700 - darker variant */
+  --aspira-secondary: #7c3aed;     /* Violet 600 - accent */
+  --aspira-secondary-light: #8b5cf6; /* Violet 500 */
+  --aspira-secondary-dark: #6d28d9;  /* Violet 700 */
+  --aspira-accent: #0ea5e9;        /* Sky 500 - highlights */
+  --aspira-success: #059669;       /* Emerald 600 */
+  --aspira-warning: #d97706;       /* Amber 600 */
+  --aspira-error: #dc2626;         /* Red 600 */
+  
+  /* Neutral Grays */
+  --aspira-gray-50: #f8fafc;
+  --aspira-gray-100: #f1f5f9;
+  --aspira-gray-200: #e2e8f0;
+  --aspira-gray-300: #cbd5e1;
+  --aspira-gray-400: #94a3b8;
+  --aspira-gray-500: #64748b;
+  --aspira-gray-600: #475569;
+  --aspira-gray-700: #334155;
+  --aspira-gray-800: #1e293b;
+  --aspira-gray-900: #0f172a;
 }
 
 @theme inline {
@@ -10,6 +34,18 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* AspiraFlows Custom Colors */
+  --color-aspira-primary: var(--aspira-primary);
+  --color-aspira-primary-light: var(--aspira-primary-light);
+  --color-aspira-primary-dark: var(--aspira-primary-dark);
+  --color-aspira-secondary: var(--aspira-secondary);
+  --color-aspira-secondary-light: var(--aspira-secondary-light);
+  --color-aspira-secondary-dark: var(--aspira-secondary-dark);
+  --color-aspira-accent: var(--aspira-accent);
+  --color-aspira-success: var(--aspira-success);
+  --color-aspira-warning: var(--aspira-warning);
+  --color-aspira-error: var(--aspira-error);
 }
 
 @media (prefers-color-scheme: dark) {

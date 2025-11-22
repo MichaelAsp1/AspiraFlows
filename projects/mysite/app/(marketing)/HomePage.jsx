@@ -6,24 +6,24 @@ import Marquee from "../../components/Marquee";
 
 export default function Home() {
   return (
-    <main className="relative bg-gradient-to-br from-purple-50/40 via-white to-indigo-50/40 text-gray-900">
+    <main className="relative bg-gradient-to-br from-blue-50/40 via-white to-sky-50/40 text-slate-900">
   {/* subtle corner glows */}
-  <div className="pointer-events-none absolute top-[-20rem] right-[-10rem] h-[35rem] w-[35rem] rounded-full bg-purple-300/20 blur-[160px]"></div>
+  <div className="pointer-events-none absolute top-[-20rem] right-[-10rem] h-[35rem] w-[35rem] rounded-full bg-blue-300/20 blur-[160px]"></div>
 
-  <div className="pointer-events-none absolute bottom-[-20rem] left-[-10rem] h-[35rem] w-[35rem] rounded-full bg-indigo-300/20 blur-[160px]"></div>
+  <div className="pointer-events-none absolute bottom-[-20rem] left-[-10rem] h-[35rem] w-[35rem] rounded-full bg-sky-300/20 blur-[160px]"></div>
       {/* HERO (modern gradient + glow + motion, stacked layout) */}
       <section className="relative overflow-hidden">
         {/* Single soft base gradient */}
-        <div className="absolute inset-0 -z-20 bg-gradient-to-br from-indigo-50 via-white to-blue-50" />
+        <div className="absolute inset-0 -z-20 bg-gradient-to-br from-blue-50 via-white to-sky-50" />
 
         {/* One top-right glow (smaller + less blur) */}
-        <div className="pointer-events-none absolute -z-10 -top-24 -right-16 h-80 w-80 rounded-full bg-indigo-300/25 blur-[80px]" />
+        <div className="pointer-events-none absolute -z-10 -top-24 -right-16 h-80 w-80 rounded-full bg-blue-300/25 blur-[80px]" />
 
         {/* One bottom-left glow (smaller + less blur) */}
-        <div className="pointer-events-none absolute -z-10 -bottom-24 -left-16 h-72 w-72 rounded-full bg-purple-300/25 blur-[80px]" />
+        <div className="pointer-events-none absolute -z-10 -bottom-24 -left-16 h-72 w-72 rounded-full bg-violet-300/25 blur-[80px]" />
 
         {/* Optional subtle radial tint */}
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-40 bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.12),transparent_50%)]" />
+        <div className="pointer-events-none absolute inset-0 -z-10 opacity-40 bg-[radial-gradient(circle_at_30%_20%,rgba(37,99,235,0.12),transparent_50%)]" />
 
         <div className="mx-auto max-w-6xl px-4 py-24 text-center">
           {/* Line 1: brand */}
@@ -31,7 +31,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-6xl font-bold tracking-tight text-gray-900 sm:text-7xl"
+            className="text-6xl font-bold tracking-tight text-slate-900 sm:text-7xl"
           >
             AspiraFlows
           </motion.h1>
@@ -41,7 +41,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="mt-3 text-4xl sm:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-500 bg-clip-text text-transparent animated-gradient"
+            className="mt-3 text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 via-violet-500 to-sky-500 bg-clip-text text-transparent animated-gradient"
           >
             Automate Outreach. Grow Faster.
           </motion.h2>
@@ -50,7 +50,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-            className="max-w-2xl mx-auto mt-6 text-lg text-gray-600"
+            className="max-w-2xl mx-auto mt-6 text-lg text-slate-600"
           >
             Stand out and connect directly with decision-makers. AI-driven personalisation
             and workflow automation to reduce time-to-interview.
@@ -64,13 +64,13 @@ export default function Home() {
           >
             <a
               href="/contact"
-              className="inline-block bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition will-change-transform hover:translate-y-[1px]"
+              className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition will-change-transform hover:translate-y-[1px]"
             >
               Get Started
             </a>
             <a
               href="/pricing"
-              className="inline-block px-6 py-3 rounded-lg border hover:bg-white transition will-change-transform hover:translate-y-[1px]"
+              className="inline-block px-6 py-3 rounded-lg border border-slate-300 hover:bg-white transition will-change-transform hover:translate-y-[1px]"
             >
               See Pricing
             </a>
@@ -158,11 +158,11 @@ export default function Home() {
     {/* Card 6 */}
     <div className="rounded-2xl border bg-white p-6 shadow-sm hover:shadow-md transition">
       <div className="text-2xl mb-2">🔒</div>
-      <h3 className="font-semibold text-gray-900">Private & Simple</h3>
-      <p className="mt-2 text-sm text-gray-600">
+      <h3 className="font-semibold text-slate-900">Private & Simple</h3>
+      <p className="mt-2 text-sm text-slate-600">
         Your profile stays yours. You control what gets sent and when.
       </p>
-      <p className="mt-3 text-xs text-gray-500">
+      <p className="mt-3 text-xs text-slate-500">
         No spam. No mass-blasting. Ever.
       </p>
     </div>
@@ -173,12 +173,12 @@ export default function Home() {
       {/* 🔥 Scrolling feature strip */}
       <Marquee />
 
-      <section className="relative border-y border-gray-100 py-16 overflow-hidden">
+      <section className="relative border-y border-slate-100 py-16 overflow-hidden">
   {/* light, cheap background tint */}
-  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-purple-50/40 via-white to-white" />
+  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-blue-50/40 via-white to-white" />
   {/* small corner glow, not huge */}
-  <div className="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-purple-300/25 blur-[60px]" />
-  <div className="pointer-events-none absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-indigo-300/25 blur-[60px]" />
+  <div className="pointer-events-none absolute -top-16 -right-10 h-40 w-40 rounded-full bg-blue-300/25 blur-[60px]" />
+  <div className="pointer-events-none absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-violet-300/25 blur-[60px]" />
 
   <div className="relative mx-auto max-w-6xl px-4">
     <h2 className="text-2xl font-semibold text-center mb-3">
@@ -234,8 +234,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="rounded-lg bg-white p-3 text-xs border border-gray-200">
-          <p className="text-gray-700 leading-relaxed">
+        <div className="rounded-lg bg-white p-3 text-xs border border-slate-200">
+          <p className="text-slate-700 leading-relaxed">
             Hi Oliver, I’ve been building a small agent that finds roles where my
             background (embedded systems + ML + automation) is actually useful —
             your company popped to the top. I think I can add value by automating
@@ -258,17 +258,17 @@ export default function Home() {
             O
           </div>
           <div>
-            <div className="text-sm font-semibold text-gray-900">
+            <div className="text-sm font-semibold text-slate-900">
               Oliver B. — Co-Founder
             </div>
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-slate-500">
               Reply from the founder
             </div>
           </div>
         </div>
 
-        <div className="rounded-lg bg-white p-3 text-xs border border-gray-200">
-          <p className="text-gray-700 leading-relaxed">
+        <div className="rounded-lg bg-white p-3 text-xs border border-slate-200">
+          <p className="text-slate-700 leading-relaxed">
             Hi Sarah,
             <br /><br />
             You’ve got my attention.
@@ -282,7 +282,7 @@ export default function Home() {
           </p>
         </div>
 
-        <p className="mt-3 text-[11px] text-gray-500">
+        <p className="mt-3 text-[11px] text-slate-500">
           Short, friendly message → direct reply → call booked.
         </p>
       </div>
@@ -361,25 +361,25 @@ export default function Home() {
       ].map((p) => (
         <div
           key={p.name}
-          className="relative rounded-xl border bg-gray-50 p-6 shadow-sm text-center hover:shadow-lg hover:border-indigo-200 transition-all duration-300"
+          className="relative rounded-xl border bg-slate-50 p-6 shadow-sm text-center hover:shadow-lg hover:border-blue-200 transition-all duration-300"
         >
           {p.badge && (
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-600 px-3 py-1 text-xs font-medium text-white shadow-sm">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-blue-600 px-3 py-1 text-xs font-medium text-white shadow-sm">
               {p.badge}
             </div>
           )}
 
           <h3 className="text-xl font-semibold">{p.name}</h3>
-          <p className="text-sm text-gray-500 mt-1 mb-3">{p.tagline}</p>
+          <p className="text-sm text-slate-500 mt-1 mb-3">{p.tagline}</p>
 
-          <p className="text-3xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+          <p className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 via-violet-500 to-sky-500 bg-clip-text text-transparent">
             {p.price}
           </p>
 
-          <ul className="text-sm text-gray-700 space-y-2 mb-6 text-left">
+          <ul className="text-sm text-slate-700 space-y-2 mb-6 text-left">
             {p.features.map((f) => (
               <li key={f} className="flex items-start gap-2">
-                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-500" />
+                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-500" />
                 <span>{f}</span>
               </li>
             ))}
@@ -387,7 +387,7 @@ export default function Home() {
 
           <a
             href="/contact"
-            className="inline-block bg-black text-white px-5 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-indigo-600 hover:to-blue-500 transition-all duration-300"
+            className="inline-block bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-gradient-to-r hover:from-blue-600 hover:to-violet-500 transition-all duration-300"
           >
             Choose Plan
           </a>
@@ -395,9 +395,9 @@ export default function Home() {
       ))}
     </div>
 
-    <p className="text-center text-gray-600 mt-8">
+    <p className="text-center text-slate-600 mt-8">
       <strong>Bespoke (Agency/University):</strong> Bulk accounts, branded dashboards, analytics API access.{" "}
-      <a href="/contact" className="underline hover:text-indigo-600 transition">
+      <a href="/contact" className="underline hover:text-blue-600 transition">
         Contact us
       </a>{" "}
       for a quote.
@@ -408,7 +408,7 @@ export default function Home() {
 
       <section className="relative py-20">
   {/* soft glow */}
-  <div className="pointer-events-none absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-purple-300/20 blur-[130px]" />
+  <div className="pointer-events-none absolute -top-24 left-1/3 h-72 w-72 rounded-full bg-violet-300/20 blur-[130px]" />
 
   <div className="relative mx-auto max-w-6xl px-4">
     <h2 className="text-2xl font-semibold mb-10">
@@ -424,8 +424,8 @@ export default function Home() {
             S
           </div>
           <div>
-            <div className="text-sm font-semibold text-gray-900">Sarah</div>
-            <div className="text-xs text-gray-500">Marketing Graduate</div>
+            <div className="text-sm font-semibold text-slate-900">Sarah</div>
+            <div className="text-xs text-slate-500">Marketing Graduate</div>
           </div>
         </div>
 
@@ -438,12 +438,12 @@ export default function Home() {
       {/* James — MIDDLE (up) */}
       <div className="rounded-2xl border bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition -translate-y-3">
         <div className="flex items-center gap-3 mb-3">
-          <div className="h-10 w-10 rounded-full bg-indigo-500 text-white flex items-center justify-center text-sm font-semibold">
+          <div className="h-10 w-10 rounded-full bg-blue-500 text-white flex items-center justify-center text-sm font-semibold">
             J
           </div>
           <div>
-            <div className="text-sm font-semibold text-gray-900">James</div>
-            <div className="text-xs text-gray-500">Junior Software Developer</div>
+            <div className="text-sm font-semibold text-slate-900">James</div>
+            <div className="text-xs text-slate-500">Junior Software Developer</div>
           </div>
         </div>
 
@@ -456,12 +456,12 @@ export default function Home() {
       {/* Aisha — RIGHT (down, matching Sarah) */}
       <div className="rounded-2xl border bg-white/80 backdrop-blur-sm p-6 shadow-sm hover:shadow-md transition translate-y-3">
         <div className="flex items-center gap-3 mb-3">
-          <div className="h-10 w-10 rounded-full bg-purple-500 text-white flex items-center justify-center text-sm font-semibold">
+          <div className="h-10 w-10 rounded-full bg-violet-500 text-white flex items-center justify-center text-sm font-semibold">
             A
           </div>
           <div>
-            <div className="text-sm font-semibold text-gray-900">Aisha</div>
-            <div className="text-xs text-gray-500">Data Analyst</div>
+            <div className="text-sm font-semibold text-slate-900">Aisha</div>
+            <div className="text-xs text-slate-500">Data Analyst</div>
           </div>
         </div>
 
@@ -481,7 +481,7 @@ export default function Home() {
       {/* CONTACT CTA (unchanged) */}
       <section className="text-center py-16">
         <h2 className="text-2xl font-semibold mb-4">Ready to reach decision-makers faster?</h2>
-        <a href="/contact" className="inline-block bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition">
+        <a href="/contact" className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
           Contact Us
         </a>
       </section>
