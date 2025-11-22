@@ -6,24 +6,22 @@ import Marquee from "../../components/Marquee";
 
 export default function Home() {
   return (
-    <main className="relative bg-gradient-to-br from-blue-50/40 via-white to-sky-50/40 text-slate-900">
-  {/* subtle corner glows */}
-  <div className="pointer-events-none absolute top-[-20rem] right-[-10rem] h-[35rem] w-[35rem] rounded-full bg-blue-300/20 blur-[160px]"></div>
+    <main className="relative text-white">
+  {/* Neon corner glows */}
+  <div className="pointer-events-none absolute top-[-20rem] right-[-10rem] h-[35rem] w-[35rem] rounded-full bg-cyan-500/20 blur-[160px]"></div>
 
-  <div className="pointer-events-none absolute bottom-[-20rem] left-[-10rem] h-[35rem] w-[35rem] rounded-full bg-sky-300/20 blur-[160px]"></div>
-      {/* HERO (modern gradient + glow + motion, stacked layout) */}
+  <div className="pointer-events-none absolute bottom-[-20rem] left-[-10rem] h-[35rem] w-[35rem] rounded-full bg-purple-500/20 blur-[160px]"></div>
+      {/* HERO (neon dark theme) */}
       <section className="relative overflow-hidden">
-        {/* Single soft base gradient */}
-        <div className="absolute inset-0 -z-20 bg-gradient-to-br from-blue-50 via-white to-sky-50" />
+        {/* Dark base with circuit pattern */}
+        <div className="absolute inset-0 -z-20 bg-gradient-to-br from-slate-900 via-purple-900/50 to-slate-900 dark-circuit-bg" />
 
-        {/* One top-right glow (smaller + less blur) */}
-        <div className="pointer-events-none absolute -z-10 -top-24 -right-16 h-80 w-80 rounded-full bg-blue-300/25 blur-[80px]" />
+        {/* Neon glows */}
+        <div className="pointer-events-none absolute -z-10 -top-24 -right-16 h-80 w-80 rounded-full bg-cyan-500/30 blur-[80px]" />
+        <div className="pointer-events-none absolute -z-10 -bottom-24 -left-16 h-72 w-72 rounded-full bg-purple-500/30 blur-[80px]" />
 
-        {/* One bottom-left glow (smaller + less blur) */}
-        <div className="pointer-events-none absolute -z-10 -bottom-24 -left-16 h-72 w-72 rounded-full bg-violet-300/25 blur-[80px]" />
-
-        {/* Optional subtle radial tint */}
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-40 bg-[radial-gradient(circle_at_30%_20%,rgba(37,99,235,0.12),transparent_50%)]" />
+        {/* Neon grid overlay */}
+        <div className="pointer-events-none absolute inset-0 -z-10 opacity-20 bg-[radial-gradient(circle_at_30%_20%,rgba(0,255,255,0.3),transparent_50%)]" />
 
         <div className="mx-auto max-w-6xl px-4 py-24 text-center">
           {/* Line 1: brand */}
@@ -31,7 +29,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-6xl font-bold tracking-tight text-slate-900 sm:text-7xl"
+            className="text-6xl font-bold tracking-tight text-white sm:text-7xl neon-text-cyan"
           >
             AspiraFlows
           </motion.h1>
@@ -41,7 +39,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="mt-3 text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 via-violet-500 to-sky-500 bg-clip-text text-transparent animated-gradient"
+            className="mt-3 text-4xl sm:text-5xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animated-gradient"
           >
             Automate Outreach. Grow Faster.
           </motion.h2>
@@ -50,7 +48,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-            className="max-w-2xl mx-auto mt-6 text-lg text-slate-600"
+            className="max-w-2xl mx-auto mt-6 text-lg text-gray-300"
           >
             Stand out and connect directly with decision-makers. AI-driven personalisation
             and workflow automation to reduce time-to-interview.
@@ -64,13 +62,13 @@ export default function Home() {
           >
             <a
               href="/contact"
-              className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition will-change-transform hover:translate-y-[1px]"
+              className="inline-block bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-6 py-3 rounded-lg hover:from-cyan-400 hover:to-purple-400 transition will-change-transform hover:translate-y-[1px] neon-glow-cyan"
             >
               Get Started
             </a>
             <a
               href="/pricing"
-              className="inline-block px-6 py-3 rounded-lg border border-slate-300 hover:bg-white transition will-change-transform hover:translate-y-[1px]"
+              className="inline-block px-6 py-3 rounded-lg border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-400 transition will-change-transform hover:translate-y-[1px]"
             >
               See Pricing
             </a>

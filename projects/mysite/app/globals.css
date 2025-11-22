@@ -27,6 +27,19 @@
   --aspira-gray-700: #334155;
   --aspira-gray-800: #1e293b;
   --aspira-gray-900: #0f172a;
+  
+  /* ResuMax Neon Dark Theme */
+  --neon-bg-primary: #0a0a0f;
+  --neon-bg-secondary: #111118;
+  --neon-bg-card: #1a1a24;
+  --neon-cyan: #00ffff;
+  --neon-purple: #8b5cf6;
+  --neon-pink: #ff00ff;
+  --neon-green: #00ff88;
+  --neon-blue: #0099ff;
+  --neon-text-primary: #ffffff;
+  --neon-text-secondary: #b4b4b4;
+  --neon-text-muted: #666666;
 }
 
 @theme inline {
@@ -93,6 +106,61 @@ body {
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee { animation: none; }
+}
+
+/* Neon glow effects */
+.neon-glow-cyan {
+  box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 15px #00ffff;
+}
+
+.neon-glow-purple {
+  box-shadow: 0 0 5px #8b5cf6, 0 0 10px #8b5cf6, 0 0 15px #8b5cf6;
+}
+
+.neon-glow-pink {
+  box-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 15px #ff00ff;
+}
+
+.neon-text-cyan {
+  color: #00ffff;
+  text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+}
+
+.neon-text-purple {
+  color: #8b5cf6;
+  text-shadow: 0 0 5px #8b5cf6, 0 0 10px #8b5cf6;
+}
+
+.neon-text-pink {
+  color: #ff00ff;
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+}
+
+/* Animated neon border */
+@keyframes neonBorder {
+  0%, 100% { border-color: #00ffff; box-shadow: 0 0 5px #00ffff; }
+  25% { border-color: #8b5cf6; box-shadow: 0 0 5px #8b5cf6; }
+  50% { border-color: #ff00ff; box-shadow: 0 0 5px #ff00ff; }
+  75% { border-color: #00ff88; box-shadow: 0 0 5px #00ff88; }
+}
+
+.neon-border-animated {
+  animation: neonBorder 4s ease-in-out infinite;
+}
+
+/* Dark theme background patterns */
+.dark-grid-bg {
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.dark-circuit-bg {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.2) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, rgba(255, 0, 255, 0.2) 2px, transparent 2px);
+  background-size: 100px 100px;
 }
 
 html,

@@ -21,12 +21,12 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white md:bg-white/80 md:backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-cyan-500/30 bg-slate-900/80 backdrop-blur-md">
       <div className="w-full flex items-center justify-between h-14 px-4 sm:px-6 lg:px-8">
         {/* Brand: logo + AspiraFlows */}
         <Link
           href="/"
-          className="flex items-center gap-2 text-base sm:text-lg font-semibold text-gray-900 tracking-tight"
+          className="flex items-center gap-2 text-base sm:text-lg font-semibold text-white tracking-tight neon-text-cyan"
         >
           <span className="inline-flex items-center justify-center">
             {/* Light mode / default */}
@@ -58,16 +58,16 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden sm:flex items-center gap-5 text-[15px] sm:text-base font-medium">
-          <Link href="/pricing" className="text-slate-700 hover:text-blue-600">
+          <Link href="/pricing" className="text-gray-300 hover:text-cyan-400 transition-colors">
             Pricing
           </Link>
           <Link
             href="/consulting"
-            className="text-slate-700 hover:text-blue-600"
+            className="text-gray-300 hover:text-cyan-400 transition-colors"
           >
             Consulting
           </Link>
-          <Link href="/contact" className="text-slate-700 hover:text-blue-600">
+          <Link href="/contact" className="text-gray-300 hover:text-cyan-400 transition-colors">
             Contact
           </Link>
 
@@ -75,13 +75,13 @@ export default function Header() {
             <>
               <Link
                 href="/login"
-                className="text-slate-700 hover:text-blue-600"
+                className="text-gray-300 hover:text-cyan-400 transition-colors"
               >
                 Log in
               </Link>
               <Link
                 href="/pricing"
-                className="rounded-md bg-blue-600 text-white px-3 py-2 hover:bg-blue-700 transition-colors"
+                className="rounded-md bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-3 py-2 hover:from-cyan-400 hover:to-purple-400 transition-colors neon-glow-cyan"
               >
                 Sign up
               </Link>
@@ -90,14 +90,14 @@ export default function Header() {
             <>
               <Link
                 href="/dashboard"
-                className="text-slate-700 hover:text-blue-600"
+                className="text-gray-300 hover:text-cyan-400 transition-colors"
               >
                 Dashboard
               </Link>
               <button
                 type="button"
                 onClick={() => signOut()}
-                className="rounded-md border border-slate-300 px-3 py-2 hover:bg-slate-50 transition-colors"
+                className="rounded-md border border-cyan-500/50 text-cyan-400 px-3 py-2 hover:bg-cyan-500/10 hover:border-cyan-400 transition-colors"
               >
                 Logout
               </button>
@@ -108,7 +108,7 @@ export default function Header() {
         {/* Mobile toggle */}
         <button
           type="button"
-          className="sm:hidden inline-flex items-center gap-2 rounded-md border px-3 py-2 text-sm font-medium text-gray-900"
+          className="sm:hidden inline-flex items-center gap-2 rounded-md border border-cyan-500/50 px-3 py-2 text-sm font-medium text-cyan-400"
           aria-expanded={open}
           aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
@@ -130,28 +130,28 @@ export default function Header() {
         id="mobile-menu"
         ref={menuRef}
         onClick={(e) => e.stopPropagation()}
-        className={`sm:hidden overflow-hidden border-t bg-white transition-[max-height,opacity] duration-200 ${
+        className={`sm:hidden overflow-hidden border-t border-cyan-500/30 bg-slate-900/95 backdrop-blur-md transition-[max-height,opacity] duration-200 ${
           open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <nav className="px-4 py-3 space-y-2">
           <Link
             href="/pricing"
-            className="block rounded px-2 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            className="block rounded px-2 py-2 text-sm font-medium text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400"
             onClick={() => setOpen(false)}
           >
             Pricing
           </Link>
           <Link
             href="/consulting"
-            className="block rounded px-2 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            className="block rounded px-2 py-2 text-sm font-medium text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400"
             onClick={() => setOpen(false)}
           >
             Consulting
           </Link>
           <Link
             href="/contact"
-            className="block rounded px-2 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            className="block rounded px-2 py-2 text-sm font-medium text-gray-300 hover:bg-cyan-500/10 hover:text-cyan-400"
             onClick={() => setOpen(false)}
           >
             Contact
@@ -162,14 +162,14 @@ export default function Header() {
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="block mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-center text-slate-700 hover:bg-slate-50 transition-colors"
+                className="block mt-2 w-full rounded-md border border-cyan-500/50 px-3 py-2 text-sm font-semibold text-center text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-400 transition-colors"
               >
                 Log in
               </Link>
               <Link
                 href="/pricing"
                 onClick={() => setOpen(false)}
-                className="block mt-2 w-full rounded-md bg-blue-600 text-white px-3 py-2 text-sm font-semibold text-center hover:bg-blue-700 transition-colors"
+                className="block mt-2 w-full rounded-md bg-gradient-to-r from-cyan-500 to-purple-500 text-white px-3 py-2 text-sm font-semibold text-center hover:from-cyan-400 hover:to-purple-400 transition-colors"
               >
                 Sign up
               </Link>
@@ -179,7 +179,7 @@ export default function Header() {
               <Link
                 href="/dashboard"
                 onClick={() => setOpen(false)}
-                className="block mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-center text-slate-700 hover:bg-slate-50 transition-colors"
+                className="block mt-2 w-full rounded-md border border-cyan-500/50 px-3 py-2 text-sm font-semibold text-center text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-400 transition-colors"
               >
                 Dashboard
               </Link>
@@ -189,7 +189,7 @@ export default function Header() {
                   setOpen(false);
                   signOut();
                 }}
-                className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold hover:bg-slate-50 transition-colors"
+                className="mt-2 w-full rounded-md border border-cyan-500/50 px-3 py-2 text-sm font-semibold text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-400 transition-colors"
               >
                 Logout
               </button>
