@@ -1,108 +1,66 @@
-"use client";
+// app/(marketing)/reset-password/page.tsx
+import { Suspense } from "react";
+import { Metadata } from "next";
+import ResetPasswordClient from "./ResetPasswordClient";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+export const metadata: Metadata = {
+  title: "Reset Password | AspiraFlows",
+  description:
+    "Securely reset your AspiraFlows password and get back to automated outreach and pipeline intelligence.",
+};
 
 export default function ResetPasswordPage() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const initialToken = searchParams.get("token") || "";
-
-  const [token, setToken] = useState(initialToken);
-  const [password, setPassword] = useState("");
-  const [status, setStatus] =
-    useState<"idle" | "loading" | "done" | "error">("idle");
-  const [message, setMessage] = useState("");
-
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    setStatus("loading");
-    setMessage("");
-
-    try {
-      const res = await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, password }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        throw new Error(data.error || "Something went wrong");
-      }
-
-      setStatus("done");
-      setMessage("Password updated. Redirecting you to login…");
-
-      setTimeout(() => {
-        router.push("/login");
-      }, 1500);
-    } catch (err: any) {
-      setStatus("error");
-      setMessage(err.message || "Something went wrong");
-    }
-  }
-
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow text-gray-900">
-        <h1 className="mb-2 text-2xl font-bold">Reset password</h1>
-        <p className="mb-4 text-sm text-gray-600">
-          Choose a new password for your AspiraFlows account.
-        </p>
+    <div className="min-h-screen bg-slate-950 relative overflow-hidden">
+      {/* Starfield / gradient glow layers */}
+      <div className="pointer-events-none absolute inset-0 opacity-60">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),_transparent_60%),radial-gradient(circle_at_bottom,_rgba(168,85,247,0.2),_transparent_55%)]" />
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {!initialToken && (
-            <div>
-              <label className="block mb-1 text-sm font-semibold text-gray-900">
-                Reset token
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
-                value={token}
-                onChange={(e) => setToken(e.target.value)}
-                placeholder="Paste the token from your email"
-              />
+      {/* Top cyan glow */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[36rem] -translate-x-1/2 rounded-full bg-cyan-500/30 blur-3xl opacity-70" />
+
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 py-16">
+        <div className="mx-auto w-full max-w-md">
+          {/* Header */}
+          <div className="mb-8 text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-slate-900/60 px-4 py-1 text-xs font-medium uppercase tracking-[0.2em] text-cyan-200/80 shadow-[0_0_40px_rgba(56,189,248,0.25)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(56,189,248,0.9)]" />
+              AspiraFlows Security
             </div>
-          )}
-
-          <div>
-            <label className="block mb-1 text-sm font-semibold text-gray-900">
-              New password
-            </label>
-            <input
-              type="password"
-              required
-              minLength={8}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="new-password"
-              placeholder="••••••••"
-            />
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50 sm:text-4xl">
+              Reset your password
+            </h1>
+            <p className="mt-3 text-sm text-slate-400">
+              Choose a new password for your AspiraFlows workspace. Reset links
+              are time-limited to keep your account safe.
+            </p>
           </div>
 
-          {message && (
-            <p
-              className={`text-xs ${
-                status === "error" ? "text-red-600" : "text-gray-600"
-              }`}
-            >
-              {message}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={status === "loading"}
-            className="mt-1 w-full rounded-md bg-black py-2 text-sm font-semibold text-white hover:bg-black/90 disabled:opacity-60"
+          {/* Suspense boundary around client hook usage */}
+          <Suspense
+            fallback={
+              <div className="rounded-3xl border border-slate-700/70 bg-slate-950/80 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.9)] backdrop-blur-xl">
+                <div className="mb-4 h-5 w-32 animate-pulse rounded-full bg-slate-800/80" />
+                <div className="mb-3 h-10 animate-pulse rounded-2xl bg-slate-900/80" />
+                <div className="mb-3 h-10 animate-pulse rounded-2xl bg-slate-900/80" />
+                <div className="mt-6 h-11 w-full animate-pulse rounded-full bg-slate-800/80" />
+              </div>
+            }
           >
-            {status === "loading" ? "Updating..." : "Update password"}
-          </button>
-        </form>
+            <ResetPasswordClient />
+          </Suspense>
+
+          <p className="mt-6 text-center text-xs text-slate-500">
+            Remember your password?{" "}
+            <a
+              href="/login"
+              className="font-medium text-cyan-300 transition hover:text-cyan-200 hover:underline"
+            >
+              Back to login
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
