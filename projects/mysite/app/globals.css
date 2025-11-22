@@ -143,7 +143,6 @@ body {
   50% { border-color: #ff00ff; box-shadow: 0 0 5px #ff00ff; }
   75% { border-color: #00ff88; box-shadow: 0 0 5px #00ff88; }
 }
-}
 
 .neon-border-animated {
   animation: neonBorder 4s ease-in-out infinite;
