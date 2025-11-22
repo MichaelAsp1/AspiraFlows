@@ -21,7 +21,7 @@ export default function Home() {
         <div className="pointer-events-none absolute -z-10 -bottom-24 -left-16 h-72 w-72 rounded-full bg-purple-500/30 blur-[80px]" />
 
         {/* Neon grid overlay */}
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-20 bg-[radial-gradient(circle_at_30%_20%,rgba(0,255,255,0.3),transparent_50%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] mix-blend-soft-light" />
 
         <div className="mx-auto max-w-6xl px-4 py-24 text-center">
           {/* Line 1: brand */}
