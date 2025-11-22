@@ -3,24 +3,24 @@
 import { motion } from "framer-motion";
 
 const userBubble =
-  "max-w-md rounded-2xl bg-indigo-600/90 text-white text-xs sm:text-sm px-4 py-3 shadow-[0_18px_40px_rgba(15,23,42,0.8)]";
+  "max-w-full sm:max-w-md rounded-2xl bg-indigo-600/90 text-xs sm:text-sm text-white px-4 py-3 shadow-[0_18px_40px_rgba(15,23,42,0.8)] break-words";
 const botBubble =
-  "max-w-md rounded-2xl bg-slate-900/90 border border-cyan-500/40 text-xs sm:text-sm text-cyan-50 px-4 py-3 shadow-[0_18px_40px_rgba(15,23,42,0.9)]";
+  "max-w-full sm:max-w-md rounded-2xl bg-slate-900/90 border border-cyan-500/40 text-xs sm:text-sm text-cyan-50 px-4 py-3 shadow-[0_18px_40px_rgba(15,23,42,0.9)] break-words";
 const founderBubble =
-  "max-w-md rounded-2xl bg-slate-900/90 border border-emerald-400/50 text-xs sm:text-sm text-emerald-50 px-4 py-3 shadow-[0_18px_40px_rgba(16,185,129,0.35)]";
+  "max-w-full sm:max-w-md rounded-2xl bg-slate-900/90 border border-emerald-400/50 text-xs sm:text-sm text-emerald-50 px-4 py-3 shadow-[0_18px_40px_rgba(16,185,129,0.35)] break-words";
 
 export default function ExampleFlowSection() {
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section className="relative py-16 sm:py-20 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-slate-950 via-slate-950/95 to-slate-900" />
 
       <div className="relative mx-auto max-w-6xl px-4">
         {/* Heading */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
           <p className="text-xs font-semibold tracking-[0.18em] uppercase text-cyan-300 mb-2">
             Real flow · Real reply
           </p>
-          <h2 className="text-3xl font-semibold text-white">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-white">
             A real example of how AspiraFlows helps you get replies
           </h2>
           <p className="text-gray-300 text-sm sm:text-base max-w-xl mx-auto mt-3">
@@ -35,7 +35,7 @@ export default function ExampleFlowSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative rounded-3xl bg-slate-900/70 border border-slate-700/60 p-6 sm:p-8 backdrop-blur-xl shadow-[0_0_60px_-20px_rgba(15,23,42,0.95)]"
+          className="relative rounded-3xl bg-slate-900/70 border border-slate-700/60 p-5 sm:p-8 backdrop-blur-xl shadow-[0_0_60px_-20px_rgba(15,23,42,0.95)]"
         >
           {/* top label */}
           <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
@@ -134,7 +134,7 @@ export default function ExampleFlowSection() {
 
             {/* Generated message */}
             <div className="flex items-start justify-end gap-2 sm:gap-3">
-              <div className="max-w-xl rounded-2xl bg-slate-950/80 border border-slate-700/70 px-4 py-4 text-xs sm:text-sm text-gray-200 leading-relaxed">
+              <div className="max-w-full sm:max-w-xl rounded-2xl bg-slate-950/80 border border-slate-700/70 px-4 py-4 text-xs sm:text-sm text-gray-200 leading-relaxed">
                 <p className="mb-3 text-[11px] uppercase tracking-[0.16em] text-gray-400">
                   Generated outreach · Ready to send
                 </p>
@@ -155,7 +155,7 @@ export default function ExampleFlowSection() {
                   <br />
                   Sarah
                 </p>
-                <div className="mt-3 flex items-center justify-between text-[11px] text-gray-400">
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-gray-400">
                   <span>Sent automatically via AspiraFlows sequence.</span>
                   <span className="inline-flex items-center gap-1 text-emerald-300">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -188,7 +188,7 @@ export default function ExampleFlowSection() {
               <Avatar type="founder" />
             </div>
 
-            <p className="mt-4 text-[11px] text-gray-400 text-center sm:text-left">
+            <p className="mt-4 text-[11px] sm:text-xs text-gray-400 text-center sm:text-left">
               A few simple inputs → targeted opportunity → personalised message → direct
               reply from a founder.
             </p>
@@ -226,7 +226,7 @@ function Avatar({ type }: { type: "bot" | "user" | "founder" }) {
 
 function StepLabel({ step, label }: { step: string; label: string }) {
   return (
-    <div className="mt-4 mb-1 flex items-center gap-2 text-[11px] text-gray-400">
+    <div className="mt-4 mb-1 flex flex-wrap items-center gap-2 text-[11px] sm:text-xs text-gray-400">
       <span className="inline-flex items-center justify-center rounded-full bg-slate-900/90 px-2.5 py-1 font-medium text-[11px] text-cyan-200 border border-slate-700/80">
         {step}
       </span>

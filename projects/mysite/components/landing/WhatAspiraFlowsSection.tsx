@@ -38,33 +38,33 @@ const STAR_POSITIONS = [
 
 export default function FeatureTimelineStrip() {
   return (
-    <section className="relative py-28 overflow-hidden">
+    <section className="relative py-16 sm:py-28 overflow-hidden">
       {/* soft radial background glow */}
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.15),_transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.12),_transparent_60%)] sm:bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.15),_transparent_60%)]" />
 
-      <div className="relative mx-auto max-w-6xl px-4">
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
         {/* section label */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
-          className="text-center text-xs sm:text-sm font-semibold tracking-[0.28em] text-cyan-300/80 uppercase"
+          className="text-center text-[0.7rem] sm:text-sm font-semibold tracking-[0.28em] text-cyan-300/80 uppercase"
         >
           How it works
         </motion.p>
 
         {/* main vertical timeline container */}
-        <div className="relative mt-14 mx-auto max-w-5xl">
+        <div className="relative mt-10 sm:mt-14 mx-auto max-w-5xl">
           {/* glowing center spine */}
-          <div className="pointer-events-none absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[3px] bg-gradient-to-b from-cyan-400/70 via-purple-400/70 to-pink-400/70 blur-[1px]" />
+          <div className="pointer-events-none absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[2px] sm:w-[3px] bg-gradient-to-b from-cyan-400/70 via-purple-400/70 to-pink-400/70 blur-[0.5px] sm:blur-[1px]" />
 
           {/* star trail along the spine */}
           <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-0 bottom-0">
             {STAR_POSITIONS.map((star, idx) => (
               <div
                 key={idx}
-                className="absolute h-[4px] w-[4px] rounded-full bg-white/45 animate-floatStar"
+                className="absolute h-[3px] w-[3px] sm:h-[4px] sm:w-[4px] rounded-full bg-white/45 animate-floatStar"
                 style={{
                   top: star.top,
                   left: "-2px",
@@ -76,7 +76,7 @@ export default function FeatureTimelineStrip() {
           </div>
 
           {/* steps */}
-          <div className="space-y-14 sm:space-y-16">
+          <div className="space-y-10 sm:space-y-16">
             {steps.map((step, index) => {
               const isRightSide = index % 2 === 0; // step 1,3 right; 2,4 left
 
@@ -93,7 +93,7 @@ export default function FeatureTimelineStrip() {
                   }}
                   className="relative flex items-center"
                 >
-                  {/* LEFT COLUMN */}
+                  {/* LEFT COLUMN (desktop only) */}
                   <div className="hidden sm:block flex-1">
                     {!isRightSide && (
                       <StepContent index={index} step={step} align="right" />
@@ -104,23 +104,23 @@ export default function FeatureTimelineStrip() {
                   <div className="relative flex flex-col items-center mx-4 sm:mx-8">
                     {/* glowing dot with slow pulse */}
                     <div className="relative mb-3">
-                      <div className="absolute inset-0 rounded-full bg-cyan-300/60 blur-lg opacity-80 animate-ping-slow" />
-                      <div className="relative h-7 w-7 rounded-full bg-gradient-to-br from-cyan-300 to-purple-300 shadow-[0_0_22px_rgba(56,189,248,0.85)]" />
+                      <div className="absolute inset-0 rounded-full bg-cyan-300/60 blur-md sm:blur-lg opacity-70 animate-ping-slow" />
+                      <div className="relative h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-gradient-to-br from-cyan-300 to-purple-300 shadow-[0_0_18px_rgba(56,189,248,0.85)] sm:shadow-[0_0_22px_rgba(56,189,248,0.85)]" />
                     </div>
 
                     {/* icon bubble */}
-                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900/95 text-2xl shadow-[0_0_22px_rgba(15,23,42,0.95)]">
+                    <div className="flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-2xl bg-slate-900/95 text-xl sm:text-2xl shadow-[0_0_18px_rgba(15,23,42,0.95)]">
                       <span aria-hidden="true">{step.icon}</span>
                     </div>
                   </div>
 
                   {/* RIGHT COLUMN / MOBILE CONTENT */}
                   <div className="flex-1">
-                    {/* Desktop: content on right if isRightSide, otherwise left column above */}
-                    {/* Mobile: always render content here centered */}
+                    {/* Mobile: always centered content here */}
                     <div className="sm:hidden">
                       <StepContent index={index} step={step} align="center" />
                     </div>
+                    {/* Desktop: content on right if isRightSide */}
                     <div className="hidden sm:block">
                       {isRightSide && (
                         <StepContent index={index} step={step} align="left" />
@@ -154,11 +154,11 @@ function StepContent({
       ? "text-left sm:pl-4"
       : align === "right"
       ? "text-right sm:pr-4"
-      : "text-center";
+      : "text-center mx-auto";
 
   return (
     <div className={`max-w-md ${alignmentClasses}`}>
-      <div className="inline-flex items-center gap-2 rounded-full border border-slate-700/70 bg-slate-900/80 px-4 py-1.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300/80 mb-3">
+      <div className="inline-flex items-center gap-2 rounded-full border border-slate-700/70 bg-slate-900/80 px-3.5 sm:px-4 py-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.18em] text-cyan-300/80 mb-3">
         <span className="opacity-80">
           {String(index + 1).padStart(2, "0")}
         </span>
@@ -166,12 +166,10 @@ function StepContent({
         <span>Step {index + 1}</span>
       </div>
 
-      <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white">
+      <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-white">
         {step.title}
       </h3>
-      <p className="mt-2 text-sm sm:text-base text-gray-300">
-        {step.body}
-      </p>
+      <p className="mt-2 text-sm sm:text-base text-gray-300">{step.body}</p>
     </div>
   );
 }

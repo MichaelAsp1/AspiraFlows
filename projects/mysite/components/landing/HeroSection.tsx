@@ -9,11 +9,11 @@ export default function HeroSection() {
       <div className="pointer-events-none absolute inset-0 -z-20">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-purple-900/30 to-teal-900/30" />
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.04] mix-blend-soft-light" />
-        <div className="absolute -top-40 right-[-15%] h-96 w-96 rounded-full bg-cyan-600/25 blur-[140px]" />
-        <div className="absolute -bottom-40 left-[-10%] h-96 w-96 rounded-full bg-purple-500/25 blur-[140px]" />
+        <div className="absolute -top-40 right-[-15%] h-72 w-72 sm:h-96 sm:w-96 rounded-full bg-cyan-600/25 blur-[110px] sm:blur-[140px]" />
+        <div className="absolute -bottom-40 left-[-10%] h-72 w-72 sm:h-96 sm:w-96 rounded-full bg-purple-500/25 blur-[110px] sm:blur-[140px]" />
       </div>
 
-      <div className="relative mx-auto max-w-6xl px-4 pt-28 pb-24 text-center">
+      <div className="relative mx-auto max-w-6xl px-4 pt-20 sm:pt-28 pb-16 sm:pb-24 text-center">
         {/* HEADLINE */}
         <motion.h2
           initial={{ opacity: 0, y: 18 }}
@@ -22,7 +22,7 @@ export default function HeroSection() {
           className="font-bold leading-[1.1] text-white"
         >
           {/* Line 1: The + coloured phrase */}
-          <div className="flex flex-wrap justify-center gap-3 text-[3rem] sm:text-[3.6rem]">
+          <div className="flex flex-wrap justify-center gap-3 text-[2.25rem] sm:text-[3rem] md:text-[3.6rem]">
             <span className="opacity-90">The</span>
 
             <span className="relative inline-block">
@@ -75,7 +75,7 @@ export default function HeroSection() {
               ease: [0.22, 1, 0.36, 1],
               delay: 0.7,
             }}
-            className="mt-6 text-[3.4rem] sm:text-[4.2rem]"
+            className="mt-4 sm:mt-6 text-[2.4rem] sm:text-[3.4rem] md:text-[4.2rem]"
           >
             that actually gets replies
           </motion.div>
@@ -86,7 +86,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 1.0 }}
-          className="max-w-2xl mx-auto mt-7 text-lg sm:text-xl text-gray-300"
+          className="max-w-2xl mx-auto mt-5 sm:mt-7 text-base sm:text-xl text-gray-300"
         >
           Find the{" "}
           <span className="text-cyan-300 font-medium">right roles</span>. Reach{" "}
@@ -99,21 +99,22 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 1.25 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-5"
+          className="mt-8 sm:mt-12 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-5"
         >
           <a
             href="/contact"
             className="
               inline-flex items-center justify-center
+              w-full sm:w-auto
               min-w-[190px]
-              px-8 py-4
+              px-6 sm:px-8 py-3.5 sm:py-4
               rounded-2xl
-              text-base sm:text-lg font-medium
+              text-sm sm:text-lg font-medium
               bg-gradient-to-r from-cyan-500 to-purple-500
               text-white
-              shadow-[0_0_30px_rgba(34,211,238,0.45)]
+              shadow-[0_0_26px_rgba(34,211,238,0.45)]
               hover:from-cyan-400 hover:to-purple-400
-              hover:shadow-[0_0_40px_rgba(34,211,238,0.6)]
+              hover:shadow-[0_0_36px_rgba(34,211,238,0.6)]
               transition-all
             "
           >
@@ -124,10 +125,11 @@ export default function HeroSection() {
             href="/pricing"
             className="
               inline-flex items-center justify-center
+              w-full sm:w-auto
               min-w-[190px]
-              px-8 py-4
+              px-6 sm:px-8 py-3.5 sm:py-4
               rounded-2xl
-              text-base sm:text-lg font-medium
+              text-sm sm:text-lg font-medium
               border border-cyan-500/60
               text-cyan-300
               bg-slate-900/40
