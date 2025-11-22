@@ -7,6 +7,7 @@ import TestimonialsSection from "../../components/landing/TestimonialsSection";
 import ContactCTASection from "../../components/landing/ContactCTASection";
 import KeyResultsStrip from "../../components/landing/KeyResultsStrip";
 import Marquee from "../../components/Marquee";
+import CompanyMarquee from "../../components/landing/CompanyMarquee";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <Marquee />
       <DashboardSection />
       <ExampleFlowSection />
+      <CompanyMarquee />
       <PricingSection />
       <TestimonialsSection />
       <ContactCTASection />
